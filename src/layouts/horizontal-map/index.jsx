@@ -72,6 +72,16 @@ const SwiperComponent = styled.div`
       align-items: center;
       border-radius: 5px;
 
+      .padding {
+        flex: 1;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
       &.nonactive {
         transition: 0.25s ease;
         transform: scale(0.7) translateY(0px);
@@ -102,7 +112,9 @@ const SwiperComponent = styled.div`
   }
 `
 export default class HMap extends Component {
-  state = {}
+  state = {
+    isBoxExtends: true
+  }
   render () {
     const params = {
       spaceBetween: -30
@@ -123,8 +135,10 @@ export default class HMap extends Component {
                 <SwiperComponent>
                   <Swiper {...params}>
                     <div className="boxShadow">
-                      <h2 className="swiperTitle">Mountain Bike x2</h2>
-                      <div className="selectButton">select bike</div>
+                      <div className={`${this.state.isBoxExtends ? 'padding' : null}`}>
+                        <h2 className="swiperTitle">Mountain Bike x2</h2>
+                        <div className="selectButton">select bike</div>
+                      </div>
                     </div>
                   </Swiper>
                 </SwiperComponent>
