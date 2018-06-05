@@ -26,6 +26,8 @@ const Background = styled.div`
   background-position: center;
   opacity: calc(1 - var(--scroll));
   transform: scale(calc(1 + var(--scroll) * 1));
+
+  display: none;
 `
 const ContentWrapper = styled.div`
   position: absolute;
@@ -35,9 +37,10 @@ const ContentWrapper = styled.div`
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: calc(var(--app-height) - var(--app-width)) 0;
+  padding: 0;
+  // padding: calc(var(--app-height) - var(--app-width)) 0;
 
-  .mapWrapper {
+  .swiperWrapper {
     /* border: 1px solid #50514F; */
     width: 100%;
     height: var(--app-height);
@@ -55,31 +58,61 @@ const ContentWrapper = styled.div`
 const SwiperComponent = styled.div`
   width: 100%;
   height: auto;
+  min-height: 300px;
 
   .swiper-container {
     width: 100%;
     height: 300px;
+    min-height: 300px;
 
     .swiper-slide {
       transform: scale(0.8);
       text-align: center;
       font-size: 18px;
       background: #fff;
+
       /* Center slide text vertically */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
       border-radius: 5px;
+      transition: 0.25s ease;
 
-      .padding {
+      .box {
         flex: 1;
         width: 100%;
-        padding: 20px;
+        padding: 0px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        transition: all 0.25s ease;
+
+        overflow: hidden;
+
+        &.padding {
+          padding: 20px;
+          transition: all 0.25s ease;
+        }
+        h2.swiperTitle {
+          color: #50514F;
+          font-size: 2rem;
+          font-family: "Raleway";
+          margin: 10px 0;
+        }
+        .selectButton {
+          font-size: 1rem;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          width: 100%;
+          padding: 15px 0;
+          text-align: center;
+
+          color: white;
+          background: var(--purple);
+          cursor: pointer;
+        }
       }
 
       &.nonactive {
@@ -88,36 +121,34 @@ const SwiperComponent = styled.div`
       }
 
       &.toggle {
+        transition: 0.25s ease;
         transform: scale(1) translateY(0px);
       }
-      h2.swiperTitle {
-        color: #50514F;
-        font-size: 2rem;
-        font-family: "Raleway";
-        margin: 10px 0;
-      }
-      .selectButton {
-        font-size: 1rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        width: 100%;
-        padding: 15px 0;
-        text-align: center;
+    }
+  }
 
-        color: white;
-        background: var(--purple);
-        cursor: pointer;
-      }
+  &.toggle {
+    flex: 1;
+    transition: all 0.35s ease;
+
+    .swiper-container {
+      transition: all 0.35s ease;
+      height: 100%;
     }
   }
 `
 export default class HMap extends Component {
   state = {
-    isBoxExtends: true
+    isBoxExtends: false
+  }
+  toggleBox = () => {
+    this.setState({
+      isBoxExtends: !this.state.isBoxExtends
+    })
   }
   render () {
     const params = {
-      spaceBetween: -30
+      spaceBetween: this.state.isBoxExtends ? 0 : -30
     }
     return (
       <Section className="section">
@@ -130,14 +161,20 @@ export default class HMap extends Component {
           <Map className="hero is-light">
             <Background />
             <ContentWrapper className="hero-body">
-              <div className="mapWrapper container">
+              <div className="swiperWrapper container">
 
-                <SwiperComponent>
-                  <Swiper {...params}>
-                    <div className="boxShadow">
-                      <div className={`${this.state.isBoxExtends ? 'padding' : null}`}>
+                <SwiperComponent className={`${this.state.isBoxExtends ? 'toggle' : null}`}>
+                  <Swiper /* {...params}*/ spaceBetween={this.state.isBoxExtends ? 0 : -30}>
+                    <div className={`boxShadow ${this.state.isBoxExtends ? 'toggle' : null}`}>
+                      <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
+                        <h2 className="swiperTitle">Mountain Bike x1</h2>
+                        <div className="selectButton" onClick={this.toggleBox}>select bike</div>
+                      </div>
+                    </div>
+                    <div className={`boxShadow ${this.state.isBoxExtends ? 'toggle' : null}`}>
+                      <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
                         <h2 className="swiperTitle">Mountain Bike x2</h2>
-                        <div className="selectButton">select bike</div>
+                        <div className="selectButton" onClick={this.toggleBox}>select bike</div>
                       </div>
                     </div>
                   </Swiper>
