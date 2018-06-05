@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Swiper from 'react-id-swiper'
+import _ from 'lodash'
+
 import 'bulma/css/bulma.css'
 
 const Section = styled.section`
@@ -123,6 +125,10 @@ const SwiperComponent = styled.div`
       &.toggle {
         transition: 0.25s ease;
         transform: scale(1) translateY(0px);
+
+        &.zIndex {
+          z-Index: 1;
+        }
       }
     }
   }
@@ -139,16 +145,33 @@ const SwiperComponent = styled.div`
 `
 export default class HMap extends Component {
   state = {
+    swiper: null,
+    activeSlideIndex: 0,
+    toggleBoxId: null,
     isBoxExtends: false
   }
-  toggleBox = () => {
+  swiperRef = (ref) => {
+    this.setState({ swiper: ref.swiper })
+  }
+  toggleBox = (id) => {
     this.setState({
+      toggleBoxId: id,
       isBoxExtends: !this.state.isBoxExtends
     })
   }
   render () {
     const params = {
-      spaceBetween: this.state.isBoxExtends ? 0 : -30
+      spaceBetween: this.state.isBoxExtends ? 0 : -75,
+      on: {
+        slideChange: () => {
+          let swiperList = document.querySelectorAll(".swiper-slide")
+          for (var s of swiperList) {
+            s.classList.add("nonactive")
+          }
+          swiperList[this.state.swiper.activeIndex].classList.remove("nonactive")
+        }
+      },
+      onInit: (swiper) => {this.swiper = swiper}
     }
     return (
       <Section className="section">
@@ -164,19 +187,17 @@ export default class HMap extends Component {
               <div className="swiperWrapper container">
 
                 <SwiperComponent className={`${this.state.isBoxExtends ? 'toggle' : null}`}>
-                  <Swiper /* {...params}*/ spaceBetween={this.state.isBoxExtends ? 0 : -30}>
-                    <div className={`boxShadow ${this.state.isBoxExtends ? 'toggle' : null}`}>
-                      <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
-                        <h2 className="swiperTitle">Mountain Bike x1</h2>
-                        <div className="selectButton" onClick={this.toggleBox}>select bike</div>
-                      </div>
-                    </div>
-                    <div className={`boxShadow ${this.state.isBoxExtends ? 'toggle' : null}`}>
-                      <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
-                        <h2 className="swiperTitle">Mountain Bike x2</h2>
-                        <div className="selectButton" onClick={this.toggleBox}>select bike</div>
-                      </div>
-                    </div>
+                  <Swiper {...params} ref={this.swiperRef}>
+                    {
+                      _.map([0, 1], (el, id) =>
+                        <div key={id} className={`boxShadow ${this.state.isBoxExtends ? `toggle ${el === this.state.toggleBoxId ? `zIndex` : null}` : null}`}>
+                          <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
+                            <h2 className="swiperTitle">Mountain Bike x{el}</h2>
+                            <div className="selectButton" onClick={() => this.toggleBox(id)}>select bike</div>
+                          </div>
+                        </div>
+                      )
+                    }
                   </Swiper>
                 </SwiperComponent>
 
