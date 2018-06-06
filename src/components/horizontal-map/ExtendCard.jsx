@@ -44,25 +44,31 @@ const Content = styled.div`
     font-size: 2rem;
     font-family: "Raleway";
     margin: 10px 0;
+    text-align: ${props => props.toggle ? `left` : `center`};
+    transition: all 0.25s ease;
   }
 
   p {
+    display: ${props => props.toggle ? `block` : `none`};
     color: #50514F;
+    text-align: left;
   }
 `
 const ImgList = styled.div`
   display: flex;
-  margin: 20px 0;
+  margin: ${props => props.toggle ? `20px 0` : `0`};
+  justify-content: ${props => props.toggle ? `flex-start` : `center`};
+  transition: all 0.25s ease;
   width: 100%;
   height: auto;
 
   > div {
     margin: 5px;
-    width: 100px;
-    height: 100px;
     border-radius: 5px;
     overflow: hidden;
-
+    width: ${props => props.toggle ? `100px` : `64px`};
+    height: ${props => props.toggle ? `100px` : `64px`};
+    transition: all 0.25s ease;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -94,9 +100,9 @@ export default class ExtendCard extends Component {
         <ExtendCardContent
           padding={this.props.isBoxExtends}
           className={`box`}>
-          <Content>
+          <Content toggle={this.props.isBoxExtends}>
             <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
-            <ImgList>
+            <ImgList toggle={this.props.isBoxExtends}>
               {
                 _.map(this.props.cardContent.imgList, (figure, id) =>
                   <div key={id} style={{backgroundImage: `url(${figure})`}} />
