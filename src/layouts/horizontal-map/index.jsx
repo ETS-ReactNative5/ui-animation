@@ -4,6 +4,7 @@ import Swiper from 'react-id-swiper'
 import _ from 'lodash'
 
 import 'bulma/css/bulma.css'
+import ExtendCard from 'components/horizontal-map/ExtendCard'
 
 const Section = styled.section`
   height: 100%;
@@ -83,71 +84,6 @@ const SwiperComponent = styled.div`
     height: 300px;
     min-height: 300px;
 
-    .swiper-slide {
-      transform: scale(0.8);
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-
-      /* Center slide text vertically */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 5px;
-      transition: 0.25s ease;
-      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
-
-      .box {
-        flex: 1;
-        width: 100%;
-        padding: 0px;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition: all 0.25s ease;
-        box-shadow: none;
-        overflow: hidden;
-
-        &.padding {
-          padding: 20px;
-          transition: all 0.25s ease;
-        }
-        h2.swiperTitle {
-          color: #50514F;
-          font-size: 2rem;
-          font-family: "Raleway";
-          margin: 10px 0;
-        }
-        .selectButton {
-          font-size: 1rem;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          width: 100%;
-          padding: 15px 0;
-          text-align: center;
-
-          color: white;
-          background: var(--purple);
-          cursor: pointer;
-        }
-      }
-
-      &.nonactive {
-        transition: 0.25s ease;
-        transform: scale(0.7) translateY(0px);
-      }
-
-      &.toggle {
-        transition: 0.25s ease;
-        transform: scale(1) translateY(0px);
-
-        &.zIndex {
-          z-Index: 1;
-        }
-      }
-    }
   }
 
   &.toggle {
@@ -207,12 +143,11 @@ export default class HMap extends Component {
                   <Swiper {...params} ref={this.swiperRef}>
                     {
                       _.map([0, 1], (el, id) =>
-                        <div key={id} className={`boxShadow ${this.state.isBoxExtends ? `toggle ${el === this.state.toggleBoxId ? `zIndex` : null}` : null}`}>
-                          <div className={`box ${this.state.isBoxExtends ? 'padding' : null}`}>
-                            <h2 className="swiperTitle">Mountain Bike x{el}</h2>
-                            <div className="selectButton" onClick={() => this.toggleBox(id)}>select bike</div>
-                          </div>
-                        </div>
+                        <ExtendCard
+                          istoggle={id === this.state.toggleBoxId}
+                          isBoxExtends={this.state.isBoxExtends}
+                          toggleBox={() => this.toggleBox(id)}
+                          key={id} />
                       )
                     }
                   </Swiper>
