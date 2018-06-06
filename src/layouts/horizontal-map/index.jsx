@@ -65,7 +65,7 @@ const ContentWrapper = styled.div`
     height: 100%; // var(--app-height);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 
     padding: 0;
@@ -77,13 +77,12 @@ const ContentWrapper = styled.div`
 const SwiperComponent = styled.div`
   width: 100%;
   height: auto;
-  min-height: 300px;
+  min-height: 200px;
 
   .swiper-container {
     width: 100%;
-    height: 300px;
-    min-height: 300px;
-
+    height: 200px;
+    min-height: 200px;
   }
 
   &.toggle {
@@ -100,7 +99,6 @@ export default class HMap extends Component {
   state = {
     swiper: null,
     activeSlideIndex: 0,
-    toggleBoxId: null,
     isBoxExtends: false
   }
   swiperRef = (ref) => {
@@ -108,7 +106,6 @@ export default class HMap extends Component {
   }
   toggleBox = (id) => {
     this.setState({
-      toggleBoxId: id,
       isBoxExtends: !this.state.isBoxExtends
     })
   }
@@ -133,13 +130,12 @@ export default class HMap extends Component {
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
-                <SwiperComponent className={`${this.state.isBoxExtends ? 'toggle' : null}`}>
+                <SwiperComponent className={`${this.state.isBoxExtends ? 'toggle' : ''}`}>
                   <Swiper {...params} ref={this.swiperRef}>
                     {
                       _.map([0, 1, 2], (el, id) =>
                         <ExtendCard
-                          active={id === this.state.activeSlideIndex}
-                          istoggle={id === this.state.toggleBoxId}
+                          isActive={id === this.state.activeSlideIndex}
                           isBoxExtends={this.state.isBoxExtends}
                           toggleBox={() => this.toggleBox(id)}
                           key={id} />

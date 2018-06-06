@@ -62,9 +62,9 @@ export default class ExtendCard extends Component {
   render () {
     return (
       <ExtendCardWrapper
-        active={this.props.active}
+        active={this.props.isActive}
         toggle={this.props.isBoxExtends}
-        zIndex={this.props.istoggle}
+        zIndex={this.props.isActive && this.props.isBoxExtends}
         className={`swiper-slide`}>
         <ExtendCardContent
           padding={this.props.isBoxExtends}
