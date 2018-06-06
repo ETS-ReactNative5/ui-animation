@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const ExtendCardWrapper = styled.div`
   &.swiper-slide {
-    transform: scale(${props => props.toggle ? 1 : 0.8});
+    transform: scale(${props => props.toggle ? 1 : (props.active ? 0.8 : 0.7)});
     z-index: ${props => props.zIndex ? 1 : 0};
     text-align: center;
     font-size: 18px;
@@ -18,10 +18,10 @@ const ExtendCardWrapper = styled.div`
     transition: 0.25s ease;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
 
-    &.nonactive {
+    /* &.nonactive {
       transition: 0.25s ease;
       transform: scale(0.7) translateY(0px);
-    }
+    } */
   }
 `
 const ExtendCardContent = styled.div`
@@ -62,6 +62,7 @@ export default class ExtendCard extends Component {
   render () {
     return (
       <ExtendCardWrapper
+        active={this.props.active}
         toggle={this.props.isBoxExtends}
         zIndex={this.props.istoggle}
         className={`swiper-slide`}>

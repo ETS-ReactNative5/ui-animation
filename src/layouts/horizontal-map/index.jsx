@@ -116,13 +116,7 @@ export default class HMap extends Component {
     const params = {
       spaceBetween: this.state.isBoxExtends ? 0 : -75,
       on: {
-        slideChange: () => {
-          let swiperList = document.querySelectorAll(".swiper-slide")
-          for (var s of swiperList) {
-            s.classList.add("nonactive")
-          }
-          swiperList[this.state.swiper.activeIndex].classList.remove("nonactive")
-        }
+        slideChange: () => this.setState({activeSlideIndex: this.state.swiper.activeIndex})
       },
       onInit: (swiper) => {this.swiper = swiper}
     }
@@ -142,8 +136,9 @@ export default class HMap extends Component {
                 <SwiperComponent className={`${this.state.isBoxExtends ? 'toggle' : null}`}>
                   <Swiper {...params} ref={this.swiperRef}>
                     {
-                      _.map([0, 1], (el, id) =>
+                      _.map([0, 1, 2], (el, id) =>
                         <ExtendCard
+                          active={id === this.state.activeSlideIndex}
                           istoggle={id === this.state.toggleBoxId}
                           isBoxExtends={this.state.isBoxExtends}
                           toggleBox={() => this.toggleBox(id)}
