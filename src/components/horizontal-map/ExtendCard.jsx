@@ -32,16 +32,19 @@ const ExtendCardContent = styled.div`
   box-shadow: none;
   overflow: hidden;
 
+`
+const Content = styled.div`
+  // display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  margin-bottom: 20px;
+
   h2.swiperTitle {
     color: #50514F;
     font-size: 2rem;
     font-family: "Raleway";
     margin: 10px 0;
   }
-`
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
 
   p {
     color: #50514F;
@@ -49,8 +52,10 @@ const Content = styled.div`
 `
 const ImgList = styled.div`
   display: flex;
-  flex-wrap: wrap;
   margin: 20px 0;
+  width: 100%;
+  height: auto;
+
   > div {
     margin: 5px;
     width: 100px;
@@ -89,9 +94,8 @@ export default class ExtendCard extends Component {
         <ExtendCardContent
           padding={this.props.isBoxExtends}
           className={`box`}>
-          <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
-
           <Content>
+            <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
             <ImgList>
               {
                 _.map(this.props.cardContent.imgList, (figure, id) =>
@@ -99,7 +103,9 @@ export default class ExtendCard extends Component {
                 )
               }
             </ImgList>
-            <p>{this.props.cardContent.content}</p>
+            <div style={{flex: 1}}>
+              <p>{this.props.cardContent.content}</p>
+            </div>
           </Content>
 
           <CardBtn
