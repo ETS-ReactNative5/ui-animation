@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 const ExtendCardWrapper = styled.div`
   &.swiper-slide {
@@ -15,13 +16,8 @@ const ExtendCardWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     border-radius: 5px;
-    transition: 0.25s ease;
+    transition: all 0.25s ease;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
-
-    /* &.nonactive {
-      transition: 0.25s ease;
-      transform: scale(0.7) translateY(0px);
-    } */
   }
 `
 const ExtendCardContent = styled.div`
@@ -41,6 +37,30 @@ const ExtendCardContent = styled.div`
     font-size: 2rem;
     font-family: "Raleway";
     margin: 10px 0;
+  }
+`
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  p {
+    color: #50514F;
+  }
+`
+const ImgList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  > div {
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 `
 const CardBtn = styled.div`
@@ -69,10 +89,22 @@ export default class ExtendCard extends Component {
         <ExtendCardContent
           padding={this.props.isBoxExtends}
           className={`box`}>
-          <h2 className="swiperTitle">Mountain Bike</h2>
+          <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
+
+          <Content>
+            <ImgList>
+              {
+                _.map(this.props.cardContent.imgList, (figure, id) =>
+                  <div key={id} style={{backgroundImage: `url(${figure})`}} />
+                )
+              }
+            </ImgList>
+            <p>{this.props.cardContent.content}</p>
+          </Content>
+
           <CardBtn
             onClick={() => this.toggleBox(this.props.id)}>
-            select bike
+            {this.props.isBoxExtends ? `close` : `read more`}
           </CardBtn>
         </ExtendCardContent>
       </ExtendCardWrapper>
