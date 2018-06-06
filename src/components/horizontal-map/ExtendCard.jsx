@@ -83,7 +83,7 @@ const CardBtn = styled.div`
   text-align: center;
 
   color: white;
-  background: var(--purple);
+  background: var(--orange);
   cursor: pointer;
 `
 export default class ExtendCard extends Component {
