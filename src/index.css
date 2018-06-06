@@ -14,4 +14,5 @@ html, body {
   padding: 0;
 }
 
-@import url("https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css")
+@import url("https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css");
+@import url("https://fonts.googleapis.com/css?family=Raleway");

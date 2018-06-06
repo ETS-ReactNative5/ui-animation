@@ -7,6 +7,11 @@ import 'bulma/css/bulma.css'
 
 const Section = styled.section`
   height: 100%;
+
+  @media screen and (max-width: 768px) {
+    height: 100vh;
+    padding: 0;
+  }
 `
 const Wrapper = styled.div`
   height: 100%;
@@ -14,11 +19,22 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    > h1, p {
+      display: none;
+    }
+  }
 `
 const Map = styled.section`
   height: var(--app-height);
   width: var(--app-width);
   overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    height: 100vh;
+    width: 100vw;
+  }
 `
 const Background = styled.div`
   background-image: url("https://i.imgur.com/0ZxFVS9.png");
@@ -45,7 +61,7 @@ const ContentWrapper = styled.div`
   .swiperWrapper {
     /* border: 1px solid #50514F; */
     width: 100%;
-    height: var(--app-height);
+    height: 100%; // var(--app-height);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -80,6 +96,7 @@ const SwiperComponent = styled.div`
       align-items: center;
       border-radius: 5px;
       transition: 0.25s ease;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
 
       .box {
         flex: 1;
@@ -90,7 +107,7 @@ const SwiperComponent = styled.div`
         flex-direction: column;
         justify-content: space-between;
         transition: all 0.25s ease;
-
+        box-shadow: none;
         overflow: hidden;
 
         &.padding {
