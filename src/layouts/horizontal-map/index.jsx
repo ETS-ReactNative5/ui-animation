@@ -5,6 +5,7 @@ import _ from 'lodash'
 
 import 'bulma/css/bulma.css'
 import ExtendCard from 'components/horizontal-map/ExtendCard'
+import BackgroundMap from 'components/horizontal-map/Map'
 
 const Section = styled.section`
   height: 100%;
@@ -37,17 +38,7 @@ const Map = styled.section`
     width: 100vw;
   }
 `
-const Background = styled.div`
-  background-image: url("https://i.imgur.com/0ZxFVS9.png");
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: calc(1 - var(--scroll));
-  transform: scale(calc(1 + var(--scroll) * 1));
 
-  display: none;
-`
 const ContentWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -162,7 +153,7 @@ export default class HMap extends Component {
   state = {
     swiper: null,
     activeSlideIndex: 0,
-    isBoxExtends: true
+    isBoxExtends: false
   }
   swiperRef = (ref) => {
     this.setState({ swiper: ref.swiper })
@@ -189,7 +180,7 @@ export default class HMap extends Component {
 
           {/* map */}
           <Map className="hero is-light">
-            <Background />
+            <BackgroundMap />
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
