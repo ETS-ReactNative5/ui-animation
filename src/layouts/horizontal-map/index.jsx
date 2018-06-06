@@ -97,6 +97,26 @@ const SwiperComponent = styled.div`
 `
 const elList = [
   {
+    name: '美浜アメリカンビレッジ',
+    content: `
+      台湾で生まれたタピオカドリンク
+      (バブルティ)専門店です。
+      アジアをはじめ、北米・中東、ヨーロッパに
+      2000店以上展開し、世界で愛される味と品質が
+      お楽しみいただけます。
+      沖縄の新リゾート瀬長島ウミカジテラスでしか
+      味わえない絶景のロケーションと共にタピオカ
+      ドリンクをお楽しみください。
+
+      店内がカフェスタイルになっているので、
+      ゆっくりとくつろぎながらお楽しみ頂けます。`,
+    imgList: [
+      require(`assets/horizontal-map/town1.jpg`),
+      require(`assets/horizontal-map/town2.jpg`),
+      require(`assets/horizontal-map/town3.jpg`),
+    ]
+  },
+  {
     name: 'ウミカジテラス',
     content: `
       台湾で生まれたタピオカドリンク
@@ -114,6 +134,27 @@ const elList = [
       require(`assets/horizontal-map/long1.jpg`),
       require(`assets/horizontal-map/long2.png`),
       require(`assets/horizontal-map/long3.jpg`),
+    ]
+  },
+  {
+    name: '沖縄県立博物館',
+    content: `
+      台湾で生まれたタピオカドリンク
+      (バブルティ)専門店です。
+      アジアをはじめ、北米・中東、ヨーロッパに
+      2000店以上展開し、世界で愛される味と品質が
+      お楽しみいただけます。
+      沖縄の新リゾート瀬長島ウミカジテラスでしか
+      味わえない絶景のロケーションと共にタピオカ
+      ドリンクをお楽しみください。
+
+      店内がカフェスタイルになっているので、
+      ゆっくりとくつろぎながらお楽しみ頂けます。`,
+    imgList: [
+      require(`assets/horizontal-map/art1.jpg`),
+      require(`assets/horizontal-map/art2.jpg`),
+      require(`assets/horizontal-map/art3.jpg`),
+      require(`assets/horizontal-map/art4.jpg`),
     ]
   }
 ]
