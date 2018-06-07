@@ -169,7 +169,7 @@ export default class HMap extends Component {
 
           {/* map */}
           <Map className="hero is-light">
-            <BackgroundMap />
+            <BackgroundMap activeSlideIndex={this.state.activeSlideIndex}/>
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 

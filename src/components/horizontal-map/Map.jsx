@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import ReactMapGL from 'react-map-gl'
+import ReactMapGL, { Marker } from 'react-map-gl'
+import CityPin from './CityPin'
 
 const Background = styled.div`
   height: 100%;
@@ -10,14 +11,18 @@ const Background = styled.div`
 
 `
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA' // Set your mapbox token here
+const MAPBOX_TOKEN = 'pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw' // Set your mapbox token here
 export default class Map extends Component {
   state = {
-    hoveredFeature: null,
+    CITIES: [
+      {"city":"America Town", "latitude":26.306950639751037, "longitude":127.76400209636802},
+      {"city":"Island", "latitude":26.18, "longitude":127.645},
+      {"city":"Museum", "latitude":26.2273138, "longitude":127.6916602},
+    ],
     viewport: {
-      latitude: 26.25,
-      longitude: 127.725,
-      zoom: 11,
+      latitude: 26.225,
+      longitude: 127.71,
+      zoom: 10.75,
       bearing: 0,
       pitch: 0,
       width: document.body.clientWidth,
@@ -32,15 +37,25 @@ export default class Map extends Component {
       background: '#EBF0F0'
     }
   }
+  _renderCityMarker = (city, index) => {
+    return (
+      <Marker key={`marker-${index}`}
+        longitude={city.longitude}
+        latitude={city.latitude} >
+        <CityPin size={20} active={this.props.activeSlideIndex === index}/>
+      </Marker>
+    );
+  }
   render () {
     return (
       <Background>
         <ReactMapGL
           mapboxApiAccessToken={MAPBOX_TOKEN}
           {...this.state.viewport}
-          mapStyle={'mapbox://styles/mapbox/streets-v9'}
-          onViewportChange={(viewport) => this.setState({viewport})}
-        />
+          mapStyle={'mapbox://styles/mapbox/streets-v10'}
+          onViewportChange={(viewport) => this.setState({viewport})}>
+          { this.state.CITIES.map(this._renderCityMarker) }
+        </ReactMapGL>
       </Background>
     )
   }
