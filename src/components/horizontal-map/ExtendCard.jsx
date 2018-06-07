@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
-
+const h = document.body.clientHeight
 const ExtendCardWrapper = styled.div`
   &.swiper-slide {
     transform: scale(${props => props.toggle ? 1 : (props.active ? 0.8 : 0.7)});
@@ -44,12 +44,16 @@ const Content = styled.div`
     font-size: 2rem;
     font-family: "Raleway";
     margin: 10px 0;
-    text-align: ${props => props.toggle ? `left` : `center`};
+    text-align: center;
     transition: all 0.25s ease;
   }
 
-  p {
+  div.paragraph {
+    flex: 1;
     display: ${props => props.toggle ? `block` : `none`};
+    opacity: ${props => props.params < 0.25 ? 0 : props.params / h};
+  }
+  p {
     color: #50514F;
     text-align: left;
   }
@@ -57,7 +61,7 @@ const Content = styled.div`
 const ImgList = styled.div`
   display: flex;
   margin: ${props => props.toggle ? `20px 0` : `0`};
-  justify-content: ${props => props.toggle ? `flex-start` : `center`};
+  justify-content: center;
   transition: all 0.25s ease;
   width: 100%;
   height: auto;
@@ -66,8 +70,8 @@ const ImgList = styled.div`
     margin: 5px;
     border-radius: 5px;
     overflow: hidden;
-    width: ${props => props.toggle ? `100px` : `64px`};
-    height: ${props => props.toggle ? `100px` : `64px`};
+    width: calc(${props => props.toggle ? `${(props.params * 36 / h) + 64}px` : `64px`});
+    height: calc(${props => props.toggle ? `${(props.params * 36 / h) + 64}px` : `64px`});
     transition: all 0.25s ease;
     background-repeat: no-repeat;
     background-position: center;
@@ -100,16 +104,16 @@ export default class ExtendCard extends Component {
         <ExtendCardContent
           padding={this.props.isBoxExtends}
           className={`box`}>
-          <Content toggle={this.props.isBoxExtends}>
+          <Content toggle={this.props.isBoxExtends} params={this.props.params}>
             <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
-            <ImgList toggle={this.props.isBoxExtends}>
+            <ImgList toggle={this.props.isBoxExtends} params={this.props.params}>
               {
                 _.map(this.props.cardContent.imgList, (figure, id) =>
                   <div key={id} style={{backgroundImage: `url(${figure})`}} />
                 )
               }
             </ImgList>
-            <div style={{flex: 1}}>
+            <div className={`paragraph`}>
               <p>{this.props.cardContent.content}</p>
             </div>
           </Content>

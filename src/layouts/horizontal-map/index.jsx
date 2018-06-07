@@ -49,19 +49,17 @@ const ContentWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0;
-  // padding: calc(var(--app-height) - var(--app-width)) 0;
 
   .swiperWrapper {
     /* border: 1px solid #50514F; */
     width: 100%;
-    height: 100%; // var(--app-height);
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
 
     padding: 0;
-    color: unquote('rgba(0, 0, 0, var(--scroll, 0))');
     text-shadow: 0 0 white;
     font-size: 2rem;
   }
@@ -74,7 +72,7 @@ const SwiperComponent = styled.div`
 
   .swiper-container {
     width: 100%;
-    height: calc(${props => props.x < 220 ? 220 : props.x}px);
+    height: calc(${props => props.height < 220 ? 220 : props.height}px);
   }
 `
 const elList = [
@@ -175,13 +173,14 @@ export default class HMap extends Component {
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
-              <Motion style={{x: spring(this.state.isBoxExtends ? document.body.clientHeight : 0, {stiffness: 100, damping: 17})}}>
-                {({x}) =>
-                  <SwiperComponent x={x} style={{height: `${x}px`}}>
+              <Motion style={{h: spring(this.state.isBoxExtends ? document.body.clientHeight : 0, {stiffness: 100, damping: 17})}}>
+                {({h}) =>
+                  <SwiperComponent height={h} style={{height: `${h}px`}}>
                     <Swiper {...params} ref={this.swiperRef}>
                       {
                         _.map(elList, (el, id) =>
                           <ExtendCard
+                            params={h}
                             cardContent={el}
                             isActive={id === this.state.activeSlideIndex}
                             isBoxExtends={this.state.isBoxExtends}
