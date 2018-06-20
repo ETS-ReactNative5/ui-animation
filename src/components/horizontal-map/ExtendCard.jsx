@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   z-index: ${props => props.zIndex ? 1 : 0};
 
   .card-normal,
-  .card-expanded {
+  .card-expand {
     display: none;
     position: absolute;
     box-sizing: border-box;
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   }
 
   &[data-state="expand"] {
-    > .card-expanded {
+    > .card-expand {
       display: flex;
       position: relative;
     }
@@ -51,13 +51,14 @@ const NormalCard = styled.div`
 
   text-align: center;
   font-size: 18px;
+  overflow: hidden;
 
   /* Center slide text vertically */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: all 0.25s ease;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
 
@@ -70,7 +71,7 @@ const NormalCard = styled.div`
   }
 `
 
-const ExpandedCard = styled.div`
+const ExpandCard = styled.div`
   width: calc(${w}px);
   height: calc(${h}px);
   font-size: 18px;
@@ -117,10 +118,10 @@ export default class ExtendCard extends Component {
           <h1 className="title" data-flip-key={`title-${this.props.id}`}>Card Title</h1>
         </NormalCard>
 
-        <ExpandedCard className="card-expanded">
+        <ExpandCard className="card-expand">
           <div className="bg" data-flip-key={`bg-${this.props.id}`}/>
           <h1 className="title" data-flip-key={`title-${this.props.id}`}>Card Title</h1>
-        </ExpandedCard>
+        </ExpandCard>
       </Wrapper>
     )
   }
