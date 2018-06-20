@@ -1,129 +1,127 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import _ from 'lodash'
+// import _ from 'lodash'
+import Flipping from 'flipping/dist/flipping.web.js'
 const h = document.body.clientHeight
-const ExtendCardWrapper = styled.div`
-  &.swiper-slide {
-    transform: scale(${props => props.toggle ? 1 : (props.active ? 0.8 : 0.7)});
-    z-index: ${props => props.zIndex ? 1 : 0};
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
+const w = document.body.clientWidth
 
-    /* Center slide text vertically */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
-    transition: all 0.25s ease;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+const Wrapper = styled.div`
+  z-index: ${props => props.zIndex ? 1 : 0};
+
+  .card-normal,
+  .card-expanded {
+    display: none;
+    position: absolute;
+    box-sizing: border-box;
+
+    .bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &[data-state="normal"] {
+    > .card-normal {
+      display: flex;
+      position: relative;
+    }
+  }
+
+  &[data-state="expand"] {
+    > .card-expanded {
+      display: flex;
+      position: relative;
+    }
+  }
+
+  &.swiper-slide {
+    width: 100%;
+    height: 100%;
   }
 `
-const ExtendCardContent = styled.div`
-  flex: 1;
+
+const NormalCard = styled.div`
   width: 100%;
-  padding: ${props => props.padding ? '20px' : '0px'};
-  box-sizing: border-box;
+  height: 100%;
+  transform: scale(0.75);
+  padding: 10px 0;
+
+  text-align: center;
+  font-size: 18px;
+
+  /* Center slide text vertically */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
   transition: all 0.25s ease;
-  box-shadow: none;
-  overflow: hidden;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
 
-`
-const Content = styled.div`
-  // display: flex;
-  flex-direction: column;
-  overflow: scroll;
-  margin-bottom: 20px;
-
-  h2.swiperTitle {
-    color: #50514F;
-    font-size: 2rem;
-    font-family: "Raleway";
-    margin: 10px 0;
-    text-align: center;
-    transition: all 0.25s ease;
+  .bg {
+    background-color: var(--orange);
   }
 
-  div.paragraph {
-    flex: 1;
-    display: ${props => props.toggle ? `block` : `none`};
-    opacity: ${props => props.params < 0.25 ? 0 : props.params / h};
-  }
-  p {
-    color: #50514F;
-    text-align: left;
+  h1 {
+    padding-left: 20px;
   }
 `
-const ImgList = styled.div`
+
+const ExpandedCard = styled.div`
+  width: calc(${w}px);
+  height: calc(${h}px);
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
   display: flex;
-  margin: ${props => props.toggle ? `20px 0` : `0`};
-  justify-content: center;
+  flex-direction: column;
   transition: all 0.25s ease;
-  width: 100%;
-  height: auto;
 
-  > div {
-    margin: 5px;
-    border-radius: 5px;
-    overflow: hidden;
-    width: calc(${props => props.toggle ? `${(props.params * 36 / h) + 64}px` : `64px`});
-    height: calc(${props => props.toggle ? `${(props.params * 36 / h) + 64}px` : `64px`});
-    transition: all 0.25s ease;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  --bg: rgba(200, 200, 200, 0.25);
+  .bg {
+    background-color: var(--bg);
   }
 `
-const CardBtn = styled.div`
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  width: 100%;
-  padding: 15px 0;
-  text-align: center;
 
-  color: white;
-  background: var(--orange);
-  cursor: pointer;
-`
 export default class ExtendCard extends Component {
+  state = {
+    dataState: `normal`,
+    flipping: null
+  }
   toggleBox = (id) => {
     this.props.toggleBox(id)
+    // FLIP
+    this.state.flipping.read()
+    this.setState({
+      dataState: this.state.dataState === `normal` ? `expand` : `normal`
+    })
+    this.state.flipping.flip()
+  }
+  componentDidMount () {
+    this.setState({ flipping: new Flipping() })
   }
   render () {
     return (
-      <ExtendCardWrapper
-        active={this.props.isActive}
-        toggle={this.props.isBoxExtends}
-        zIndex={this.props.isActive && this.props.isBoxExtends}
+      <Wrapper
+        onClick={() => this.toggleBox(this.props.key)}
+        zIndex={this.props.isActive}
+        data-state={this.state.dataState}
         className={`swiper-slide`}>
-        <ExtendCardContent
-          padding={this.props.isBoxExtends}
-          className={`box`}>
-          <Content toggle={this.props.isBoxExtends} params={this.props.params}>
-            <h2 className="swiperTitle">{this.props.cardContent.name}</h2>
-            <ImgList toggle={this.props.isBoxExtends} params={this.props.params}>
-              {
-                _.map(this.props.cardContent.imgList, (figure, id) =>
-                  <div key={id} style={{backgroundImage: `url(${figure})`}} />
-                )
-              }
-            </ImgList>
-            <div className={`paragraph`}>
-              <p>{this.props.cardContent.content}</p>
-            </div>
-          </Content>
 
-          <CardBtn
-            onClick={() => this.toggleBox(this.props.id)}>
-            {this.props.isBoxExtends ? `close` : `read more`}
-          </CardBtn>
-        </ExtendCardContent>
-      </ExtendCardWrapper>
+        <NormalCard className="card-normal">
+          <div className="bg" data-flip-key={`bg-${this.props.id}`}/>
+          <h1 className="title" data-flip-key={`title-${this.props.id}`}>Card Title</h1>
+        </NormalCard>
+
+        <ExpandedCard className="card-expanded">
+          <div className="bg" data-flip-key={`bg-${this.props.id}`}/>
+          <h1 className="title" data-flip-key={`title-${this.props.id}`}>Card Title</h1>
+        </ExpandedCard>
+      </Wrapper>
     )
   }
 }

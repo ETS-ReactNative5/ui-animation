@@ -6,7 +6,7 @@ import _ from 'lodash'
 import 'bulma/css/bulma.css'
 import ExtendCard from 'components/horizontal-map/ExtendCard'
 import BackgroundMap from 'components/horizontal-map/Map'
-import { Motion, spring } from 'react-motion'
+// import { Motion, spring } from 'react-motion'
 
 const Section = styled.section`
   height: 100%;
@@ -67,12 +67,12 @@ const ContentWrapper = styled.div`
 
 const SwiperComponent = styled.div`
   width: 100%;
-  height: auto;
+  height: ${props => props.isBoxExtends ? `100%` : `auto`};
   min-height: 220px;
 
   .swiper-container {
     width: 100%;
-    height: calc(${props => props.height < 220 ? 220 : props.height}px);
+    height: ${props => props.isBoxExtends ? `100%` : `220px`};
   }
 `
 const elList = [
@@ -151,6 +151,7 @@ export default class HMap extends Component {
     this.setState({
       isBoxExtends: !this.state.isBoxExtends
     })
+    console.log(`id: `, id)
   }
   render () {
     const params = {
@@ -173,25 +174,22 @@ export default class HMap extends Component {
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
-              <Motion style={{h: spring(this.state.isBoxExtends ? document.body.clientHeight : 0, {stiffness: 100, damping: 17})}}>
-                {({h}) =>
-                  <SwiperComponent height={h} style={{height: `${h}px`}}>
-                    <Swiper {...params} ref={this.swiperRef}>
-                      {
-                        _.map(elList, (el, id) =>
-                          <ExtendCard
-                            params={h}
-                            cardContent={el}
-                            isActive={id === this.state.activeSlideIndex}
-                            isBoxExtends={this.state.isBoxExtends}
-                            toggleBox={() => this.toggleBox(id)}
-                            key={id} />
-                        )
-                      }
-                    </Swiper>
-                  </SwiperComponent>
-                }
-              </Motion>
+                <SwiperComponent isBoxExtends={this.state.isBoxExtends}>
+                  <Swiper {...params} ref={this.swiperRef}>
+                    {
+                      _.map(elList, (el, id) =>
+                        <ExtendCard
+                          cardContent={el}
+                          isActive={id === this.state.activeSlideIndex}
+                          isBoxExtends={this.state.isBoxExtends}
+                          toggleBox={() => this.toggleBox(id)}
+                          id={id}
+                          key={id} />
+                      )
+                    }
+                  </Swiper>
+                </SwiperComponent>
+
               </div>
             </ContentWrapper>
           </Map>
