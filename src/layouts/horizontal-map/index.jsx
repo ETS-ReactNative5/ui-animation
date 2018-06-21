@@ -67,12 +67,14 @@ const ContentWrapper = styled.div`
 
 const SwiperComponent = styled.div`
   width: 100%;
-  height: ${props => props.isBoxExtends ? `100%` : `auto`};
+  // height: ${props => props.isBoxExtends ? `100%` : `auto`};
+  height: 100%;
   min-height: 220px;
 
   .swiper-container {
     width: 100%;
-    height: ${props => props.isBoxExtends ? `100%` : `220px`};
+    height: 100%;
+    // height: ${props => props.isBoxExtends ? `100%` : `220px`};
   }
 `
 const elList = [
