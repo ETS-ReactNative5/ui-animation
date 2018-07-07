@@ -6,10 +6,15 @@ import _ from 'lodash'
 import 'bulma/css/bulma.css'
 import ExtendCard from 'components/horizontal-map/ExtendCard'
 import BackgroundMap from 'components/horizontal-map/Map'
-import { Motion, spring } from 'react-motion'
+import Header from 'components/header'
+
+// import { Motion, spring } from 'react-motion'
 
 const Section = styled.section`
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media screen and (max-width: 768px) {
     height: 100vh;
@@ -67,12 +72,14 @@ const ContentWrapper = styled.div`
 
 const SwiperComponent = styled.div`
   width: 100%;
-  height: auto;
+  // height: ${props => props.isBoxExtends ? `100%` : `auto`};
+  height: 100%;
   min-height: 220px;
 
   .swiper-container {
     width: 100%;
-    height: calc(${props => props.height < 220 ? 220 : props.height}px);
+    height: 100%;
+    // height: ${props => props.isBoxExtends ? `100%` : `220px`};
   }
 `
 const elList = [
@@ -142,7 +149,10 @@ export default class HMap extends Component {
   state = {
     swiper: null,
     activeSlideIndex: 0,
-    isBoxExtends: false
+    isBoxExtends: false,
+    mapWidth: 360,
+    mapHeight: 640,
+    displayMap: false
   }
   swiperRef = (ref) => {
     this.setState({ swiper: ref.swiper })
@@ -150,6 +160,15 @@ export default class HMap extends Component {
   toggleBox = (id) => {
     this.setState({
       isBoxExtends: !this.state.isBoxExtends
+    })
+    console.log(`id: `, id)
+  }
+
+  componentDidMount () {
+    this.setState({
+      displayMap: true,
+      mapWidth: document.getElementsByClassName('swiperWrapper')[0].clientWidth,
+      mapHeight: document.getElementsByClassName('swiperWrapper')[0].clientHeight
     })
   }
   render () {
@@ -162,36 +181,36 @@ export default class HMap extends Component {
     }
     return (
       <Section className="section">
-        <Wrapper className="container">
-          {/* title */}
-          <h1 className="title">RXCSS scroll</h1>
-          <p className="subtitle">scroll to see the magic!</p>
+        <Header color={`#50514F`}/>
 
+        <Wrapper className="container">
           {/* map */}
           <Map className="hero is-light">
-            <BackgroundMap activeSlideIndex={this.state.activeSlideIndex}/>
+            {this.state.displayMap && (
+              <BackgroundMap
+                width={this.state.mapWidth}
+                height={this.state.mapHeight}
+                activeSlideIndex={this.state.activeSlideIndex}/>
+            )}
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
-              <Motion style={{h: spring(this.state.isBoxExtends ? document.body.clientHeight : 0, {stiffness: 100, damping: 17})}}>
-                {({h}) =>
-                  <SwiperComponent height={h} style={{height: `${h}px`}}>
-                    <Swiper {...params} ref={this.swiperRef}>
-                      {
-                        _.map(elList, (el, id) =>
-                          <ExtendCard
-                            params={h}
-                            cardContent={el}
-                            isActive={id === this.state.activeSlideIndex}
-                            isBoxExtends={this.state.isBoxExtends}
-                            toggleBox={() => this.toggleBox(id)}
-                            key={id} />
-                        )
-                      }
-                    </Swiper>
-                  </SwiperComponent>
-                }
-              </Motion>
+                <SwiperComponent isBoxExtends={this.state.isBoxExtends}>
+                  <Swiper {...params} ref={this.swiperRef}>
+                    {
+                      _.map(elList, (el, id) =>
+                        <ExtendCard
+                          cardContent={el}
+                          isActive={id === this.state.activeSlideIndex}
+                          isBoxExtends={this.state.isBoxExtends}
+                          toggleBox={() => this.toggleBox(id)}
+                          id={id}
+                          key={id} />
+                      )
+                    }
+                  </Swiper>
+                </SwiperComponent>
+
               </div>
             </ContentWrapper>
           </Map>
