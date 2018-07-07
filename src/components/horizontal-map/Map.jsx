@@ -8,7 +8,6 @@ const Background = styled.div`
   width: 100%;
   opacity: 0.65;
   transform: scale(calc(1 + var(--scroll) * 1));
-
 `
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw' // Set your mapbox token here
@@ -25,8 +24,8 @@ export default class Map extends Component {
       zoom: 10.75,
       bearing: 0,
       pitch: 0,
-      width: document.body.clientWidth,
-      height: document.body.clientHeight
+      width: this.props.width ? this.props.width: document.body.clientWidth,
+      height: this.props.height ? this.props.height : document.body.clientHeight
     },
     color: {
       water: '#DBE2E6',

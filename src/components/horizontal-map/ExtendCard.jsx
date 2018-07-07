@@ -4,8 +4,6 @@ import _ from 'lodash'
 import Flipping from 'flipping/dist/flipping.web.js'
 const flipping = new Flipping()
 
-const h = document.body.clientHeight
-const w = document.body.clientWidth
 const machine = {
   initial: 'normal',
   states: {
@@ -146,6 +144,8 @@ const Button = styled.div`
 
   font-size: calc(12px / 0.75);
   letter-spacing: 1px;
+
+  cursor: pointer;
 `
 
 const ImgList = styled.div`
@@ -192,22 +192,19 @@ export default class ExtendCard extends Component {
     this.props.toggleBox(id)
   }
   send = (event) => {
+    console.log(this.state.currentState, event)
     this.setState({
       currentState: transition(this.state.currentState, event)
     })
     flipping.read()
-    document.getElementById(`card-${this.props.id}`).setAttribute('data-state', this.state.currentState)
+    document.getElementById(`card-${this.props.id}`).setAttribute('data-state', transition(this.state.currentState, event))
     flipping.flip()
   }
-  componentDidMount () {
-    document.getElementById(`card-${this.props.id}`).addEventListener('click', () => { this.send('CLICK') })
-  }
+  componentDidMount () {}
   render () {
-    console.log(this.props)
     return (
       <Wrapper
         id={`card-${this.props.id}`}
-        onClick={() => this.toggleBox(this.props.key)}
         zIndex={this.props.isActive}
         data-state={this.state.dataState}
         className={`swiper-slide`}>
@@ -222,7 +219,7 @@ export default class ExtendCard extends Component {
               )
             }
           </ImgList>
-          <Button className="btn" data-flip-key={`btn-${this.props.id}`}>READ MORE</Button>
+          <Button className="btn" data-flip-key={`btn-${this.props.id}`} onClick={() => this.send('CLICK')}>READ MORE</Button>
         </NormalCard>
 
         <ExpandCard className="card-expand">
@@ -240,7 +237,7 @@ export default class ExtendCard extends Component {
             <p>{this.props.cardContent.content}</p>
           </Paragraph>
 
-          <Button className="btn" data-flip-key={`btn-${this.props.id}`}>CLOSE</Button>
+          <Button className="btn" data-flip-key={`btn-${this.props.id}`} onClick={() => this.send('CLICK')}>CLOSE</Button>
         </ExpandCard>
       </Wrapper>
     )
