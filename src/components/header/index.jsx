@@ -87,12 +87,12 @@ export default class HeaderComponent extends React.Component {
         </Logo>
 
         <Brief color={this.props.color}>
-          <h1>Draft 1</h1>
+          <h1>Draft {this.props.counter}</h1>
           <div className="divider" />
           <a href="https://github.io/lichinlin">@lichinlin</a>
         </Brief>
 
-        <Title color={this.props.color}>Japanese Horizontal map</Title>
+        <Title color={this.props.color}>{this.props.title}</Title>
       </Header>
     )
   }

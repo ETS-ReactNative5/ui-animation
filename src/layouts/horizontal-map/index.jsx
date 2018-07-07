@@ -181,7 +181,7 @@ export default class HMap extends Component {
     }
     return (
       <Section className="section">
-        <Header color={`#50514F`}/>
+        <Header color={`#50514F`} counter={1} title={`Japanese Horizontal Map`}/>
 
         <Wrapper className="container">
           {/* map */}
