@@ -56,6 +56,21 @@ const Brief = styled.div`
     font-family: 'Montserrat', sans-serif;
   }
 `
+
+const Title = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  opacity: 0.5;
+  transform-origin: 0 0;
+  transform: rotate(-90deg) translate(-50%, 10px);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-family: 'Montserrat', sans-serif;
+  color: ${props => props.color ? props.color : `white`};
+`
+
 export default class HeaderComponent extends React.Component {
   render () {
     return (
@@ -76,6 +91,8 @@ export default class HeaderComponent extends React.Component {
           <div className="divider" />
           <a href="https://github.io/lichinlin">@lichinlin</a>
         </Brief>
+
+        <Title color={this.props.color}>Japanese Horizontal map</Title>
       </Header>
     )
   }

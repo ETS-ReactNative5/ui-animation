@@ -186,10 +186,12 @@ export default class HMap extends Component {
         <Wrapper className="container">
           {/* map */}
           <Map className="hero is-light">
-            <BackgroundMap
-              width={this.state.mapWidth}
-              height={this.state.mapHeight}
-              activeSlideIndex={this.state.activeSlideIndex}/>
+            {this.state.displayMap && (
+              <BackgroundMap
+                width={this.state.mapWidth}
+                height={this.state.mapHeight}
+                activeSlideIndex={this.state.activeSlideIndex}/>
+            )}
             <ContentWrapper className="hero-body">
               <div className="swiperWrapper container">
 
