@@ -138,7 +138,7 @@ const ExpandCard = styled.div`
 const Button = styled.div`
   width: 100%;
   color: white;
-  background: var(--orange);
+  background: var(--horizontalMap-orange);
   padding: 15px 20px;
   text-align: center;
 

@@ -35,8 +35,8 @@ const Wrapper = styled.div`
   }
 `
 const Map = styled.section`
-  height: var(--app-height);
-  width: var(--app-width);
+  height: var(--horizontalMap-app-height);
+  width: var(--horizontalMap-app-width);
   overflow: hidden;
 
   @media screen and (max-width: 768px) {
