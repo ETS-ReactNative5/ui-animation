@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import 'bulma/css/bulma.css'
-
 import Header from 'components/header'
 
 const Section = styled.section`
@@ -15,20 +14,18 @@ const Section = styled.section`
     padding: 0;
   }
 `
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+const GMAContainer = styled.section`
+  height: var(--GMA29-app-height);
+  width: var(--GMA29-app-width);
+  overflow: hidden;
+  background: #ddd;
 
   @media screen and (max-width: 768px) {
-    > h1, > p {
-      display: none;
-    }
+    height: 100vh;
+    width: 100vw;
   }
 `
-
 export default class GMA29 extends Component {
   state = {}
   componentDidMount () {}
@@ -37,7 +34,9 @@ export default class GMA29 extends Component {
       <Section className="section">
         <Header color={`#50514F`} counter={2} title={`Taiwan Golden Melody Awards #29`}/>
 
-        <Wrapper className="container"></Wrapper>
+        <GMAContainer>
+
+        </GMAContainer>
       </Section>
     )
   }

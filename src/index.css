@@ -2,6 +2,9 @@
   --horizontalMap-orange: #FFA268;
   --horizontalMap-app-width: 40vh;
   --horizontalMap-app-height: 80vh;
+
+  --GMA29-app-width: 40vh;
+  --GMA29-app-height: calc(40vh * 16 / 9);
 }
 *, *:before, *:after {
   box-sizing: border-box;

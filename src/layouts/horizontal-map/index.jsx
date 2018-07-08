@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Header from 'components/header'
+import 'bulma/css/bulma.css'
+
 import Swiper from 'react-id-swiper'
 import _ from 'lodash'
-
-import 'bulma/css/bulma.css'
 import ExtendCard from 'components/horizontal-map/ExtendCard'
 import BackgroundMap from 'components/horizontal-map/Map'
-import Header from 'components/header'
-
-// import { Motion, spring } from 'react-motion'
 
 const Section = styled.section`
   height: 100%;
@@ -56,7 +54,6 @@ const ContentWrapper = styled.div`
   padding: 0;
 
   .swiperWrapper {
-    /* border: 1px solid #50514F; */
     width: 100%;
     height: 100%;
     display: flex;
@@ -72,14 +69,12 @@ const ContentWrapper = styled.div`
 
 const SwiperComponent = styled.div`
   width: 100%;
-  // height: ${props => props.isBoxExtends ? `100%` : `auto`};
   height: 100%;
   min-height: 220px;
 
   .swiper-container {
     width: 100%;
     height: 100%;
-    // height: ${props => props.isBoxExtends ? `100%` : `220px`};
   }
 `
 const elList = [
