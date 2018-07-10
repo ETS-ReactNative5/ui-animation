@@ -49,10 +49,9 @@ const Title = styled.div`
   }
 `;
 
-const CardWrapper = styled.div`
-  height: 690px;
-  display: flex;
-
+const Cards = styled.div`
+  height: calc(${props => props.height}px);
+  width: 100%;
   grid-row: 2 / -1;
   grid-column: 2 / -1;
   overflow-y: scroll;
@@ -61,10 +60,10 @@ const CardWrapper = styled.div`
   perspective: 1000px;
   perspective-origin: 100% 0%;
 `;
-const Temp = styled.div`
-  overflow: scroll;
+
+const CardWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100px;
 `;
 const Card = styled.div`
   width: 100%;
@@ -79,10 +78,8 @@ const Card = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  transform: rotateX(-25deg) translateX(${props => `${1}rem`});
 
-  transform: rotateX(-25deg) translateX(${props => `${1}rem`})
-    translateY(${props => `${props.params * -3.5}rem`})
-    translateZ(${props => `${props.params * -1.75}rem`});
   font-size: 24px;
   line-height: 1;
   filter: grayscale(95%);
@@ -97,6 +94,7 @@ const Card = styled.div`
 
 export default class GMA29 extends Component {
   state = {
+    containerHeight: 400,
     cardArray: [
       {
         name: "best-arrangement",
@@ -148,9 +146,13 @@ export default class GMA29 extends Component {
       }
     ]
   };
-  componentDidMount() {}
+  componentDidMount() {
+    this.setState({
+      containerHeight: document.querySelector("#GMA29").clientHeight
+    });
+    console.log(document.querySelector("#GMA29").clientHeight);
+  }
   render() {
-    console.log(this.state);
     return (
       <Section className="section">
         <Header
@@ -159,31 +161,17 @@ export default class GMA29 extends Component {
           title={`Taiwan Golden Melody Awards #29`}
         />
 
-        <GMAContainer>
+        <GMAContainer id="GMA29">
           <Title>
             <h1>#GMA29</h1>
           </Title>
-          <CardWrapper>
-            <Temp>
-              {this.state.cardArray.map((card, id) => (
-                <Card key={id} params={id} bgSrc={card.bg}>
-                  {/* @{card.name} */}
-                </Card>
-              ))}
-
-              {/* <Card>@card2</Card>
-              <Card>@card3</Card>
-              <Card>@card4</Card>
-              <Card>@card5</Card>
-              <Card>@card6</Card>
-              <Card>@card7</Card>
-              <Card>@card8</Card>
-              <Card>@card9</Card>
-              <Card>@card10</Card>
-              <Card>@card11</Card>
-              <Card>@card12</Card> */}
-            </Temp>
-          </CardWrapper>
+          <Cards height={this.state.containerHeight}>
+            {this.state.cardArray.map((card, id) => (
+              <CardWrapper key={id} params={id} bgSrc={card.bg}>
+                <Card params={id} bgSrc={card.bg} />
+              </CardWrapper>
+            ))}
+          </Cards>
         </GMAContainer>
       </Section>
     );
