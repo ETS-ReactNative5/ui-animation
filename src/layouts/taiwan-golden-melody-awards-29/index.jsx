@@ -56,6 +56,8 @@ const Cards = styled.div`
   grid-column: 2 / -1;
   overflow-y: scroll;
 
+  display: flex;
+  flex-direction: column;
   transform-style: preserve-3d;
   perspective: 1000px;
   perspective-origin: 100% 0%;
@@ -65,6 +67,7 @@ const CardWrapper = styled.div`
   width: 100%;
   height: 100px;
 `;
+
 const Card = styled.div`
   width: 100%;
   height: 180px;
@@ -78,22 +81,33 @@ const Card = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  transform: rotateX(-25deg) translateX(${props => `${1}rem`});
 
   font-size: 24px;
   line-height: 1;
   filter: grayscale(95%);
   transition: all 0.3s ease;
+  transform: rotateX(-25deg) translateX(${props => `${1}rem`});
 
   &:hover {
     transition: all 0.3s ease;
     box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.35);
     filter: grayscale(0%);
   }
+
+  &.active {
+    filter: grayscale(0%);
+    transform: rotateX(0deg) translateX(${props => `${1}rem`});
+  }
+
+  &.nonactive {
+    opacity: 0;
+  }
 `;
 
 export default class GMA29 extends Component {
   state = {
+    isToggle: false,
+    toggleCardId: null,
     containerHeight: 400,
     cardArray: [
       {
@@ -150,8 +164,13 @@ export default class GMA29 extends Component {
     this.setState({
       containerHeight: document.querySelector("#GMA29").clientHeight
     });
-    console.log(document.querySelector("#GMA29").clientHeight);
   }
+  toggleCard = id => {
+    this.setState({
+      isToggle: !this.state.isToggle,
+      toggleCardId: id
+    });
+  };
   render() {
     return (
       <Section className="section">
@@ -167,8 +186,19 @@ export default class GMA29 extends Component {
           </Title>
           <Cards height={this.state.containerHeight}>
             {this.state.cardArray.map((card, id) => (
-              <CardWrapper key={id} params={id} bgSrc={card.bg}>
-                <Card params={id} bgSrc={card.bg} />
+              <CardWrapper key={id}>
+                <Card
+                  className={
+                    this.state.isToggle
+                      ? id === this.state.toggleCardId
+                        ? `active`
+                        : `nonactive`
+                      : null
+                  }
+                  params={id}
+                  bgSrc={card.bg}
+                  onClick={() => this.toggleCard(id)}
+                />
               </CardWrapper>
             ))}
           </Cards>
