@@ -4,21 +4,6 @@ import "bulma/css/bulma.css";
 import Header from "components/header";
 import GMACard from "components/taiwan-golden-melody-awards-29/GMACard";
 
-const machine = {
-  initial: "normal",
-  states: {
-    normal: {
-      on: { CLICK: "expand" }
-    },
-    expand: {
-      on: { CLICK: "normal" }
-    }
-  }
-};
-const transition = (state, event) => {
-  return machine.states[state].on[event] || state;
-};
-
 const Section = styled.section`
   height: 100%;
   display: flex;
@@ -95,7 +80,8 @@ const Cards = styled.div`
   height: calc(${props => props.height}px);
   width: 100%;
   overflow-y: scroll;
-  ${"" /* overflow-x: hidden; */} display: flex;
+  overflow-x: hidden;
+  display: flex;
   flex-direction: column;
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -104,7 +90,6 @@ const Cards = styled.div`
 
 export default class GMA29 extends Component {
   state = {
-    // currentState: `normal`,
     isToggle: false,
     toggleCardId: null,
     containerHeight: 400,
@@ -200,34 +185,3 @@ export default class GMA29 extends Component {
     );
   }
 }
-
-/* <CardWrapper
-  className={
-    this.state.isToggle
-      ? id === this.state.toggleCardId
-        ? `active cardwrapper`
-        : `nonactive cardwrapper`
-      : `cardwrapper`
-  }
-  key={id}
->
-  <Card
-    className={`card`}
-    params={id}
-    bgSrc={card.bg}
-    onClick={() => this.toggleCard(id)}
-  >
-    <div className="bg" data-flip-key={`bg-${id}`} />
-    <div className="img" data-flip-key={`img-${id}`} />
-  </Card>
-
-  <ExpandCard
-    className="expand-card"
-    bgSrc={card.bg}
-    onClick={() => this.toggleCard(id)}
-  >
-    <div className="bg" data-flip-key={`bg-${id}`} />
-    <div className="img" data-flip-key={`img-${id}`} />
-    <div className="expand-content">content</div>
-  </ExpandCard>
-</CardWrapper> */

@@ -25,7 +25,6 @@ const CardWrapper = styled.div`
   text-align: -webkit-right;
   transition: height 0.35s ease;
   z-index: ${props => (props.isToggle ? 2 : 1)};
-  border: 1px solid pink;
 
   &.nonactive {
     height: 0px;
@@ -50,14 +49,12 @@ const Card = styled.div`
   transition: all 0.3s ease;
   transform: rotateX(-25deg) translateX(${props => `${1}rem`});
 
-  // border: 1px solid tomato;
-
   &:hover {
-    transform: rotateX(-25deg) translateX(${props => `${1}rem`});
     transition: all 0.3s ease;
     box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.35);
     filter: grayscale(0%);
   }
+
   > .img {
     height: 180px;
     width: 100%;
@@ -113,7 +110,6 @@ export default class GMA29 extends Component {
   };
   componentDidMount() {}
   toggleCard = id => {
-    console.log(id, transition(this.state.currentState, `CLICK`));
     // flipping
     flipping.read();
     document
