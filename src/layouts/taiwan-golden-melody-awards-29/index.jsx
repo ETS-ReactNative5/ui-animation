@@ -3,6 +3,21 @@ import styled from "styled-components";
 import "bulma/css/bulma.css";
 import Header from "components/header";
 
+const machine = {
+  initial: "normal",
+  states: {
+    normal: {
+      on: { CLICK: "expand" }
+    },
+    expand: {
+      on: { CLICK: "normal" }
+    }
+  }
+};
+const transition = (state, event) => {
+  return machine.states[state].on[event] || state;
+};
+
 const Section = styled.section`
   height: 100%;
   display: flex;
@@ -23,13 +38,17 @@ const GMAContainer = styled.section`
 
   overflow: hidden;
   background: #efefef;
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: 1;
+  display: flex;
 
   @media screen and (max-width: 768px) {
     height: 100vh;
     width: 100vw;
+  }
+
+  &[data-state="expand"] {
+    .card {
+      width: 100%;
+    }
   }
 `;
 
@@ -52,8 +71,6 @@ const Title = styled.div`
 const Cards = styled.div`
   height: calc(${props => props.height}px);
   width: 100%;
-  grid-row: 2 / -1;
-  grid-column: 2 / -1;
   overflow-y: scroll;
 
   display: flex;
@@ -66,10 +83,12 @@ const Cards = styled.div`
 const CardWrapper = styled.div`
   width: 100%;
   height: 100px;
+  text-align: right;
+  text-align: -webkit-right;
 `;
 
 const Card = styled.div`
-  width: 100%;
+  width: 90%;
   height: 180px;
   padding: 10px;
   margin: 0;
@@ -96,7 +115,7 @@ const Card = styled.div`
 
   &.active {
     filter: grayscale(0%);
-    transform: rotateX(0deg) translateX(${props => `${1}rem`});
+    transform: rotateX(0deg) translateX(${props => `${0}rem`});
   }
 
   &.nonactive {
@@ -106,6 +125,7 @@ const Card = styled.div`
 
 export default class GMA29 extends Component {
   state = {
+    currentState: `normal`,
     isToggle: false,
     toggleCardId: null,
     containerHeight: 400,
@@ -167,9 +187,13 @@ export default class GMA29 extends Component {
   }
   toggleCard = id => {
     this.setState({
+      currentState: transition(this.state.currentState, `CLICK`),
       isToggle: !this.state.isToggle,
       toggleCardId: id
     });
+    document
+      .getElementById(`GMA29`)
+      .setAttribute("data-state", transition(this.state.currentState, `CLICK`));
   };
   render() {
     return (
@@ -180,20 +204,20 @@ export default class GMA29 extends Component {
           title={`Taiwan Golden Melody Awards #29`}
         />
 
-        <GMAContainer id="GMA29">
+        <GMAContainer id="GMA29" data-state={this.state.currentState}>
           <Title>
             <h1>#GMA29</h1>
           </Title>
-          <Cards height={this.state.containerHeight}>
+          <Cards className="cards" height={this.state.containerHeight}>
             {this.state.cardArray.map((card, id) => (
-              <CardWrapper key={id}>
+              <CardWrapper className="cardwrapper" key={id}>
                 <Card
                   className={
                     this.state.isToggle
                       ? id === this.state.toggleCardId
-                        ? `active`
-                        : `nonactive`
-                      : null
+                        ? `active card`
+                        : `nonactive card`
+                      : `card`
                   }
                   params={id}
                   bgSrc={card.bg}
