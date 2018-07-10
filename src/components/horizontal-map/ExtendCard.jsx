@@ -1,23 +1,23 @@
-import React, { Component } from 'react'
-import styled, { keyframes } from 'styled-components'
-import _ from 'lodash'
-import Flipping from 'flipping/dist/flipping.web.js'
-const flipping = new Flipping()
+import React, { Component } from "react";
+import styled, { keyframes } from "styled-components";
+import _ from "lodash";
+import Flipping from "flipping/dist/flipping.web.js";
+const flipping = new Flipping();
 
 const machine = {
-  initial: 'normal',
+  initial: "normal",
   states: {
     normal: {
-      on: { CLICK: 'expand'}
+      on: { CLICK: "expand" }
     },
     expand: {
-      on: { CLICK: 'normal'}
+      on: { CLICK: "normal" }
     }
   }
-}
+};
 const transition = (state, event) => {
   return machine.states[state].on[event] || state;
-}
+};
 
 const fadeIn = keyframes`
   0% {
@@ -32,10 +32,10 @@ const fadeIn = keyframes`
     opacity: 1;
     transform: translateY(0px);
   }
-`
+`;
 
 const Wrapper = styled.div`
-  z-index: ${props => props.zIndex ? 1 : 0};
+  z-index: ${props => (props.zIndex ? 1 : 0)};
   display: flex;
   align-items: flex-end;
 
@@ -56,7 +56,6 @@ const Wrapper = styled.div`
       width: 100%;
       height: 100%;
     }
-
   }
 
   &[data-state="normal"] {
@@ -86,7 +85,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
   }
-`
+`;
 
 const NormalCard = styled.div`
   width: 100%;
@@ -111,7 +110,7 @@ const NormalCard = styled.div`
   h1 {
     font-size: calc(18px / 0.75);
   }
-`
+`;
 
 const ExpandCard = styled.div`
   width: 100%;
@@ -133,7 +132,7 @@ const ExpandCard = styled.div`
   h1 {
     font-size: 32px;
   }
-`
+`;
 
 const Button = styled.div`
   width: 100%;
@@ -146,7 +145,7 @@ const Button = styled.div`
   letter-spacing: 1px;
 
   cursor: pointer;
-`
+`;
 
 const ImgList = styled.div`
   display: flex;
@@ -167,7 +166,7 @@ const ImgList = styled.div`
     background-position: center;
     background-size: cover;
   }
-`
+`;
 const Paragraph = styled.div`
   overflow-y: scroll;
 
@@ -176,70 +175,92 @@ const Paragraph = styled.div`
   flex-grow: 1;
 
   padding: 15px;
-  animation: ${fadeIn} 0.5s cubic-bezier(0, .5, .2, 1) both;
+  animation: ${fadeIn} 0.5s cubic-bezier(0, 0.5, 0.2, 1) both;
 
   p {
-    color: #50514F;
+    color: #50514f;
     font-size: 18px;
   }
-`
+`;
 export default class ExtendCard extends Component {
   state = {
     currentState: machine.initial,
     dataState: `normal`
-  }
-  toggleBox = (id) => {
-    this.props.toggleBox(id)
-  }
-  send = (event) => {
-    console.log(this.state.currentState, event)
+  };
+  toggleBox = id => {
+    this.props.toggleBox(id);
+  };
+  send = event => {
+    console.log(this.state.currentState, event);
     this.setState({
       currentState: transition(this.state.currentState, event)
-    })
-    flipping.read()
-    document.getElementById(`card-${this.props.id}`).setAttribute('data-state', transition(this.state.currentState, event))
-    flipping.flip()
-  }
-  componentDidMount () {}
-  render () {
+    });
+    flipping.read();
+    document
+      .getElementById(`card-${this.props.id}`)
+      .setAttribute("data-state", transition(this.state.currentState, event));
+    flipping.flip();
+  };
+  componentDidMount() {}
+  render() {
     return (
       <Wrapper
         id={`card-${this.props.id}`}
         zIndex={this.props.isActive}
         data-state={this.state.dataState}
-        className={`swiper-slide`}>
-
+        className={`swiper-slide`}
+      >
         <NormalCard className="card-normal">
-          <div className="bg" data-flip-key={`bg-${this.props.id}`}/>
-          <h1 className="title" data-flip-key={`title-${this.props.id}`}>{this.props.cardContent.name}</h1>
+          <div className="bg" data-flip-key={`bg-${this.props.id}`} />
+          <h1 className="title" data-flip-key={`title-${this.props.id}`}>
+            {this.props.cardContent.name}
+          </h1>
           <ImgList data-flip-key={`imgList-${this.props.id}`}>
-            {
-              _.map(this.props.cardContent.imgList, (figure, id) =>
-                <div className="figure" key={id} style={{backgroundImage: `url(${figure})`}} />
-              )
-            }
+            {_.map(this.props.cardContent.imgList, (figure, id) => (
+              <div
+                className="figure"
+                key={id}
+                style={{ backgroundImage: `url(${figure})` }}
+              />
+            ))}
           </ImgList>
-          <Button className="btn" data-flip-key={`btn-${this.props.id}`} onClick={() => this.send('CLICK')}>READ MORE</Button>
+          <Button
+            className="btn"
+            data-flip-key={`btn-${this.props.id}`}
+            onClick={() => this.send("CLICK")}
+          >
+            READ MORE
+          </Button>
         </NormalCard>
 
         <ExpandCard className="card-expand">
-          <div className="bg" data-flip-key={`bg-${this.props.id}`}/>
-          <h1 className="title" data-flip-key={`title-${this.props.id}`}>{this.props.cardContent.name}</h1>
+          <div className="bg" data-flip-key={`bg-${this.props.id}`} />
+          <h1 className="title" data-flip-key={`title-${this.props.id}`}>
+            {this.props.cardContent.name}
+          </h1>
           <ImgList data-flip-key={`imgList-${this.props.id}`}>
-            {
-              _.map(this.props.cardContent.imgList, (figure, id) =>
-                <div className="figure" key={id} style={{backgroundImage: `url(${figure})`}} />
-              )
-            }
+            {_.map(this.props.cardContent.imgList, (figure, id) => (
+              <div
+                className="figure"
+                key={id}
+                style={{ backgroundImage: `url(${figure})` }}
+              />
+            ))}
           </ImgList>
 
           <Paragraph>
             <p>{this.props.cardContent.content}</p>
           </Paragraph>
 
-          <Button className="btn" data-flip-key={`btn-${this.props.id}`} onClick={() => this.send('CLICK')}>CLOSE</Button>
+          <Button
+            className="btn"
+            data-flip-key={`btn-${this.props.id}`}
+            onClick={() => this.send("CLICK")}
+          >
+            CLOSE
+          </Button>
         </ExpandCard>
       </Wrapper>
-    )
+    );
   }
 }
