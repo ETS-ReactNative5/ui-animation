@@ -1,22 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Flipping from "flipping/dist/flipping.web.js";
-const flipping = new Flipping();
-
-const machine = {
-  initial: "normal",
-  states: {
-    normal: {
-      on: { CLICK: "expand" }
-    },
-    expand: {
-      on: { CLICK: "normal" }
-    }
-  }
-};
-const transition = (state, event) => {
-  return machine.states[state].on[event] || state;
-};
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -78,13 +61,16 @@ const Card = styled.div`
   .bg {
     z-index: -1;
     border-radius: 10px;
-    background-color: white;
+    background: var(--GMA29-content-bg);
   }
 `;
 
 const ExpandCard = styled.div`
   width: 100%;
   height: var(--GMA29-app-height);
+  display: flex;
+  flex-direction: column;
+
   > .img {
     height: calc(var(--GMA29-app-width) * 9 / 16);
     width: var(--GMA29-app-width);
@@ -103,40 +89,24 @@ const ExpandCard = styled.div`
 
   .bg {
     border-radius: 0px;
-    background-color: white;
+    background: var(--GMA29-content-bg);
   }
-  display: flex;
-  flex-direction: column;
 `;
 
 export default class GMA29 extends Component {
   state = {
-    currentState: `normal`,
     lastScrollPos: 0
   };
   componentDidMount() {}
   toggleCard = id => {
-    let nextState = transition(this.state.currentState, `CLICK`);
-    // flipping
-    flipping.read();
-    document.getElementById(`GMA29`).setAttribute("data-state", nextState);
-    document
-      .getElementsByClassName(`cards`)[0]
-      .setAttribute("data-state", nextState);
-    flipping.flip();
-
-    // update state
-    this.props.handleToggle(id);
-
     // adjust position
     let lastScrollPos = document.getElementsByClassName(`cards`)[0].scrollTop;
     document.getElementsByClassName(`cards`)[0].scrollTop =
-      nextState === `normal` ? this.state.lastScrollPos : 0;
+      this.props.currentState === `normal` ? 0 : this.state.lastScrollPos;
 
-    this.setState({
-      lastScrollPos,
-      currentState: nextState
-    });
+    this.setState({ lastScrollPos });
+    // update state
+    this.props.handleToggle(id);
   };
   render() {
     return (

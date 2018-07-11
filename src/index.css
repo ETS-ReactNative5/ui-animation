@@ -7,6 +7,7 @@
   --GMA29-app-height: calc(40vh * 16 / 9);
   --GMA29-black: #50514f;
   --GMA29-CI: #ff0;
+  --GMA29-content-bg: #fff;
 }
 *,
 *:before,

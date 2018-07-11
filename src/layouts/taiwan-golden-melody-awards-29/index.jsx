@@ -5,6 +5,24 @@ import Header from "components/header";
 import GMACard from "components/taiwan-golden-melody-awards-29/GMACard";
 import { data } from "./data.js";
 
+import Flipping from "flipping/dist/flipping.web.js";
+const flipping = new Flipping();
+
+const machine = {
+  initial: "normal",
+  states: {
+    normal: {
+      on: { CLICK: "expand" }
+    },
+    expand: {
+      on: { CLICK: "normal" }
+    }
+  }
+};
+const transition = (state, event) => {
+  return machine.states[state].on[event] || state;
+};
+
 const Section = styled.section`
   height: 100%;
   display: flex;
@@ -55,6 +73,10 @@ const GMAContainer = styled.section`
     .expand-card {
       display: flex;
     }
+    .title {
+      top: 165px;
+      left: 5px;
+    }
   }
 `;
 
@@ -71,6 +93,19 @@ const Title = styled.div`
     font-size: 24px;
     padding: 5px 10px;
     color: var(--GMA29-black);
+  }
+`;
+
+const AwardTitle = styled.div`
+  font-size: 16px;
+  color: var(--GMA29-black);
+
+  h1 {
+    margin: 2.5px 0;
+    padding: 5px 10px;
+    background: var(--GMA29-CI);
+    font-weight: 700;
+    display: table;
   }
 `;
 
@@ -93,10 +128,10 @@ const Cards = styled.div`
 
 export default class GMA29 extends Component {
   state = {
+    currentState: `normal`,
     isToggle: false,
     toggleCardId: null,
-    containerHeight: 400,
-    cardArray: data
+    containerHeight: 400
   };
   componentDidMount() {
     this.setState({
@@ -104,9 +139,19 @@ export default class GMA29 extends Component {
     });
   }
   toggleCard = id => {
+    let nextState = transition(this.state.currentState, `CLICK`);
+    // flipping
+    flipping.read();
+    document.getElementById(`GMA29`).setAttribute("data-state", nextState);
+    document
+      .getElementsByClassName(`cards`)[0]
+      .setAttribute("data-state", nextState);
+    flipping.flip();
+
     this.setState({
       isToggle: !this.state.isToggle,
-      toggleCardId: id
+      toggleCardId: id,
+      currentState: nextState
     });
   };
   render() {
@@ -119,11 +164,19 @@ export default class GMA29 extends Component {
         />
 
         <GMAContainer id="GMA29" data-state={`normal`}>
-          <Title>
-            <h1>#GMA29</h1>
+          <Title className="title" data-flip-key={`title`}>
+            {this.state.currentState === `normal` ? (
+              <h1>#GMA29</h1>
+            ) : (
+              <AwardTitle>
+                <h1 className="bold">#你過生活，我找快活</h1>
+                <h1>SONG OF THE YEAR</h1>
+                <h1>年度歌曲</h1>
+              </AwardTitle>
+            )}
           </Title>
           <Cards className="cards" height={this.state.containerHeight}>
-            {this.state.cardArray.map((card, id) => (
+            {data.map((card, id) => (
               <GMACard
                 id={id}
                 key={id}
