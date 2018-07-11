@@ -3,6 +3,7 @@ import styled from "styled-components";
 import "bulma/css/bulma.css";
 import Header from "components/header";
 import GMACard from "components/taiwan-golden-melody-awards-29/GMACard";
+import { data } from "./data.js";
 
 const Section = styled.section`
   height: 100%;
@@ -34,34 +35,31 @@ const GMAContainer = styled.section`
   .card,
   .expand-card {
     display: none;
+  }
 
-    .bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   &[data-state="normal"] {
     .card {
-      position: relative;
-      display: block;
-      width: 90%;
+      display: flex;
     }
   }
+
   &[data-state="expand"] {
     .expand-card {
-      position: relative;
       display: flex;
-      width: 100%;
     }
   }
 `;
 
 const Title = styled.div`
-  z-index: 1;
+  z-index: 9999;
   position: absolute;
   top: 25px;
   left: 25px;
@@ -79,13 +77,18 @@ const Title = styled.div`
 const Cards = styled.div`
   height: calc(${props => props.height}px);
   width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
   transform-style: preserve-3d;
   perspective: 1000px;
   perspective-origin: 100% 0%;
+
+  &[data-state="expand"] {
+    overflow-y: hidden;
+  }
 `;
 
 export default class GMA29 extends Component {
@@ -93,56 +96,7 @@ export default class GMA29 extends Component {
     isToggle: false,
     toggleCardId: null,
     containerHeight: 400,
-    cardArray: [
-      {
-        name: "best-arrangement",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-arrangement.jpg`)
-      },
-      {
-        name: "best-female-taiwanese-singer",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-female-taiwanese-singer.jpg`)
-      },
-      {
-        name: "song-of-the-year",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/song-of-the-year.jpg`)
-      },
-      {
-        name: "best-lyrics",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-lyrics.jpg`)
-      },
-      {
-        name: "best-mandarin-album",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-mandarin-album.jpg`)
-      },
-      {
-        name: "best-taiwanese-album",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-taiwanese-album.jpg`)
-      },
-      {
-        name: "best-arrangement",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-arrangement.jpg`)
-      },
-      {
-        name: "best-female-taiwanese-singer",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-female-taiwanese-singer.jpg`)
-      },
-      {
-        name: "song-of-the-year",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/song-of-the-year.jpg`)
-      },
-      {
-        name: "best-lyrics",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-lyrics.jpg`)
-      },
-      {
-        name: "best-mandarin-album",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-mandarin-album.jpg`)
-      },
-      {
-        name: "best-taiwanese-album",
-        bg: require(`assets/Taiwan-Golden-Melody-Awards-29/best-taiwanese-album.jpg`)
-      }
-    ]
+    cardArray: data
   };
   componentDidMount() {
     this.setState({
@@ -174,6 +128,7 @@ export default class GMA29 extends Component {
                 id={id}
                 key={id}
                 bg={card.bg}
+                lastScrollPos={this.state.lastScrollPos}
                 isToggle={this.state.isToggle}
                 toggleCardId={this.state.toggleCardId}
                 handleToggle={this.toggleCard}

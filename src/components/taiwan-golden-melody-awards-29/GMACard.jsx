@@ -24,16 +24,20 @@ const CardWrapper = styled.div`
   text-align: right;
   text-align: -webkit-right;
   transition: height 0.35s ease;
-  z-index: ${props => (props.isToggle ? 2 : 1)};
+  z-index: 1;
+  transform: rotateX(-25deg) translateX(${props => `${1}rem`});
+  transition: height 0s ease, opacity 0.2s linear;
+  opacity: 1;
+
+  &.active {
+    transform: rotateX(0deg) translateX(${props => `${0}rem`});
+    z-index: 9998;
+  }
 
   &.nonactive {
-    height: 0px;
-    opacity: 1;
-    transform: translateX(100%);
-
-    > .expand-card {
-      top: -100px;
-    }
+    height: 0;
+    opacity: 0;
+    transition: height 0.5s ease, opacity 0.2s linear;
   }
 `;
 
@@ -45,11 +49,14 @@ const Card = styled.div`
   border-radius: 10px;
   font-size: 24px;
   line-height: 1;
+  position: relative;
+
   filter: grayscale(95%);
   transition: all 0.3s ease;
-  transform: rotateX(-25deg) translateX(${props => `${1}rem`});
+  box-shadow: -2px 5px 10px rgba(0, 0, 0, 0);
 
-  &:hover {
+  &:hover,
+  &:focus {
     transition: all 0.3s ease;
     box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.35);
     filter: grayscale(0%);
@@ -100,26 +107,35 @@ const ExpandCard = styled.div`
   }
   display: flex;
   flex-direction: column;
-  position: absolute;
-  left: 0;
-  top: 0;
 `;
+
 export default class GMA29 extends Component {
   state = {
-    currentState: `normal`
+    currentState: `normal`,
+    lastScrollPos: 0
   };
   componentDidMount() {}
   toggleCard = id => {
+    let nextState = transition(this.state.currentState, `CLICK`);
     // flipping
     flipping.read();
+    document.getElementById(`GMA29`).setAttribute("data-state", nextState);
     document
-      .getElementById(`GMA29`)
-      .setAttribute("data-state", transition(this.state.currentState, `CLICK`));
+      .getElementsByClassName(`cards`)[0]
+      .setAttribute("data-state", nextState);
     flipping.flip();
+
     // update state
     this.props.handleToggle(id);
+
+    // adjust position
+    let lastScrollPos = document.getElementsByClassName(`cards`)[0].scrollTop;
+    document.getElementsByClassName(`cards`)[0].scrollTop =
+      nextState === `normal` ? this.state.lastScrollPos : 0;
+
     this.setState({
-      currentState: transition(this.state.currentState, `CLICK`)
+      lastScrollPos,
+      currentState: nextState
     });
   };
   render() {
@@ -132,7 +148,6 @@ export default class GMA29 extends Component {
               : `nonactive cardwrapper`
             : `cardwrapper`
         }
-        isToggle={this.props.isToggle}
       >
         <Card
           className={`card`}
