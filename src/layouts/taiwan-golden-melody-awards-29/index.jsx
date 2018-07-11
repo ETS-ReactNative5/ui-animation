@@ -128,9 +128,9 @@ const Cards = styled.div`
 
 export default class GMA29 extends Component {
   state = {
-    currentState: `normal`,
-    isToggle: false,
-    toggleCardId: null,
+    currentState: `expand`,
+    isToggle: true,
+    toggleCardId: 0,
     containerHeight: 400
   };
   componentDidMount() {
@@ -180,7 +180,7 @@ export default class GMA29 extends Component {
               <GMACard
                 id={id}
                 key={id}
-                bg={card.bg}
+                card={card}
                 lastScrollPos={this.state.lastScrollPos}
                 isToggle={this.state.isToggle}
                 toggleCardId={this.state.toggleCardId}
