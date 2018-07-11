@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Play } from "react-feather";
 
 const CardWrapper = styled.div`
   width: 100%;
@@ -93,6 +94,30 @@ const ExpandCard = styled.div`
   }
 `;
 
+const PlaySection = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+const PlayBtn = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 0px solid var(--GMA29-black);
+  background: var(--GMA29-CI);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > svg {
+    margin-left: 2.5px;
+    fill: white;
+    stroke: white;
+  }
+`;
 export default class GMA29 extends Component {
   state = {
     lastScrollPos: 0
@@ -136,7 +161,13 @@ export default class GMA29 extends Component {
         >
           <div className="bg" data-flip-key={`bg-${this.props.id}`} />
           <div className="img" data-flip-key={`img-${this.props.id}`} />
-          <div className="expand-content">content {this.props.id}</div>
+          <div className="expand-content">
+            <PlaySection>
+              <PlayBtn>
+                <Play size={20} />
+              </PlayBtn>
+            </PlaySection>
+          </div>
         </ExpandCard>
       </CardWrapper>
     );

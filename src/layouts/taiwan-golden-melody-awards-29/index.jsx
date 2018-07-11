@@ -9,7 +9,7 @@ import Flipping from "flipping/dist/flipping.web.js";
 const flipping = new Flipping();
 
 const machine = {
-  initial: "normal",
+  initial: "expand",
   states: {
     normal: {
       on: { CLICK: "expand" }
@@ -128,9 +128,9 @@ const Cards = styled.div`
 
 export default class GMA29 extends Component {
   state = {
-    currentState: `normal`,
-    isToggle: false,
-    toggleCardId: null,
+    currentState: `expand`,
+    isToggle: true,
+    toggleCardId: 0,
     containerHeight: 400
   };
   componentDidMount() {
@@ -163,7 +163,7 @@ export default class GMA29 extends Component {
           title={`Taiwan Golden Melody Awards #29`}
         />
 
-        <GMAContainer id="GMA29" data-state={`normal`}>
+        <GMAContainer id="GMA29" data-state={this.state.currentState}>
           <Title className="title" data-flip-key={`title`}>
             {this.state.currentState === `normal` ? (
               <h1>#GMA29</h1>
