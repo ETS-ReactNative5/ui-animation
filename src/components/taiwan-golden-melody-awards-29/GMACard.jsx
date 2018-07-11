@@ -86,6 +86,7 @@ const ExpandCard = styled.div`
 
   > .expand-content {
     flex: 1;
+    overflow-y: scroll;
   }
 
   .bg {
@@ -106,17 +107,58 @@ const PlayBtn = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 0px solid var(--GMA29-black);
-  background: var(--GMA29-CI);
+  border: 1.5px solid var(--GMA29-black);
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
 
   > svg {
-    margin-left: 2.5px;
+    margin-left: 2.75px;
     fill: white;
-    stroke: white;
+    stroke: var(--GMA29-black);
   }
+`;
+
+const ListSection = styled.div`
+  text-align: left;
+  padding: 15px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1;
+  }
+  h3 {
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0.7;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 5px 0 0 3px;
+    text-transform: uppercase;
+  }
+`;
+
+const List = styled.div`
+  margin-top: 10px;
+  display: flex;
+  overflow: scroll;
+  width: 100%;
+
+  > div {
+    width: auto;
+    display: flex;
+  }
+`;
+
+const Box = styled.div`
+  width: ${props => (props.width ? props.width : `320px`)};
+  height: ${props => (props.height ? props.height : `180px`)};
+  border-radius: 5px;
+  background: linear-gradient(to bottom left, #eee, #ddd);
+  margin-right: 10px;
 `;
 export default class GMA29 extends Component {
   state = {
@@ -167,6 +209,42 @@ export default class GMA29 extends Component {
                 <Play size={20} />
               </PlayBtn>
             </PlaySection>
+
+            <ListSection>
+              <h2>介紹</h2>
+              <h3>intro</h3>
+              <List>
+                <div>
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                </div>
+              </List>
+            </ListSection>
+
+            <ListSection>
+              <h2>製作團隊</h2>
+              <h3>Credit list</h3>
+              <List>
+                <div>
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                </div>
+              </List>
+            </ListSection>
+
+            <ListSection>
+              <h2>入圍作品</h2>
+              <h3>Credit list</h3>
+              <List>
+                <div>
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                  <Box width={`320px`} height={`180px`} />
+                </div>
+              </List>
+            </ListSection>
           </div>
         </ExpandCard>
       </CardWrapper>

@@ -9,7 +9,7 @@ import Flipping from "flipping/dist/flipping.web.js";
 const flipping = new Flipping();
 
 const machine = {
-  initial: "expand",
+  initial: "normal",
   states: {
     normal: {
       on: { CLICK: "expand" }
@@ -128,9 +128,9 @@ const Cards = styled.div`
 
 export default class GMA29 extends Component {
   state = {
-    currentState: `expand`,
-    isToggle: true,
-    toggleCardId: 0,
+    currentState: `normal`,
+    isToggle: false,
+    toggleCardId: null,
     containerHeight: 400
   };
   componentDidMount() {
