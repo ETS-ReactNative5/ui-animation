@@ -261,7 +261,7 @@ const FakeText = styled.div`
   height: 12px;
   background: #ddd;
   border-radius: 5px;
-  margin-top: 5px;
+  margin: ${props => props.margin ? props.margin : `5px 0`};
 `;
 
 export default class GMA29 extends Component {
@@ -375,51 +375,14 @@ export default class GMA29 extends Component {
                     boxShadow={`none`}
                   >
                     <CreditList>
-                      <li>
-                        <strong>客戶 Client：</strong>文化部 Ministry of Culture
-                      </li>
-                      <li>
-                        <strong>典禮總統籌 Event Production：</strong>源活 YOUNG
-                        HOPE
-                      </li>
-                      <li>
-                        <strong>視覺總監 Executive Creative Director：</strong>羅申駿
-                        JL
-                      </li>
-                      <li>
-                        <strong>視覺影像統籌 Creative Agency：</strong>JL DESIGN
-                      </li>
-                      <li>
-                        <strong>監製 Executive Producer：</strong>巫安琪 Angela
-                        Moo、蔡卓翰 Johan Tsai
-                      </li>
-                      <li>
-                        <strong>專案總監 Head of Project Management：</strong>蔡佳穎
-                        Chia Ying Tsai
-                      </li>
-                      <li>
-                        <strong>創意總監 Creative Director：</strong>蔡旻驊
-                        David Tsai
-                      </li>
-                      <li>
-                        <strong>美術指導 Art Director：</strong>魏良恩 Lance
-                        Wei、洪湘茹 Hsiang Ju Hung
-                      </li>
-                      <li>
-                        <strong>製作統籌 Project Manager：</strong>林志翰 Ryan
-                        Lin
-                      </li>
+                      {this.props.card.creditList.map((c, id) => (
+                        <li key={id}>
+                          <strong>{c.name}</strong>{c.value}
+                        </li>
+                      ))}
+                      {new Array(6).fill(0).map((f, id) => <FakeText key={id} margin={`7.5px 0`}/>)}
                     </CreditList>
 
-                    <CreditList>
-                      <li>
-                        <strong>製作群 Production Staff：</strong>王日暄 Sandy
-                        Wang、關穎儀 Wingyee Kwan、陳品聿 Carol Chen、張玉典 Dan
-                        Zhang、吳欣鎂 XingMei Wu、方智弘 Ivan Fang、張泰軒 Ted
-                        Zhang、盧廷禹 Neil Lu、蔡佩君 Patty Tsai、黃婷鈺 Tingyu
-                        Huang
-                      </li>
-                    </CreditList>
                   </Box>
                 </div>
               </List>

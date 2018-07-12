@@ -39,6 +39,20 @@ export const data = [
         brief: `Jim Hsu，吉姆許，動態圖像設計師。大學畢業後赴美探險，從財金人轉投胎成設計人，偏愛結合2D與3D的動態圖像設計，現正燃燒熱情自由接案中。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/best-arrangement-designer/2.jpg`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   },
   {
@@ -77,6 +91,20 @@ export const data = [
         brief: `動態影像設計師，曾執行過演唱會視覺、MV、廣告、動畫影集等，充滿好奇心也勇於挑戰新事物，相信視覺設計即是世界共通的語言。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/best-female-taiwanese-singer-designer/2.jpg`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   },
   {
@@ -118,6 +146,20 @@ export const data = [
         brief: `動態設計師，自由工作者，影像教育家。擅長動態設計及角色動畫。網站 Motioner.tw 發起人，現為 AE/MG 交流版版主。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/song-of-the-year-designer/2.png`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   },
   {
@@ -156,6 +198,20 @@ export const data = [
         brief: `Julia Yellow 是現居於紐約的台灣插畫家，善於用細膩的筆觸繪出有涵意的插圖。與 Ned 不僅是此動畫的合作夥伴，也是人生的伴侶。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/best-lyrics-designer/2.jpg`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   },
   {
@@ -197,6 +253,20 @@ export const data = [
         brief: `Jim Hsu，吉姆許，動態圖像設計師。大學畢業後赴美探險，從財金人轉投胎成設計人，偏愛結合2D與3D的動態圖像設計，現正燃燒熱情自由接案中。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/best-mandarin-album-designer/2.png`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   },
   {
@@ -235,6 +305,20 @@ export const data = [
         brief: `MixCode Studio 於2013年成立至今。充滿活力 ，持續好奇，永保幽默的有機體。我們由富有創造力的一群人組成，擅長混合不同的創意與元素，進而融入視覺體驗中，如果您對我們的作品感興趣，歡迎隨時與我們聯繫，我們願意與您共同創造驚奇的成果。`,
         src: require(`assets/Taiwan-Golden-Melody-Awards-29/best-taiwanese-album-designer/2.jpg`)
       }
+    ],
+    creditList: [
+      {
+        name: `客戶 Client：`,
+        value: `文化部 Ministry of Culture`
+      },
+      {
+        name: `典禮總統籌 Event Production：`,
+        value: `源活 YOUNG HOPE`
+      },
+      {
+        name: `視覺總監 Executive Creative Director：`,
+        value: `羅申駿 JL`
+      },
     ]
   }
 ];
