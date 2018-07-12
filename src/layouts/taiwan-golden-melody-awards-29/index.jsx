@@ -40,15 +40,20 @@ const GMAContainer = styled.section`
   width: var(--GMA29-app-width);
   border-radius: 10px;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.24);
+  transform: scale(0.8);
 
   overflow: hidden;
   background: #efefef;
   display: flex;
 
+  @media screen and (min-width: 900px) and (min-width: 1440px) {
+    transform: scale(1);
+  }
   @media screen and (max-width: 768px) {
     height: 100vh;
     width: 100vw;
     border-radius: 0px;
+    transform: scale(1);
   }
 
   .card,

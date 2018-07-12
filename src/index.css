@@ -3,12 +3,13 @@
   --horizontalMap-app-width: 40vh;
   --horizontalMap-app-height: 80vh;
 
-  --GMA29-app-width: 40vh;
-  --GMA29-app-height: calc(40vh * 16 / 9);
+  --GMA29-app-width: 400px;
+  --GMA29-app-height: 711px;
   --GMA29-black: #50514f;
   --GMA29-CI: #ff0;
   --GMA29-content-bg: #fff;
 }
+
 *,
 *:before,
 *:after {

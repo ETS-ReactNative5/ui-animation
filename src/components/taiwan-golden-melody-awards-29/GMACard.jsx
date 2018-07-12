@@ -28,8 +28,11 @@ const rotate = keyframes`
 const CardWrapper = styled.div`
   width: 100%;
   height: 100px;
-  text-align: right;
-  text-align: -webkit-right;
+
+  display: flex;
+  justify-content: flex-end;
+  // text-align: right;
+  // text-align: -webkit-right;
   transition: height 0.35s ease;
   z-index: 1;
   transform: rotateX(-25deg) translateX(${props => `${1}rem`});
@@ -206,7 +209,7 @@ const List = styled.div`
 
 const Box = styled.div`
   width: ${props => (props.w ? props.w : `320px`)};
-  height: ${props => (props.h ? props.h : `180px`)};
+  height: ${props => (props.h ? props.h : `200px`)};
   border-radius: 5px;
   background: ${props =>
     props.src ? props.src : `linear-gradient(to bottom left, #eee, #ddd);`};
@@ -275,8 +278,20 @@ const Designer = styled.div`
 
       overflow: hidden;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+
+      height: 3.6em;
+      line-height: 1.25;
+      position: relative;
+      &:after {
+          content: '';
+          text-align: right;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 10%;
+          height: 1.25em;
+          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+      }
     }
   }
 `;
@@ -357,12 +372,12 @@ export default class GMA29 extends Component {
                       ))}
                     </DesignerList>
                   </Box>
-                  <Box w={`320px`} h={`180px`} src={`white`}>
+                  <Box w={`320px`} h={`200px`} src={`white`}>
                     <CreditList justify={`space-between`} h={`100%`}>
                       {new Array(6).fill(0).map((f, id) => <FakeText key={id}/>)}
                     </CreditList>
                   </Box>
-                  <Box w={`320px`} h={`180px`} src={`white`}>
+                  <Box w={`320px`} h={`200px`} src={`white`}>
                     <CreditList justify={`space-between`} h={`100%`}>
                       {new Array(6).fill(0).map((f, id) => <FakeText key={id}/>)}
                     </CreditList>
@@ -380,7 +395,7 @@ export default class GMA29 extends Component {
                     <Box
                       key={id}
                       w={`320px`}
-                      h={`180px`}
+                      h={`200px`}
                       src={`url('${n.src}')`}
                     />
                   ))}
