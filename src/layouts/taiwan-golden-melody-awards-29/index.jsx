@@ -169,9 +169,9 @@ export default class GMA29 extends Component {
               <h1>#GMA29</h1>
             ) : (
               <AwardTitle>
-                <h1 className="bold">#你過生活，我找快活</h1>
-                <h1>SONG OF THE YEAR</h1>
-                <h1>年度歌曲</h1>
+                <h1 className="bold">{data[this.state.toggleCardId]['quote'][0]}</h1>
+                <h1>{data[this.state.toggleCardId]['quote'][1]}</h1>
+                <h1>{data[this.state.toggleCardId]['quote'][2]}</h1>
               </AwardTitle>
             )}
           </Title>

@@ -198,7 +198,8 @@ const CreditList = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: ${props => props.justify ? props.justify : `flex-start`};
+  height: ${props => props.h ? props.h : `auto`};
 
   > li {
     list-style: none;
@@ -254,6 +255,15 @@ const Designer = styled.div`
     }
   }
 `;
+
+const FakeText = styled.div`
+  width: 100%;
+  height: 12px;
+  background: #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+`;
+
 export default class GMA29 extends Component {
   state = {
     lastScrollPos: 0
@@ -323,18 +333,13 @@ export default class GMA29 extends Component {
                     </DesignerList>
                   </Box>
                   <Box w={`320px`} h={`180px`} src={`white`}>
-                    <CreditList>
-                      <li>
-                        You are what you eat.
-                        片頭配樂選用脆樂團《都加了什麼》，其中悄悄話般的歌詞，宛如食安問題隱微卻漫步在生活各角落的狀態，也象徵編曲製作內容充滿各式隱微細節。影片音場音場置身於類似畫面中擁有水泥牆壁的實驗室中呈現明亮而清晰效果，並選用各式料理過程中會出現的聲響，刀落在粘版下切菜的節奏、油鍋、水煮、柴米油鹽醬醋煎煮炒炸的餐飲日常，透過生活中的細節聲音體驗營造餐飲與化學添加物的衝突感。
-                      </li>
+                    <CreditList justify={`space-between`} h={`100%`}>
+                      {new Array(6).fill(0).map((f, id) => <FakeText key={id}/>)}
                     </CreditList>
                   </Box>
                   <Box w={`320px`} h={`180px`} src={`white`}>
-                    <CreditList>
-                      <li>
-                        影片主角烹調料理細細呈現食品安全在當代台灣面臨的問題，如何在飲食中真正健康且尊重自己身體的需求？吃下肚的怎能沒有良心？怎能對添加物與黑心食品輕易妥協？食物建構了我們的生活、我們的家，我們的未來。
-                      </li>
+                    <CreditList justify={`space-between`} h={`100%`}>
+                      {new Array(6).fill(0).map((f, id) => <FakeText key={id}/>)}
                     </CreditList>
                   </Box>
                 </div>
