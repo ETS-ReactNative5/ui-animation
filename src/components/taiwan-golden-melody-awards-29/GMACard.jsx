@@ -50,7 +50,7 @@ const CardWrapper = styled.div`
 
 const Card = styled.div`
   width: 90%;
-  height: 180px;
+  height: calc(var(--GMA29-app-width) * 9 / 16 * 0.9);
   padding: 0;
   margin: 0;
   border-radius: 10px;
@@ -62,6 +62,11 @@ const Card = styled.div`
   transition: all 0.3s ease;
   box-shadow: -2px 5px 10px rgba(0, 0, 0, 0);
 
+  @media screen and (max-width: 768px) {
+    width: 90vw;
+    height: calc(90vw * 9 / 16);
+  }
+
   &:hover,
   &:focus {
     transition: all 0.3s ease;
@@ -70,8 +75,9 @@ const Card = styled.div`
   }
 
   > .img {
-    height: 180px;
     width: 100%;
+    height: calc(var(--GMA29-app-width) * 9 / 16 * 0.9);
+
     border-radius: 10px;
     background: ${props =>
       props.bgSrc
@@ -80,6 +86,11 @@ const Card = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media screen and (max-width: 768px) {
+      width: 90vw;
+      height: calc(90vw * 9 / 16);
+    }
   }
 
   .bg {
@@ -105,6 +116,11 @@ const ExpandCard = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media screen and (max-width: 768px) {
+      height: calc(100vw * 9 / 16);
+      width: 100vw;
+    }
   }
 
   > .expand-content {
@@ -115,6 +131,10 @@ const ExpandCard = styled.div`
   .bg {
     border-radius: 0px;
     background: var(--GMA29-content-bg);
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 100vh;
   }
 `;
 
@@ -163,6 +183,11 @@ const ListSection = styled.div`
     letter-spacing: 1px;
     margin: 5px 0 0 3px;
     text-transform: uppercase;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    padding: 15px 0 15px 15px;
   }
 `;
 

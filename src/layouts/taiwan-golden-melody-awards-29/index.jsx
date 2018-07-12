@@ -31,7 +31,7 @@ const Section = styled.section`
 
   @media screen and (max-width: 768px) {
     height: 100vh;
-    padding: 0;
+    padding: 0 !important;
   }
 `;
 
@@ -48,6 +48,7 @@ const GMAContainer = styled.section`
   @media screen and (max-width: 768px) {
     height: 100vh;
     width: 100vw;
+    border-radius: 0px;
   }
 
   .card,
