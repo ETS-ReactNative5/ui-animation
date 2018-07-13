@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import { Play } from "react-feather";
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-74093364-19')
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 const fadeIn = keyframes`
   0% {
@@ -70,13 +73,14 @@ const Card = styled.div`
     height: calc(90vw * 9 / 16);
   }
 
-  &:hover,
-  &:focus {
-    transition: all 0.3s ease;
-    box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.35);
-    filter: grayscale(0%);
-  }
 
+  @media (hover: hover) {
+    &:hover {
+      transition: all 0.3s ease;
+      box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.35);
+      filter: grayscale(0%);
+    }
+  }
   > .img {
     width: 100%;
     height: calc(var(--GMA29-app-width) * 9 / 16 * 0.9);
@@ -318,6 +322,11 @@ export default class GMA29 extends Component {
     this.setState({ lastScrollPos });
     // update state
     this.props.handleToggle(id);
+
+    ReactGA.event({
+      category: '2',
+      action: `toggleCard: #${id + 1}`
+    });
   };
   render() {
     return (

@@ -9,7 +9,7 @@ import Flipping from "flipping/dist/flipping.web.js";
 const flipping = new Flipping();
 
 const machine = {
-  initial: "normal",
+  initial: "expand",
   states: {
     normal: {
       on: { CLICK: "expand" }
