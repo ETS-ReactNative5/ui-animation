@@ -73,6 +73,7 @@ const Card = styled.div`
     height: calc(90vw * 9 / 16);
   }
 
+  cursor: pointer;
 
   @media (hover: hover) {
     &:hover {
@@ -123,6 +124,7 @@ const ExpandCard = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    cursor: pointer;
 
     @media screen and (max-width: 768px) {
       height: calc(100vw * 9 / 16);
