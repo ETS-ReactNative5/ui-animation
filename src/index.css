@@ -1,4 +1,6 @@
 :root {
+  --default-iphone-width: 375px;
+  --default-iphone-height: 667px;
   --horizontalMap-orange: #ffa268;
   --horizontalMap-app-width: 40vh;
   --horizontalMap-app-height: 80vh;
