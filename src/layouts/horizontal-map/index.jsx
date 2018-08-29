@@ -16,7 +16,7 @@ const Section = styled.section`
 
   @media screen and (max-width: 768px) {
     height: 100vh;
-    padding: 0;
+    padding: 0 !important;
   }
 `;
 const Wrapper = styled.div`
@@ -52,7 +52,7 @@ const ContentWrapper = styled.div`
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0;
+  padding: 0 !important;
 
   .swiperWrapper {
     width: 100%;
