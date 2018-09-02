@@ -4,6 +4,7 @@ import Hammer from "hammerjs";
 import Rx from 'rxjs/Rx';
 import RxCSS from 'rxcss'
 import Tag from 'components/gogoro/Tag'
+import _ from 'lodash'
 
 const CarInfoWrapper = styled.div`
   position: absolute;
@@ -67,7 +68,7 @@ export default class Info extends React.Component {
     threshold: 150,
     init: 100,
     expand: 550,
-    color: [`white`, `#FF6D6D`, `#FFA06D`, `#6DE1FF`, `#FFE26D`, `#000000`]
+    type: this.props.data
   }
 
   componentDidMount () {
@@ -135,19 +136,23 @@ export default class Info extends React.Component {
       gogoro: gogoro$
     })
   }
-  
+
+  toggleColor = (id) => {
+    console.log(id)
+    this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
+  }
   render () {
     return (
       <CarInfoWrapper className="infoContainer">
         <CarInfo className="info">
           <Header>
             <h3>Gogoro 1 Plus</h3>
-            <Tag bgColor={`#50514F`} text={`熱賣中`}/>
+            <Tag bgColor={``} text={`熱賣中`}/>
           </Header>
           <Price>$108,000</Price>
           <Colors>
             {
-              this.state.color.map((c) => <Dot key={c} color={c}></Dot>)
+              _.map(this.state.type, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
             }
           </Colors>
         </CarInfo>

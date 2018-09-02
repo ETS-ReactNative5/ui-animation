@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Header from "components/header";
 import "bulma/css/bulma.css"
 import CarInfo from 'components/gogoro/Info'
+import { Gogoro } from './data.js';
+import _ from 'lodash'
 
 const Section = styled.section`
   height: 100%;
@@ -27,8 +29,10 @@ const Wrapper = styled.div`
 const CarContainer = styled.div`
   width: 100%;
   height: 100%;
-  background: #FFDA56;
+  background: ${props => props.bgColor ? props.bgColor : '#FFDA56'};
   position: relative;
+
+  transition: background 0.2s ease;
 `
 const CarGallery = styled.div`
   width: 100%;
@@ -51,7 +55,18 @@ const PictureWrapper = styled.div`
 `
 
 export default class GogoroMarket extends React.Component {
+  state = {
+    type: `gp1`,
+    color: `white`,
+    bgColor: `#FFDA56`
+  }
+  onChange = (data) => {
+    let { type, color, bgColor } = data
+    this.setState({type, color, bgColor})
+  }
   render () {
+    let { type, color, bgColor } = this.state
+    console.log(this.state)
     return (
         <Section className="section">
           <Header
@@ -61,17 +76,17 @@ export default class GogoroMarket extends React.Component {
           />
 
           <Wrapper className="wrapper">
-            <CarContainer>
+            <CarContainer bgColor={bgColor}>
               <CarGallery>
                 <PictureWrapper>
-                  <img src={require(`assets/gogoro/g-a1-base.png`)}/>
-                  <img src={require(`assets/gogoro/g-a1-seatex-stdwhite.png`)} />
-                  <img src={require(`assets/gogoro/g-a1-shellf-stdwhite.png`)} />
-                  <img src={require(`assets/gogoro/g-a1-visor-std.png`)} />
+                  {
+                    _.map(Gogoro[type][color][`img`], (i) => 
+                      <img key={i} src={i} alt={i}/>
+                    )
+                  }
                 </PictureWrapper>
               </CarGallery>
-
-              <CarInfo />
+              <CarInfo data={Gogoro[type]} onChange={(data) => this.onChange(data)}/>
             </CarContainer>
           </Wrapper>
         </Section>    
