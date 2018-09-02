@@ -66,7 +66,6 @@ export default class GogoroMarket extends React.Component {
   }
   render () {
     let { type, color, bgColor } = this.state
-    console.log(this.state)
     return (
         <Section className="section">
           <Header
@@ -86,7 +85,7 @@ export default class GogoroMarket extends React.Component {
                   }
                 </PictureWrapper>
               </CarGallery>
-              <CarInfo data={Gogoro[type]} onChange={(data) => this.onChange(data)}/>
+              <CarInfo data={Gogoro[type]} color={color} onChange={(data) => this.onChange(data)}/>
             </CarContainer>
           </Wrapper>
         </Section>    

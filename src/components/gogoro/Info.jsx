@@ -1,9 +1,10 @@
 import React from 'react'
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Hammer from "hammerjs";
 import Rx from 'rxjs/Rx';
 import RxCSS from 'rxcss'
 import Tag from 'components/gogoro/Tag'
+import InfoList from 'components/gogoro/InfoList'
 import _ from 'lodash'
 
 const CarInfoWrapper = styled.div`
@@ -26,9 +27,11 @@ const CarInfo = styled.div`
   background: white;
   cursor: -webkit-grab;
   transition: height 0.15s ease;
+  overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
+  &.expand {
+    overflow: scroll;
+  }
 `
 
 const Header = styled.div`
@@ -68,7 +71,8 @@ export default class Info extends React.Component {
     threshold: 150,
     init: 100,
     expand: 550,
-    type: this.props.data
+    type: this.props.data,
+    color: this.props.color
   }
 
   componentDidMount () {
@@ -138,23 +142,28 @@ export default class Info extends React.Component {
   }
 
   toggleColor = (id) => {
-    console.log(id)
     this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
   }
   render () {
+    let {type, color } = this.state
     return (
       <CarInfoWrapper className="infoContainer">
         <CarInfo className="info">
-          <Header>
-            <h3>Gogoro 1 Plus</h3>
-            <Tag bgColor={``} text={`熱賣中`}/>
-          </Header>
-          <Price>$108,000</Price>
-          <Colors>
-            {
-              _.map(this.state.type, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
-            }
-          </Colors>
+          <div>
+            <Header>
+              <h3>Gogoro 1 Plus</h3>
+              <Tag bgColor={``} text={`熱賣中`}/>
+            </Header>
+            <Price>$108,000</Price>
+            <Colors>
+              {
+                _.map(type, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
+              }
+            </Colors>
+          </div>
+          <div>
+            <InfoList title={`關於 About`} data={type[color][`feature`]}/>
+          </div>
         </CarInfo>
       </CarInfoWrapper>   
     )

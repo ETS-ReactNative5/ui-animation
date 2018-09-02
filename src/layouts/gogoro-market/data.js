@@ -8,6 +8,11 @@ export const Gogoro = {
         require('assets/gogoro/g1p/white/g-a1-seatex-stdwhite.png'),
         require('assets/gogoro/g1p/white/g-a1-shellf-stdwhite.png'),
         require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+      ],
+      feature: [
+        require('assets/gogoro/g1p/gp-feature-02.jpg'),
+        require('assets/gogoro/g1p/gp-feature-04.jpg'),
+        require('assets/gogoro/g1p/gp-feature-07.jpg')
       ]
     },
     orange: {
