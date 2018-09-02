@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 import Header from "components/header";
 import "bulma/css/bulma.css"
+import CarInfo from 'components/gogoro/Info'
 
 const Section = styled.section`
   height: 100%;
@@ -44,26 +45,11 @@ const PictureWrapper = styled.div`
     width: 100%;
     height: auto;
     top: 50%;
-    transform: translateY(-50%) scale(1.25);
+    user-select: none;
+    transform: translateY(-50%) scale(var(--gogoro-scale));
   }
 `
-const CarInfo = styled.div`
-  position: absolute;
-  height: 100px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  /* this can be change */
-  padding: 10px;
-  bottom: 0px;
 
-  .info {
-    width: 100%;
-    height: 100%;
-    border-radius: 12.5px;
-    background: white;
-  }
-`
 export default class GogoroMarket extends React.Component {
   render () {
     return (
@@ -74,7 +60,7 @@ export default class GogoroMarket extends React.Component {
             title={`Gogoro-market`}
           />
 
-          <Wrapper>
+          <Wrapper className="wrapper">
             <CarContainer>
               <CarGallery>
                 <PictureWrapper>
@@ -85,9 +71,7 @@ export default class GogoroMarket extends React.Component {
                 </PictureWrapper>
               </CarGallery>
 
-              <CarInfo>
-                <div className="info"></div>
-              </CarInfo>
+              <CarInfo />
             </CarContainer>
           </Wrapper>
         </Section>    
