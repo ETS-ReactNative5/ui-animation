@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Hammer from "hammerjs";
 import Rx from 'rxjs/Rx';
 import RxCSS from 'rxcss'
@@ -20,11 +20,13 @@ const CarInfoWrapper = styled.div`
 `
 const CarInfo = styled.div`
   width: 100%;
-  min-height: 100px;
+  min-height: 150px;
   height: calc(var(--gogoro-infoHeight));
   padding: 10px 15px;
   border-radius: 12.5px;
   background: white;
+  position: relative;
+
   cursor: -webkit-grab;
   transition: height 0.15s ease;
   overflow: hidden;
@@ -44,12 +46,6 @@ const Header = styled.div`
     color: #222;
   }
 `
-const Price = styled.span`
-  margin: 4px 0;
-  font-size: 14px;
-  color: #444;
-`
-
 const Colors = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -65,6 +61,50 @@ const Dot = styled.div`
   border: 1px solid ${props => props.color === `white` ? `#ddd` : props.color };
   background: ${props => props.color};
   cursor: pointer;
+`
+const Content = styled.div`
+`
+const BuyCarSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 60px;
+  border-top: 1px solid rgb(235, 235, 235);
+  border-bottom-left-radius: 12.5px;
+  border-bottom-right-radius: 12.5px;
+  background: white;
+  cursor: default;
+`
+const BuyButton = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  font-size: 16px;
+  padding: 12px 8px;
+  border-radius: 4px;
+  color: white;
+  background: ${props => props.color ? props.color : `#A61D55`};
+`
+const Price = styled.div`
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
+
+  flex: 1;
+`
+
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: rgb(235, 235, 235) !important;
+  margin: 20px 0;
 `
 export default class Info extends React.Component {
   state = {
@@ -154,16 +194,20 @@ export default class Info extends React.Component {
               <h3>Gogoro 1 Plus</h3>
               <Tag bgColor={``} text={`熱賣中`}/>
             </Header>
-            <Price>$108,000</Price>
             <Colors>
               {
                 _.map(type, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
               }
             </Colors>
           </div>
-          <div>
+          <Divider />
+          <Content>
             <InfoList title={`關於 About`} data={type[color][`feature`]}/>
-          </div>
+          </Content>
+          <BuyCarSection>
+            <Price>$108,000</Price>
+            <BuyButton color={`linear-gradient(135deg, #33FC74, #43D8FF)`}>預定</BuyButton>
+          </BuyCarSection>
         </CarInfo>
       </CarInfoWrapper>   
     )

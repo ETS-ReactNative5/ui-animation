@@ -73,7 +73,6 @@ export default class GogoroMarket extends React.Component {
             counter={3}
             title={`Gogoro-market`}
           />
-
           <Wrapper className="wrapper">
             <CarContainer bgColor={bgColor}>
               <CarGallery>
