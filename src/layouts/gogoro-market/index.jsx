@@ -5,6 +5,7 @@ import "bulma/css/bulma.css"
 import CarInfo from 'components/gogoro/Info'
 import { Gogoro } from './data.js';
 import _ from 'lodash'
+import Swiper from "react-id-swiper";
 
 const Section = styled.section`
   height: 100%;
@@ -37,12 +38,24 @@ const CarContainer = styled.div`
 const CarGallery = styled.div`
   width: 100%;
   height: 100%;
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .swiper-wrapper {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `
 
 const PictureWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
 
   img {
     position: absolute;
@@ -66,6 +79,20 @@ export default class GogoroMarket extends React.Component {
   }
   render () {
     let { type, color, bgColor } = this.state
+    const params = {
+      spaceBetween: this.state.isBoxExtends ? 0 : -75,
+      direction: 'vertical',
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      on: {
+        slideChange: () => {}
+      },
+      onInit: swiper => {
+        this.swiper = swiper;
+      }
+    };
     return (
         <Section className="section">
           <Header
@@ -75,15 +102,26 @@ export default class GogoroMarket extends React.Component {
           />
           <Wrapper className="wrapper">
             <CarContainer bgColor={bgColor}>
+              {/* CarGallery */}
               <CarGallery>
-                <PictureWrapper>
-                  {
-                    _.map(Gogoro[type][color][`img`], (i) => 
-                      <img key={i} src={i} alt={i}/>
-                    )
-                  }
-                </PictureWrapper>
+                <Swiper {...params}>
+                  <PictureWrapper>
+                    {
+                      _.map(Gogoro[type][color][`img`], (i) => 
+                        <img key={i} src={i} alt={i}/>
+                      )
+                    }
+                  </PictureWrapper>
+                  <PictureWrapper>
+                    {
+                      _.map(Gogoro[type][color][`img`], (i) => 
+                        <img key={i} src={i} alt={i}/>
+                      )
+                    }
+                  </PictureWrapper>
+                </Swiper>
               </CarGallery>
+              {/* Info */}
               <CarInfo data={Gogoro[type]} color={color} onChange={(data) => this.onChange(data)}/>
             </CarContainer>
           </Wrapper>
