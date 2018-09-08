@@ -16,7 +16,7 @@ const CarInfoWrapper = styled.div`
   /* this can be change */
   padding: 10px;
   bottom: 0px;
-
+  z-index: ${props => props.zIndex ? props.zIndex : 1};
 `
 const CarInfo = styled.div`
   width: 100%;
@@ -187,7 +187,7 @@ export default class Info extends React.Component {
   render () {
     let {type, color } = this.state
     return (
-      <CarInfoWrapper className="infoContainer">
+      <CarInfoWrapper className="infoContainer" zIndex={this.props.zIndex}>
         <CarInfo className="info">
           <div>
             <Header>

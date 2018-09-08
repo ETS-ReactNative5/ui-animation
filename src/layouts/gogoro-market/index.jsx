@@ -38,6 +38,8 @@ const CarContainer = styled.div`
 const CarGallery = styled.div`
   width: 100%;
   height: 100%;
+  z-index: 1;
+
   .swiper-container {
     width: 100%;
     height: 100%;
@@ -47,6 +49,25 @@ const CarGallery = styled.div`
     .swiper-wrapper {
       width: 100%;
       height: 100%;
+    }
+
+    .swiper-pagination  {
+      top: 5%;
+
+      .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 1px solid white;
+        margin: 8px 4px;
+        background: transparent;
+        border: 1px solid white;
+        opacity: .75;
+
+        &-active {
+          background: white;
+        }
+      }
     }
   }
 `
@@ -85,6 +106,9 @@ export default class GogoroMarket extends React.Component {
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
+        renderBullet: (index, className) => {
+          return `<span class="${className}"></span>`;
+        },
       },
       on: {
         slideChange: () => {}
@@ -122,7 +146,7 @@ export default class GogoroMarket extends React.Component {
                 </Swiper>
               </CarGallery>
               {/* Info */}
-              <CarInfo data={Gogoro[type]} color={color} onChange={(data) => this.onChange(data)}/>
+              <CarInfo zIndex={2} data={Gogoro[type]} color={color} onChange={(data) => this.onChange(data)}/>
             </CarContainer>
           </Wrapper>
         </Section>    
