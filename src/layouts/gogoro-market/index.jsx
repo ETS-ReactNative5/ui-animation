@@ -66,6 +66,7 @@ const CarGallery = styled.div`
 
         &-active {
           background: white;
+          opacity: 1;
         }
       }
     }
@@ -90,6 +91,8 @@ const PictureWrapper = styled.div`
 
 export default class GogoroMarket extends React.Component {
   state = {
+    swiper: null,
+    istoggle: false,
     type: `gp1`,
     color: `white`,
     bgColor: `#FFDA56`
@@ -97,6 +100,9 @@ export default class GogoroMarket extends React.Component {
   onChange = (data) => {
     let { type, color, bgColor } = data
     this.setState({type, color, bgColor})
+  }
+  swiperRef = ref => {
+    this.setState({ swiper: ref.swiper });
   }
   render () {
     let { type, color, bgColor } = this.state
@@ -111,7 +117,18 @@ export default class GogoroMarket extends React.Component {
         },
       },
       on: {
-        slideChange: () => {}
+        slideChange: () => {},
+        touchMove: (event) => {
+          let totalLen = 2
+          if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
+            let info = document.querySelector('.info');
+            if (!this.state.istoggle && !info.classList.contains(`expand`)) {
+              document.documentElement.style.setProperty('--gogoro-infoHeight', '550px'); 
+              document.querySelector('.info').classList.add('expand'); 
+            }
+            this.setState({ istoggle: !this.state.istoggle })
+          }
+        }
       },
       onInit: swiper => {
         this.swiper = swiper;
@@ -128,7 +145,7 @@ export default class GogoroMarket extends React.Component {
             <CarContainer bgColor={bgColor}>
               {/* CarGallery */}
               <CarGallery>
-                <Swiper {...params}>
+                <Swiper {...params} ref={this.swiperRef}>
                   <PictureWrapper>
                     {
                       _.map(Gogoro[type][color][`img`], (i) => 
@@ -146,7 +163,7 @@ export default class GogoroMarket extends React.Component {
                 </Swiper>
               </CarGallery>
               {/* Info */}
-              <CarInfo zIndex={2} data={Gogoro[type]} color={color} onChange={(data) => this.onChange(data)}/>
+              <CarInfo zIndex={2} data={Gogoro[type]} color={color} istoggle={this.state.istoggle} onChange={(data) => this.onChange(data)}/>
             </CarContainer>
           </Wrapper>
         </Section>    

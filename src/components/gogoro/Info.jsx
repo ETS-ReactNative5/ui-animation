@@ -68,14 +68,14 @@ const BuyCarSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 12px 12px;
 
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   min-height: 60px;
-  border-top: 1px solid rgb(235, 235, 235);
+  /* border-top: 1px solid rgb(235, 235, 235); */
   border-bottom-left-radius: 12.5px;
   border-bottom-right-radius: 12.5px;
   background: white;
@@ -106,17 +106,37 @@ const Divider = styled.div`
   background: rgb(235, 235, 235) !important;
   margin: 20px 0;
 `
+
+const CarBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
 export default class Info extends React.Component {
   state = {
     threshold: 150,
     init: 100,
     expand: 550,
     type: this.props.data,
-    color: this.props.color
+    color: this.props.color,
+    istoggle: false
   }
 
   componentDidMount () {
     this.setInfoDragger()
+  }
+  componentWillReceiveProps = nextProps => {
+    this.setState({ istoggle: nextProps.istoggle })
+  }
+  toggleInfo = () => {
+    let info = document.querySelector('.info');
+    if (!this.state.istoggle && !info.classList.contains(`expand`)) {
+      document.documentElement.style.setProperty('--gogoro-infoHeight', '550px'); 
+      document.querySelector('.info').classList.add('expand'); 
+    }
+    this.setState({ istoggle: !this.state.istoggle })
   }
   setInfoDragger = () => {
     const initialState = {
@@ -182,13 +202,14 @@ export default class Info extends React.Component {
   }
 
   toggleColor = (id) => {
+    console.log(`->`)
     this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
   }
   render () {
     let {type, color } = this.state
     return (
-      <CarInfoWrapper className="infoContainer" zIndex={this.props.zIndex}>
-        <CarInfo className="info">
+      <CarInfoWrapper className={`infoContainer`} zIndex={this.props.zIndex}>
+        <CarInfo className={`info`}>
           <div>
             <Header>
               <h3>Gogoro 1 Plus</h3>
