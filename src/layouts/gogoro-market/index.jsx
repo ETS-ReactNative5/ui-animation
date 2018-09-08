@@ -26,9 +26,40 @@ const Wrapper = styled.div`
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.24);
   /* may cause problem */
   overflow: hidden;
+
+  > .swiper-container {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 40px 10px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .swiper-slide  {
+      border-radius: 10px;
+    }
+    .row-swiper-pagination {
+      top: inherit;
+      bottom: 10px;
+      left: 5%;
+      width: 90%;
+      height: 6px;
+
+      display: flex;
+      justify-content: center;
+      font-weight: lighter;
+      font-size: 18px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.05);
+
+      span {
+        border-radius: 5px;
+        background: linear-gradient(135deg, #33FC74, #43D8FF);
+      }
+    }
+  }
 `
 const CarContainer = styled.div`
-  width: 100%;
+  width: 95%;
   height: 100%;
   background: ${props => props.bgColor ? props.bgColor : '#FFDA56'};
   position: relative;
@@ -55,8 +86,8 @@ const CarGallery = styled.div`
       top: 5%;
 
       .swiper-pagination-bullet {
-        width: 12px;
-        height: 12px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         border: 1px solid white;
         margin: 8px 4px;
@@ -117,7 +148,6 @@ export default class GogoroMarket extends React.Component {
         },
       },
       on: {
-        slideChange: () => {},
         touchMove: (event) => {
           let totalLen = 2
           if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
@@ -133,7 +163,15 @@ export default class GogoroMarket extends React.Component {
       onInit: swiper => {
         this.swiper = swiper;
       }
-    };
+    }
+    const RowParams = {
+      pagination: {
+        el: '.row-swiper-pagination',
+        type: 'progressbar',
+      },
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+    }
     return (
         <Section className="section">
           <Header
@@ -142,29 +180,35 @@ export default class GogoroMarket extends React.Component {
             title={`Gogoro-market`}
           />
           <Wrapper className="wrapper">
-            <CarContainer bgColor={bgColor}>
-              {/* CarGallery */}
-              <CarGallery>
-                <Swiper {...params} ref={this.swiperRef}>
-                  <PictureWrapper>
-                    {
-                      _.map(Gogoro[type][color][`img`], (i) => 
-                        <img key={i} src={i} alt={i}/>
-                      )
-                    }
-                  </PictureWrapper>
-                  <PictureWrapper>
-                    {
-                      _.map(Gogoro[type][color][`img`], (i) => 
-                        <img key={i} src={i} alt={i}/>
-                      )
-                    }
-                  </PictureWrapper>
-                </Swiper>
-              </CarGallery>
-              {/* Info */}
-              <CarInfo zIndex={2} data={Gogoro[type]} color={color} istoggle={this.state.istoggle} onChange={(data) => this.onChange(data)}/>
-            </CarContainer>
+            <Swiper {...RowParams}>
+              {
+                [0, 1, 2].map((d) => 
+                  <CarContainer key={d} bgColor={bgColor}>
+                    {/* CarGallery */}
+                    <CarGallery>
+                      <Swiper {...params} ref={this.swiperRef}>
+                        <PictureWrapper>
+                          {
+                            _.map(Gogoro[type][color][`img`], (i) => 
+                              <img key={i} src={i} alt={i}/>
+                            )
+                          }
+                        </PictureWrapper>
+                        <PictureWrapper>
+                          {
+                            _.map(Gogoro[type][color][`img`], (i) => 
+                              <img key={i} src={i} alt={i}/>
+                            )
+                          }
+                        </PictureWrapper>
+                      </Swiper>
+                    </CarGallery>
+                    {/* Info */}
+                    <CarInfo zIndex={2} data={Gogoro[type]} color={color} istoggle={this.state.istoggle} onChange={(data) => this.onChange(data)}/>
+                  </CarContainer>
+                )
+              }
+            </Swiper>
           </Wrapper>
         </Section>    
     )

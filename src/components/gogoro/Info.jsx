@@ -17,6 +17,8 @@ const CarInfoWrapper = styled.div`
   padding: 10px;
   bottom: 0px;
   z-index: ${props => props.zIndex ? props.zIndex : 1};
+
+  box-sizing: border-box;
 `
 const CarInfo = styled.div`
   width: 100%;
@@ -107,13 +109,13 @@ const Divider = styled.div`
   margin: 20px 0;
 `
 
-const CarBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`
+// const CarBackground = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+// `
 export default class Info extends React.Component {
   state = {
     threshold: 150,
