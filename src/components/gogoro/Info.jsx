@@ -204,7 +204,6 @@ export default class Info extends React.Component {
   }
 
   toggleColor = (id) => {
-    console.log(`->`)
     this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
   }
   render () {
