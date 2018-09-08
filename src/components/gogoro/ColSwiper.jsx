@@ -2,7 +2,57 @@ import React from "react";
 import Swiper from "react-id-swiper";
 import styled from "styled-components";
 import { Gogoro } from 'layouts/gogoro-market/data.js';
+import CarInfo from 'components/gogoro/Info';
 import _ from 'lodash'
+
+const CarContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background: ${props => props.bgColor ? props.bgColor : '#FFDA56'};
+  position: relative;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+`
+const CarGallery = styled.div`
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .swiper-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .swiper-pagination  {
+      top: 5%;
+
+      .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1px solid white;
+        margin: 8px 4px;
+        background: transparent;
+        border: 1px solid white;
+        opacity: .75;
+        overflow: hidden;
+        color: transparent;
+
+        &-active {
+          background: white;
+          opacity: 1;
+        }
+      }
+    }
+  }
+`
 
 const PictureWrapper = styled.div`
   position: relative;
@@ -23,31 +73,42 @@ const PictureWrapper = styled.div`
 export default class ColSwiper extends React.Component {
   state = {
     swiper: null,
-    istoggle: false
+    istoggle: false,
+    type: `gp1`,
+    color: `white`,
+    bgColor: `#FFDA56`
+  }
+  onToggle = () => {
+    this.setState({ istoggle: !this.state.istoggle })
   }
   swiperRef = ref => {
     this.setState({ swiper: ref.swiper });
+  }
+  onChange = (data) => {
+    let { type, color, bgColor } = data
+    this.setState({type, color, bgColor})
   }
   render() {
     const params = {
       direction: 'vertical',
       pagination: {
         el: '.swiper-pagination',
+        type: 'bullets',
         clickable: true,
-        renderBullet: (className) => {
-          return `<span class="${className}"></span>`;
+        renderBullet: (index, className) => {
+          return `<span class="${className}">${index}</span>`;
         },
       },
       on: {
         touchMove: (event) => {
           let totalLen = 2
           if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
-            let info = document.querySelector('.info');
+            let info = document.querySelector(`.info-${this.props.id}`);
             if (!this.state.istoggle && !info.classList.contains(`expand`)) {
-              document.documentElement.style.setProperty('--gogoro-infoHeight', '550px'); 
-              document.querySelector('.info').classList.add('expand'); 
+              info.style.height = 'calc(550px)' 
+              info.classList.add('expand');
             }
-            this.props.onToggle
+            this.onToggle
           }
         }
       },
@@ -55,20 +116,34 @@ export default class ColSwiper extends React.Component {
         this.swiper = swiper;
       }
     }
-    let { color, type } = this.props
+    let { bgColor, color, type } = this.state
     return (
-      <Swiper {...params} ref={this.swiperRef}>
-        <PictureWrapper>
-          {_.map(Gogoro[type][color][`img`], i => (
-            <img key={i} src={i} alt={i} />
-          ))}
-        </PictureWrapper>
-        <PictureWrapper>
-          {_.map(Gogoro[type][color][`img`], i => (
-            <img key={i} src={i} alt={i} />
-          ))}
-        </PictureWrapper>
-      </Swiper>
+      <CarContainer bgColor={bgColor}>
+        {/* CarGallery */}
+        <CarGallery>
+          <Swiper {...params} ref={this.swiperRef}>
+            <PictureWrapper>
+              {_.map(Gogoro[type][color][`img`], i => (
+                <img key={i} src={i} alt={i} />
+              ))}
+            </PictureWrapper>
+            <PictureWrapper>
+              {_.map(Gogoro[type][color][`img`], i => (
+                <img key={i} src={i} alt={i} />
+              ))}
+            </PictureWrapper>
+          </Swiper>
+        </CarGallery>
+        {/* Info */}
+        <CarInfo
+          zIndex={2}
+          color={color}
+          id={this.props.id}
+          data={Gogoro[type]}
+          istoggle={this.state.istoggle}
+          onChange={(data) => this.onChange(data)}
+        />
+      </CarContainer>
     );
   }
 }

@@ -23,7 +23,7 @@ const CarInfoWrapper = styled.div`
 const CarInfo = styled.div`
   width: 100%;
   min-height: 150px;
-  height: calc(var(--gogoro-infoHeight));
+  height: ${props => `calc(${props.height})`}; // calc(var(--gogoro-infoHeight));
   padding: 10px 15px;
   border-radius: 12.5px;
   background: white;
@@ -109,18 +109,12 @@ const Divider = styled.div`
   margin: 20px 0;
 `
 
-// const CarBackground = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-// `
 export default class Info extends React.Component {
   state = {
     threshold: 150,
     init: 100,
     expand: 550,
+    currentHeight: `150px`,
     type: this.props.data,
     color: this.props.color,
     istoggle: false
@@ -133,11 +127,11 @@ export default class Info extends React.Component {
     this.setState({ istoggle: nextProps.istoggle })
   }
   toggleInfo = () => {
-    let info = document.querySelector('.info');
-    if (!this.state.istoggle && !info.classList.contains(`expand`)) {
-      document.documentElement.style.setProperty('--gogoro-infoHeight', '550px'); 
-      document.querySelector('.info').classList.add('expand'); 
-    }
+    // let info = document.querySelector(`.info-${this.props.id}`);
+    // if (this.state.istoggle && info.classList.contains(`expand`)) {
+    //   info.style.setProperty('height', '200px'); 
+    //   info.classList.remove('expand'); 
+    // }
     this.setState({ istoggle: !this.state.istoggle })
   }
   setInfoDragger = () => {
@@ -146,7 +140,9 @@ export default class Info extends React.Component {
       scale: 1.25
     };
     let { init, expand, threshold } = this.state
-    let info = document.querySelector('.info');
+    let info = document.querySelector(`.info-${this.props.id}`);
+    // let height = this.state.currentHeight
+
     let hammer = new Hammer(info, {
       direction: Hammer.DIRECTION_ALL,
       threshold: 0,
@@ -198,6 +194,11 @@ export default class Info extends React.Component {
       }
     }
     const gogoro$ = pan$.scan(reducer, initialState);
+    gogoro$.subscribe({
+      next: (value) => { this.setState({ currentHeight: value.infoHeight }) },
+      error: (err) => { console.log('Error: ' + err); },
+      complete: () => { console.log('complete'); }
+    })
     RxCSS({
       gogoro: gogoro$
     })
@@ -207,10 +208,14 @@ export default class Info extends React.Component {
     this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
   }
   render () {
-    let {type, color } = this.state
+    let { type, color } = this.state
     return (
-      <CarInfoWrapper className={`infoContainer`} zIndex={this.props.zIndex}>
-        <CarInfo className={`info`}>
+      <CarInfoWrapper
+        className={`infoContainer`}
+        zIndex={this.props.zIndex}>
+        <CarInfo
+          height={this.state.currentHeight}
+          className={`info-${this.props.id}`}>
           <div>
             <Header>
               <h3>Gogoro 1 Plus</h3>
