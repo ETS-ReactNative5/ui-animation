@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Hammer from "hammerjs";
 import Rx from 'rxjs/Rx';
 import RxCSS from 'rxcss'
-import Tag from 'components/gogoro/Tag'
 import InfoList from 'components/gogoro/InfoList'
 import _ from 'lodash'
 

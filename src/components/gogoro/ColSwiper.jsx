@@ -31,8 +31,8 @@ const CarGallery = styled.div`
     }
 
     .swiper-pagination  {
-      top: 5%;
-
+      top: 2%;
+      transform: translate3d(0, 0,0) !important;
       .swiper-pagination-bullet {
         width: 8px;
         height: 8px;
@@ -106,15 +106,15 @@ export default class ColSwiper extends React.Component {
       },
       on: {
         touchMove: (event) => {
-          let totalLen = 3
-          if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
-            let info = document.querySelector(`.info-${this.props.id}`);
-            if (!this.state.istoggle && !info.classList.contains(`expand`)) {
-              info.style.height = 'calc(550px)' 
-              info.classList.add('expand');
-            }
-            this.onToggle()
-          }
+          // let totalLen = 3
+          // if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
+          //   let info = document.querySelector(`.info-${this.props.id}`);
+          //   if (!this.state.istoggle && !info.classList.contains(`expand`)) {
+          //     info.style.height = 'calc(550px)' 
+          //     info.classList.add('expand');
+          //   }
+          //   this.onToggle()
+          // }
         }
       },
       onInit: swiper => {
@@ -122,7 +122,6 @@ export default class ColSwiper extends React.Component {
       }
     }
     let { bgColor, color, type } = this.state
-    console.log(type, color, Gogoro[type][`list`][color]);
     
     return (
       <CarContainer bgColor={bgColor}>

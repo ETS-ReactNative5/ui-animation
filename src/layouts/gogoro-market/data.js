@@ -361,7 +361,7 @@ export const Gogoro = {
             require('assets/gogoro/g2p/yellow/gp2-a2-frontwheel-stdyellow.png'),
             require('assets/gogoro/g2p/white/gp2-a2-backwheel-std.png'),
             require('assets/gogoro/g2p/white/gp2-a2-handle-std.png'),
-            require('assets/gogoro/g2/white/z-a3-rearrack-std.png'),
+            require('assets/gogoro/g2/white/z-a2-rearrack-std.png'),
           ],
           [
             require('assets/gogoro/g2p/white/gp2-a3-base.png'),

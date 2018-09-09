@@ -6,12 +6,13 @@ import RowSwiper from 'components/gogoro/RowSwiper.jsx'
 
 const Section = styled.section`
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media screen and (max-width: 768px) {
-    height: 100vh;
+    height: calc(100vh);
     padding: 0 !important;
   }
 `;
@@ -54,9 +55,19 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 768px) {
+    height: calc(100vh - 50px);
+    width: 100%;
+    padding: 0 !important;
+    box-shadow: none;
+  }
 `
 
 export default class GogoroMarket extends React.Component {
+  componentDidMount () {
+    document.body.height = window.innerHeight;
+  }
   render () {
     return (
         <Section className="section">
