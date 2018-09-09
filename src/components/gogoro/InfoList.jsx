@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { keyframes } from "styled-components";
 import PerfectScrollbar from 'perfect-scrollbar'
 import _ from 'lodash'
-
+import Swiper from "react-id-swiper";
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -105,11 +105,19 @@ export default class InfoList extends React.Component {
     new PerfectScrollbar('#aboutContainer');
   }
   render () {
+    const infoParams = {
+      scrollbar: {
+        el: '.swiper-scrollbar',
+        hide: true,
+      },
+      freeMode: true,
+      spaceBetween: 20,
+    }
     return (
       <ListSection delay={`1s`}>
           <h2>關於 About</h2>
           <List id="aboutContainer">
-          <div>
+          <Swiper {...infoParams}>
               {_.map(this.props.data, (f, id) => (
                 <Box
                   key={id}
@@ -124,7 +132,7 @@ export default class InfoList extends React.Component {
                   </Information>
                 </Box>
               ))}
-          </div>
+          </Swiper>
           </List>
       </ListSection> 
     )
