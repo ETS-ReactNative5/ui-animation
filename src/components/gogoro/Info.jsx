@@ -117,6 +117,7 @@ export default class Info extends React.Component {
     currentHeight: `150px`,
     data: this.props.data[`list`],
     title: this.props.data[`title`],
+    price: this.props.data[`price`],
     color: this.props.color,
     istoggle: false
   }
@@ -209,7 +210,7 @@ export default class Info extends React.Component {
     this.props.onChange({ type: this.props.id, color: id, bgColor: this.state.data[id].bgColor })
   }
   render () {
-    let { data, color, title } = this.state
+    let { data, color, title, price } = this.state
 
     return (
       <CarInfoWrapper
@@ -234,7 +235,7 @@ export default class Info extends React.Component {
             <InfoList title={`關於 About`} data={data[color][`feature`]}/>
           </Content>
           <BuyCarSection>
-            <Price>$108,000</Price>
+            <Price>{price}</Price>
             <BuyButton color={`linear-gradient(135deg, #33FC74, #43D8FF)`}>預定</BuyButton>
           </BuyCarSection>
         </CarInfo>
