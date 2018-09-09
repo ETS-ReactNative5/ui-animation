@@ -115,7 +115,8 @@ export default class Info extends React.Component {
     init: 100,
     expand: 550,
     currentHeight: `150px`,
-    type: this.props.data,
+    data: this.props.data[`list`],
+    title: this.props.data[`title`],
     color: this.props.color,
     istoggle: false
   }
@@ -205,10 +206,11 @@ export default class Info extends React.Component {
   }
 
   toggleColor = (id) => {
-    this.props.onChange({ type: `gp1`, color: id, bgColor: this.state.type[id].bgColor })
+    this.props.onChange({ type: this.props.id, color: id, bgColor: this.state.data[id].bgColor })
   }
   render () {
-    let { type, color } = this.state
+    let { data, color, title } = this.state
+
     return (
       <CarInfoWrapper
         className={`infoContainer`}
@@ -218,18 +220,18 @@ export default class Info extends React.Component {
           className={`info-${this.props.id}`}>
           <div>
             <Header>
-              <h3>Gogoro 1 Plus</h3>
+              <h3>{title}</h3>
               <Tag bgColor={``} text={`熱賣中`}/>
             </Header>
             <Colors>
               {
-                _.map(type, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
+                _.map(data, (t, id) => <Dot key={id} color={t.color} onClick={() => this.toggleColor(id)}></Dot>)
               }
             </Colors>
           </div>
           <Divider />
           <Content>
-            <InfoList title={`關於 About`} data={type[color][`feature`]}/>
+            <InfoList title={`關於 About`} data={data[color][`feature`]}/>
           </Content>
           <BuyCarSection>
             <Price>$108,000</Price>

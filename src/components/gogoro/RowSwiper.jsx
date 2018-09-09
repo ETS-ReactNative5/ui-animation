@@ -2,6 +2,8 @@ import React from 'react'
 import Swiper from "react-id-swiper";
 import ColSwiper from 'components/gogoro/ColSwiper.jsx'
 import styled from "styled-components";
+import { Gogoro } from 'layouts/gogoro-market/data.js';
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   width: 95%;
@@ -24,9 +26,9 @@ export default class RowSwiper extends React.Component {
     return (
       <Swiper {...RowParams}>
         {
-          [0, 1, 2].map((d) => 
+          _.map(Gogoro, (type, d) => 
             <Wrapper key={d}>
-              <ColSwiper id={d}/>
+              <ColSwiper id={d} data={type}/>
             </Wrapper>
           )
         }

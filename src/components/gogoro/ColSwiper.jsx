@@ -1,8 +1,8 @@
 import React from "react";
 import Swiper from "react-id-swiper";
 import styled from "styled-components";
-import { Gogoro } from 'layouts/gogoro-market/data.js';
 import CarInfo from 'components/gogoro/Info';
+import { Gogoro } from 'layouts/gogoro-market/data.js';
 import _ from 'lodash'
 
 const CarContainer = styled.div`
@@ -74,7 +74,7 @@ export default class ColSwiper extends React.Component {
   state = {
     swiper: null,
     istoggle: false,
-    type: `gp1`,
+    type: this.props.id,
     color: `white`,
     bgColor: `#FFDA56`
   }
@@ -87,6 +87,11 @@ export default class ColSwiper extends React.Component {
   onChange = (data) => {
     let { type, color, bgColor } = data
     this.setState({type, color, bgColor})
+  }
+  componentDidMount () {
+    let defaultCar = this.props.data[`list`][`white`]
+    let { bgColor, color, img } = defaultCar
+    this.setState({ bgColor, color, img })
   }
   render() {
     const params = {
@@ -108,7 +113,7 @@ export default class ColSwiper extends React.Component {
               info.style.height = 'calc(550px)' 
               info.classList.add('expand');
             }
-            this.onToggle
+            this.onToggle()
           }
         }
       },
@@ -123,12 +128,12 @@ export default class ColSwiper extends React.Component {
         <CarGallery>
           <Swiper {...params} ref={this.swiperRef}>
             <PictureWrapper>
-              {_.map(Gogoro[type][color][`img`], i => (
+              {_.map(Gogoro[type][`list`][color][`img`], i => (
                 <img key={i} src={i} alt={i} />
               ))}
             </PictureWrapper>
             <PictureWrapper>
-              {_.map(Gogoro[type][color][`img`], i => (
+              {_.map(Gogoro[type][`list`][color][`img`], i => (
                 <img key={i} src={i} alt={i} />
               ))}
             </PictureWrapper>
@@ -137,8 +142,8 @@ export default class ColSwiper extends React.Component {
         {/* Info */}
         <CarInfo
           zIndex={2}
+          id={type}
           color={color}
-          id={this.props.id}
           data={Gogoro[type]}
           istoggle={this.state.istoggle}
           onChange={(data) => this.onChange(data)}
