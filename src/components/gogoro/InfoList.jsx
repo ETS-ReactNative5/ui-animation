@@ -111,19 +111,18 @@ export default class InfoList extends React.Component {
           <List id="aboutContainer">
           <div>
               {_.map(this.props.data, (f, id) => (
-              <Box
+                <Box
                   key={id}
                   w={`250px`}
                   h={`auto`}
                   src={`white`}
-                  boxShadow={`none`}
-              >
-                  <img src={f} alt={f} />
+                  boxShadow={`none`}>
+                  <img src={f.img} alt={f.img} />
                   <Information>
-                  <h4>Aeroframe™鋁合金車架</h4>
-                  <p>100% 鋁合金環保材質，以一體成型沖壓製程，打造「車架下鈑」與「車架內鈑」獨特曲線，並結合航太級無死角黏合技術與中空腔體式車體結構，展現穩固的操控路感。</p>
+                    <h4>{f.title || `title`}</h4>
+                    <p>{f.content || `content`}</p>
                   </Information>
-              </Box>
+                </Box>
               ))}
           </div>
           </List>
