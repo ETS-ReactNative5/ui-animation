@@ -106,7 +106,7 @@ export default class ColSwiper extends React.Component {
       },
       on: {
         touchMove: (event) => {
-          let totalLen = 2
+          let totalLen = 3
           if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
             let info = document.querySelector(`.info-${this.props.id}`);
             if (!this.state.istoggle && !info.classList.contains(`expand`)) {
@@ -122,6 +122,8 @@ export default class ColSwiper extends React.Component {
       }
     }
     let { bgColor, color, type } = this.state
+    console.log(type, color, Gogoro[type][`list`][color]);
+    
     return (
       <CarContainer bgColor={bgColor}>
         {/* CarGallery */}
