@@ -127,16 +127,15 @@ export default class ColSwiper extends React.Component {
         {/* CarGallery */}
         <CarGallery>
           <Swiper {...params} ref={this.swiperRef}>
-            <PictureWrapper>
-              {_.map(Gogoro[type][`list`][color][`img`], i => (
-                <img key={i} src={i} alt={i} />
-              ))}
-            </PictureWrapper>
-            <PictureWrapper>
-              {_.map(Gogoro[type][`list`][color][`img`], i => (
-                <img key={i} src={i} alt={i} />
-              ))}
-            </PictureWrapper>
+            {
+              _.map(Gogoro[type][`list`][color][`img`], (list, id) => (
+                <PictureWrapper key={id}>
+                  {
+                    _.map(list, (i, imgId) => <img key={imgId} src={i} alt={i} />)
+                  }
+                </PictureWrapper>
+              ))
+            }
           </Swiper>
         </CarGallery>
         {/* Info */}

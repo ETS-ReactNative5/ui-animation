@@ -221,7 +221,7 @@ export default class Info extends React.Component {
           <div>
             <Header>
               <h3>{title}</h3>
-              <Tag bgColor={``} text={`熱賣中`}/>
+              {/* <Tag bgColor={``} text={`熱賣中`}/> */}
             </Header>
             <Colors>
               {

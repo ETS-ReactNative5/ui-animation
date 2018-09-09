@@ -6,10 +6,18 @@ export const Gogoro = {
         color: 'white',
         bgColor: '#FFDA56',
         img: [
-          require('assets/gogoro/g1p/white/g-a1-base.png'),
-          require('assets/gogoro/g1p/white/g-a1-seatex-stdwhite.png'),
-          require('assets/gogoro/g1p/white/g-a1-shellf-stdwhite.png'),
-          require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+          [
+            require('assets/gogoro/g1/white/g-a1-base.png'),
+            require('assets/gogoro/g1/white/g-a1-seatex-stdwhite.png'),
+            require('assets/gogoro/g1/white/g-a1-shellf-stdwhite.png'),
+            require('assets/gogoro/g1/white/g-a1-visor-std.png')
+          ],
+          [
+            require('assets/gogoro/g1/white/g-a2-base.png'),
+            require('assets/gogoro/g1/white/g-a2-seatex-stdwhite.png'),
+            require('assets/gogoro/g1/white/g-a2-shellf-stdwhite.png'),
+            require('assets/gogoro/g1/white/g-a2-visor-std.png')
+          ]
         ],
         feature: [
           require('assets/gogoro/g1p/gp-feature-02.jpg'),
@@ -21,10 +29,18 @@ export const Gogoro = {
         color: '#50514F',
         bgColor: '#EEE',
         img: [
-          require('assets/gogoro/g1/white/g-a1-base.png'),
-          require('assets/gogoro/g1/black/g-a1-seatex-stdmidnight.png'),
-          require('assets/gogoro/g1/black/g-a1-shellf-stdmidnight.png'),
-          require('assets/gogoro/g1/white/g-a1-visor-std.png')
+          [
+            require('assets/gogoro/g1/white/g-a1-base.png'),
+            require('assets/gogoro/g1/black/g-a1-seatex-stdmidnight.png'),
+            require('assets/gogoro/g1/black/g-a1-shellf-stdmidnight.png'),
+            require('assets/gogoro/g1/white/g-a1-visor-std.png')
+          ],
+          [
+            require('assets/gogoro/g1/white/g-a2-base.png'),
+            require('assets/gogoro/g1/black/g-a2-seatex-stdmidnight.png'),
+            require('assets/gogoro/g1/black/g-a2-shellf-stdmidnight.png'),
+            require('assets/gogoro/g1/white/g-a2-visor-std.png')
+          ]
         ]
       }
     }
@@ -36,10 +52,12 @@ export const Gogoro = {
         color: 'white',
         bgColor: '#FFDA56',
         img: [
-          require('assets/gogoro/g1p/white/g-a1-base.png'),
-          require('assets/gogoro/g1p/white/g-a1-seatex-stdwhite.png'),
-          require('assets/gogoro/g1p/white/g-a1-shellf-stdwhite.png'),
-          require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+          [
+            require('assets/gogoro/g1p/white/g-a1-base.png'),
+            require('assets/gogoro/g1p/white/g-a1-seatex-stdwhite.png'),
+            require('assets/gogoro/g1p/white/g-a1-shellf-stdwhite.png'),
+            require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+          ]
         ],
         feature: [
           require('assets/gogoro/g1p/gp-feature-02.jpg'),
@@ -51,10 +69,12 @@ export const Gogoro = {
         color: '#FFA06D',
         bgColor: '#6baaff',
         img: [
-          require('assets/gogoro/g1p/white/g-a1-base.png'),
-          require('assets/gogoro/g1p/orange/gp-a1-seatex-stdorange.png'),
-          require('assets/gogoro/g1p/orange/gp-a1-shellf-stdorange.png'),
-          require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+          [
+            require('assets/gogoro/g1p/white/g-a1-base.png'),
+            require('assets/gogoro/g1p/orange/gp-a1-seatex-stdorange.png'),
+            require('assets/gogoro/g1p/orange/gp-a1-shellf-stdorange.png'),
+            require('assets/gogoro/g1p/white/g-a1-visor-std.png')
+          ]
         ]
       }
     }
