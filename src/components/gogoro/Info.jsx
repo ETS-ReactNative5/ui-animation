@@ -2,7 +2,6 @@ import React from 'react'
 import styled from "styled-components";
 import Hammer from "hammerjs";
 import Rx from 'rxjs/Rx';
-import RxCSS from 'rxcss'
 import InfoList from 'components/gogoro/InfoList'
 import _ from 'lodash'
 
@@ -22,6 +21,7 @@ const CarInfoWrapper = styled.div`
 const CarInfo = styled.div`
   width: 100%;
   min-height: 150px;
+  max-height: calc(80vh - 50px);
   height: ${props => `calc(${props.height})`}; // calc(var(--gogoro-infoHeight));
   padding: 10px 15px;
   border-radius: 12.5px;
@@ -34,11 +34,11 @@ const CarInfo = styled.div`
 
   &.expand {
     overflow: scroll;
-
-    .content {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  }
+  .content {
+    opacity: ${props => props.isExpand ? 1 : 0};
+    transform: translateY(${props => props.isExpand ? 0 : `50px`});
+    transition: 0.25s ease all;
   }
 `
 
@@ -48,8 +48,9 @@ const Header = styled.div`
   align-items: center;
 
   > h3 {
-    font-size: 18px;
+    font-size: 20px;
     color: #222;
+    margin-bottom: 2.5px;
   }
 `
 const Colors = styled.div`
@@ -68,11 +69,7 @@ const Dot = styled.div`
   background: ${props => props.color};
   cursor: pointer;
 `
-const Content = styled.div`
-  opacity: 0;
-  transform: translateY(50px);
-  transition: 0.25s ease all;
-`
+const Content = styled.div``
 const BuyCarSection = styled.div`
   display: flex;
   justify-content: space-between;
@@ -120,8 +117,9 @@ const Divider = styled.div`
 export default class Info extends React.Component {
   state = {
     threshold: 150,
-    init: 100,
-    expand: 550,
+    initH: 150,
+    expandH: 550,
+    isExpand: false,
     currentHeight: `150px`,
     data: this.props.data[`list`],
     title: this.props.data[`title`],
@@ -136,81 +134,60 @@ export default class Info extends React.Component {
   componentWillReceiveProps = nextProps => {
     this.setState({ istoggle: nextProps.istoggle })
   }
-  toggleInfo = () => {
-    // let info = document.querySelector(`.info-${this.props.id}`);
-    // if (this.state.istoggle && info.classList.contains(`expand`)) {
-    //   info.style.setProperty('height', '200px'); 
-    //   info.classList.remove('expand'); 
-    // }
-    this.setState({ istoggle: !this.state.istoggle })
-  }
   setInfoDragger = () => {
     const initialState = {
       infoHeight: 0,
       scale: 1.25
     };
-    let { init, expand, threshold } = this.state
-    let info = document.querySelector(`.info-${this.props.id}`);
-    // let height = this.state.currentHeight
+    let { initH, expandH, threshold, isExpand } = this.state
 
-    let hammer = new Hammer(info, {
-      direction: Hammer.DIRECTION_ALL,
-      threshold: 0,
-    });
+    let info = document.querySelector(`.info-${this.props.id}`);
+    let hammer = new Hammer(info, { direction: Hammer.DIRECTION_ALL, threshold: 0 });
     hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     const pan$ = Rx.Observable
-    .fromEventPattern((cb) => hammer.on('panstart panend panup pandown', cb))
-    // .map(e => {
-    //   let wrapper = document.querySelector('.wrapper');
-    //   let container = document.querySelector('.infoContainer');
-    //   console.log(e.center.y - wrapper.offsetTop, container.offsetTop + 110)
-    
+    .fromEventPattern((cb) => hammer.on('panend panmove', cb))
+
     const reducer = (state = initialState, action) => {
       switch (action.type) {
-        case 'panup':
-        case 'pandown':
-          let _y = info.classList.contains(`expand`) ? -action.deltaY + expand : -action.deltaY
+
+        case 'panmove':
+          let _y = isExpand ? -action.deltaY + expandH : -action.deltaY + initH
           return {
             ...state,
-            infoHeight: `${_y}px`,
+            infoHeight: _y < initH ? initH : _y,
             scale: 1.5 + action.deltaY/1000 > 1.5 ? 1.5 : 1.5 + action.deltaY/1000
           };
           
         case 'panend': {
-          let _y, _scale
-          if (info.classList.contains(`expand`) && action.deltaY > threshold) {
-            info.classList.remove(`expand`)
-            _y = `${init}px`
-            _scale = 1.5
-          } else if (info.classList.contains(`expand`) && Math.abs(action.deltaY) < threshold) {
-            _y = `${expand}px`
+          let _y, _scale, deltaY = Math.abs(action.deltaY)
+          if ((isExpand && deltaY < threshold) || (!isExpand && -action.deltaY > threshold)) {
+            _y = expandH
             _scale = 1
-          } else if (action.deltaY < -threshold) {
-            info.classList.add(`expand`)
-            _y = `${expand}px`
-            _scale = 1
-          } else if (!info.classList.contains(`expand`) && Math.abs(action.deltaY) < threshold) {
-            _y = `${init}px`
+            isExpand = true
+          } else {
+            _y = initH
             _scale = 1.5
+            isExpand = false      
           }
           return {
             infoHeight: _y,
-            scale: _scale
-          };
+            scale: _scale,
+            isExpand
+          }
         }
-
         default:
           return state;  
       }
     }
-    const gogoro$ = pan$.scan(reducer, initialState);
+    const gogoro$ = pan$.scan(reducer, initialState)
+    
     gogoro$.subscribe({
-      next: (value) => { this.setState({ currentHeight: value.infoHeight }) },
+      next: (value) => {
+        this.setState({ currentHeight: `${value.infoHeight}px`, isExpand: value.isExpand })
+        this.props.setScale(1.75 - (1 * value.infoHeight / expandH))
+      },
       error: (err) => { console.log('Error: ' + err); },
       complete: () => { console.log('complete'); }
-    })
-    RxCSS({
-      gogoro: gogoro$
     })
   }
 
@@ -225,12 +202,12 @@ export default class Info extends React.Component {
         className={`infoContainer`}
         zIndex={this.props.zIndex}>
         <CarInfo
+          isExpand={this.state.isExpand}
           height={this.state.currentHeight}
           className={`info-${this.props.id}`}>
           <div>
             <Header>
               <h3>{title}</h3>
-              {/* <Tag bgColor={``} text={`熱賣中`}/> */}
             </Header>
             <Colors>
               {

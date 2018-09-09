@@ -60,23 +60,24 @@ const PictureWrapper = styled.div`
   height: 100%;
   overflow-x: hidden;
 
-  img {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    top: 50%;
-    user-select: none;
-    transform: translateY(-50%) scale(var(--gogoro-scale));
-  }
 `;
-
+const Image = styled.img`
+  position: absolute;
+  width: 100%;
+  height: auto;
+  top: 50%;
+  user-select: none;
+  transform: translateY(-50%) scale(${props => props.scale});
+  transition: 0.1s ease transform
+`
 export default class ColSwiper extends React.Component {
   state = {
     swiper: null,
     istoggle: false,
     type: this.props.id,
     color: `white`,
-    bgColor: `#FFDA56`
+    bgColor: `#FFDA56`,
+    scale: 1.5
   }
   onToggle = () => {
     this.setState({ istoggle: !this.state.istoggle })
@@ -87,6 +88,9 @@ export default class ColSwiper extends React.Component {
   onChange = (data) => {
     let { type, color, bgColor } = data
     this.setState({type, color, bgColor})
+  }
+  setScale = (value) => {
+    this.setState({ scale: value > 1.5 ? 1.5 : value })
   }
   componentDidMount () {
     let defaultCar = this.props.data[`list`][`white`]
@@ -122,7 +126,7 @@ export default class ColSwiper extends React.Component {
       }
     }
     let { bgColor, color, type } = this.state
-    
+
     return (
       <CarContainer bgColor={bgColor}>
         {/* CarGallery */}
@@ -132,7 +136,7 @@ export default class ColSwiper extends React.Component {
               _.map(Gogoro[type][`list`][color][`img`], (list, id) => (
                 <PictureWrapper key={id}>
                   {
-                    _.map(list, (i, imgId) => <img key={imgId} src={i} alt={i} />)
+                    _.map(list, (i, imgId) => <Image key={imgId} src={i} alt={i} scale={this.state.scale}/>)
                   }
                 </PictureWrapper>
               ))
@@ -146,6 +150,7 @@ export default class ColSwiper extends React.Component {
           color={color}
           data={Gogoro[type]}
           istoggle={this.state.istoggle}
+          setScale={(e) => this.setScale(e)}
           onChange={(data) => this.onChange(data)}
         />
       </CarContainer>

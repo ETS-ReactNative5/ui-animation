@@ -25,6 +25,10 @@ const ListSection = styled.div`
     font-weight: 700;
     font-size: 24px;
     line-height: 1;
+
+    @media screen and (max-width: 768px) {
+      font-size: 20px !important;
+    }
   }
   h3 {
     font-size: 14px;
@@ -38,7 +42,7 @@ const ListSection = styled.div`
 
 
   @media screen and (max-width: 768px) {
-    padding: 15px 0 15px 15px;
+    padding: 5px 0 15px 0px;
   }
 `;
 

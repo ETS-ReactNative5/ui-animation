@@ -580,9 +580,21 @@ export const Gogoro = {
           ]
         ],
         feature: [
-          require('assets/gogoro/g1p/gp-feature-02.jpg'),
-          require('assets/gogoro/g1p/gp-feature-04.jpg'),
-          require('assets/gogoro/g1p/gp-feature-07.jpg')
+          {
+            title: `流線設計，加大視野`,
+            content: `輕盈與流線的儀表總成，以更加簡約的空間，提供更大的路面視野；微調後的握把，讓行進操控更得心應手。`,
+            img: require('assets/gogoro/g2dl/feature-01.jpg'),
+          },
+          {
+            title: `12 吋輪圈，降低座高`,
+            content: `相較於歐規大輪圈，Gogoro 2 Delight 採用較小的 12 吋鋁合金輪圈，打造能適應各種體型的座位高度，騎得更自在輕易。`,
+            img: require('assets/gogoro/g2dl/feature-02.jpg')
+          },
+          {
+            title: `新駐車架，省力停車`,
+            content: `專為 Gogoro 2 Delight 開發的省力駐車架，透過結構與重量配置，讓停車變得更輕鬆容易。每次停駐，都是優雅的止步。`,
+            img: require('assets/gogoro/g2dl/feature-03.jpg'),
+          }
         ]
       },
       blue: {
