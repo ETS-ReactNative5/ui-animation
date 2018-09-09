@@ -34,6 +34,11 @@ const CarInfo = styled.div`
 
   &.expand {
     overflow: scroll;
+
+    .content {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `
 
@@ -64,6 +69,9 @@ const Dot = styled.div`
   cursor: pointer;
 `
 const Content = styled.div`
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.25s ease all;
 `
 const BuyCarSection = styled.div`
   display: flex;
@@ -71,6 +79,7 @@ const BuyCarSection = styled.div`
   align-items: center;
   padding: 12px 12px;
 
+  z-index: 999;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -230,7 +239,7 @@ export default class Info extends React.Component {
             </Colors>
           </div>
           <Divider />
-          <Content>
+          <Content className="content">
             <InfoList title={`關於 About`} data={data[color][`feature`]}/>
           </Content>
           <BuyCarSection>
