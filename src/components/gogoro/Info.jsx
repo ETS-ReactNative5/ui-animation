@@ -34,6 +34,7 @@ const CarInfo = styled.div`
 
   &.expand {
     overflow: scroll;
+    height: calc(80vh - 0px);
   }
   .content {
     opacity: ${props => props.isExpand ? 1 : 0};
@@ -185,6 +186,11 @@ export default class Info extends React.Component {
       next: (value) => {
         this.setState({ currentHeight: `${value.infoHeight}px`, isExpand: value.isExpand })
         this.props.setScale(1.75 - (1 * value.infoHeight / expandH))
+        if (value.isExpand) {
+          info.classList.add('expand');
+        } else {
+          info.classList.remove('expand');
+        }
       },
       error: (err) => { console.log('Error: ' + err); },
       complete: () => { console.log('complete'); }

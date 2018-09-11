@@ -75,8 +75,8 @@ export default class ColSwiper extends React.Component {
     swiper: null,
     istoggle: false,
     type: this.props.id,
-    color: `white`,
-    bgColor: `#FFDA56`,
+    color: null,
+    bgColor: null,
     scale: 1.5
   }
   onToggle = () => {
@@ -93,7 +93,8 @@ export default class ColSwiper extends React.Component {
     this.setState({ scale: value > 1.5 ? 1.5 : value })
   }
   componentDidMount () {
-    let defaultCar = this.props.data[`list`][`white`]
+    let _color = Object.keys(this.props.data[`list`])[0]
+    let defaultCar = this.props.data[`list`][_color]
     let { bgColor, color, img } = defaultCar
     this.setState({ bgColor, color, img })
   }
@@ -110,15 +111,11 @@ export default class ColSwiper extends React.Component {
       },
       on: {
         touchMove: (event) => {
-          // let totalLen = 3
-          // if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
-          //   let info = document.querySelector(`.info-${this.props.id}`);
-          //   if (!this.state.istoggle && !info.classList.contains(`expand`)) {
-          //     info.style.height = 'calc(550px)' 
-          //     info.classList.add('expand');
-          //   }
-          //   this.onToggle()
-          // }
+          let { color, type } = this.state
+          let totalLen = Gogoro[type][`list`][color][`img`].length
+          if(event.movementY < -30 && this.state.swiper.activeIndex + 1 === totalLen) {
+            console.log(`it toggle end`);
+          }
         }
       },
       onInit: swiper => {
@@ -126,7 +123,7 @@ export default class ColSwiper extends React.Component {
       }
     }
     let { bgColor, color, type } = this.state
-
+    if (color === null) return `loading...`
     return (
       <CarContainer bgColor={bgColor}>
         {/* CarGallery */}

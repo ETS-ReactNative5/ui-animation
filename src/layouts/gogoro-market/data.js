@@ -17,7 +17,7 @@ let MINT_DOT = `white`
 let MINT_BG = `linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);`
 let GREY_BG = `linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%); background-blend-mode: normal,color-burn;`
 
-let PINK_DOT = `white`
+let PINK_DOT = `pink`
 let PINK_BG = `linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);`
 
 let SILVERBLUE_DOT = `#b8e2ff`
@@ -26,7 +26,7 @@ let SILVERBLUE_BG = `linear-gradient(60deg, #abecd6 0%, #fbed96 100%);`
 let GOLD_DOT = `#ffe2b8`
 let GOLD_BG = `linear-gradient(to bottom, #a3bded 0%, #6991c7 100%)`
 
-let DARK_DOT = `#000`
+let DARK_DOT = `black`
 let DARK_BG = `linear-gradient(120deg, #f093fb 0%, #f5576c 100%);`
 
 export const Gogoro = {
@@ -152,8 +152,8 @@ export const Gogoro = {
     title: `Gogoro S1`,
     price: `$95,000 起`,
     list: {
-      white: {
-        color: WHITE_DOT,
+      black: {
+        color: DARK_DOT,
         bgColor: DARK_BG,
         img: [
           [
@@ -409,8 +409,8 @@ export const Gogoro = {
     title: `Gogoro S2`,
     price: `$61,800 起`,
     list: {
-      white: {
-        color: WHITE_DOT,
+      black: {
+        color: DARK_DOT,
         bgColor: DARK_BG,
         img: [
           [
@@ -550,7 +550,7 @@ export const Gogoro = {
     title: `Gogoro 2 Delight`,
     price: `$49,800 起`,
     list: {
-      white: {
+      pink: {
         color: PINK_DOT,
         bgColor: PINK_BG,
         img: [
