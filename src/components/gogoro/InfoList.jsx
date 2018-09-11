@@ -2,7 +2,8 @@ import React from 'react'
 import styled, { keyframes } from "styled-components";
 import PerfectScrollbar from 'perfect-scrollbar'
 import _ from 'lodash'
-import Swiper from "react-id-swiper";
+import HorizontalScroll from 'react-scroll-horizontal'
+
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -102,6 +103,9 @@ const Information = styled.div`
     line-height: 1.5;
   }
 `
+const StyledScrollArea = styled(HorizontalScroll)`
+  min-height: 300px;
+`
 export default class InfoList extends React.Component {
   state = {}
 
@@ -109,19 +113,13 @@ export default class InfoList extends React.Component {
     new PerfectScrollbar('#aboutContainer');
   }
   render () {
-    const infoParams = {
-      scrollbar: {
-        el: '.swiper-scrollbar',
-        hide: true,
-      },
-      freeMode: true,
-      spaceBetween: 20,
-    }
     return (
       <ListSection delay={`1s`}>
           <h2>關於 About</h2>
           <List id="aboutContainer">
-          <Swiper {...infoParams}>
+            <StyledScrollArea
+              reverseScroll = {true}
+            >
               {_.map(this.props.data, (f, id) => (
                 <Box
                   key={id}
@@ -136,7 +134,7 @@ export default class InfoList extends React.Component {
                   </Information>
                 </Box>
               ))}
-          </Swiper>
+            </StyledScrollArea>
           </List>
       </ListSection> 
     )

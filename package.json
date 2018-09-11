@@ -14,6 +14,7 @@
     "react-id-swiper": "^1.6.4",
     "react-map-gl": "^3.2.8",
     "react-router-dom": "^4.2.2",
+    "react-scroll-horizontal": "^1.5.1",
     "rxcss": "^0.10.0",
     "rxjs": "5.0.1",
     "styled-components": "^2.4.1",

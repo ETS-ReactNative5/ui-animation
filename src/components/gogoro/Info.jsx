@@ -21,7 +21,7 @@ const CarInfoWrapper = styled.div`
 const CarInfo = styled.div`
   width: 100%;
   min-height: 150px;
-  max-height: calc(80vh - 50px);
+  max-height: calc(80vh - 0px);
   height: ${props => `calc(${props.height})`}; // calc(var(--gogoro-infoHeight));
   padding: 10px 15px;
   border-radius: 12.5px;
