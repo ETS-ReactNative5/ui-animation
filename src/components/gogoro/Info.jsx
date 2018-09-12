@@ -21,7 +21,7 @@ const CarInfoWrapper = styled.div`
 const CarInfo = styled.div`
   width: 100%;
   min-height: 150px;
-  max-height: calc(80vh - 0px);
+  max-height: calc(500px);
   height: ${props => `calc(${props.height})`}; // calc(var(--gogoro-infoHeight));
   padding: 10px 15px;
   border-radius: 12.5px;
@@ -32,6 +32,9 @@ const CarInfo = styled.div`
   transition: height 0.15s ease;
   overflow: hidden;
 
+  @media screen and (max-width: 768px) {
+    max-height: calc(80vh - 50px);
+  }
   &.expand {
     overflow: scroll;
     height: calc(80vh - 0px);
@@ -186,11 +189,6 @@ export default class Info extends React.Component {
       next: (value) => {
         this.setState({ currentHeight: `${value.infoHeight}px`, isExpand: value.isExpand })
         this.props.setScale(1.75 - (1 * value.infoHeight / expandH))
-        if (value.isExpand) {
-          info.classList.add('expand');
-        } else {
-          info.classList.remove('expand');
-        }
       },
       error: (err) => { console.log('Error: ' + err); },
       complete: () => { console.log('complete'); }
