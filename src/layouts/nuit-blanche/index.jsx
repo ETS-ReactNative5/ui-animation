@@ -104,7 +104,6 @@ export default class Nuit extends React.Component {
 
   _renderLayers() {
     const {buildings = DATA_URL.BUILDINGS, trips = DATA_URL.TRIPS, trailLength = 180} = this.props;
-
     return [
       new TripsLayer({
         id: 'trips',
@@ -131,6 +130,10 @@ export default class Nuit extends React.Component {
     ];
   }
 
+  _onViewportChange = (interactionState) => {
+    const map = this.mapRef.getMap();
+    console.log(map);
+  }
   render () {
     const {viewState, controller = true, baseMap = true} = this.props;
     return (
@@ -148,14 +151,16 @@ export default class Nuit extends React.Component {
               viewState={viewState}
               controller={controller}
             >
-              {baseMap && (
+              {
                 <ReactMapGL
                   reuseMaps
+                  ref={ map => this.mapRef = map }
                   mapStyle="mapbox://styles/mapbox/dark-v9"
                   preventStyleDiffing={true}
                   mapboxApiAccessToken={TOKEN}
+                  onInteractionStateChange={this._onViewportChange}
                 />
-              )}
+              }
             </DeckGL>
           </Wrapper>
         </Section>    
