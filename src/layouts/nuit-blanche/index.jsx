@@ -3,22 +3,14 @@ import styled from "styled-components";
 import Header from "components/header";
 import "bulma/css/bulma.css"
 
+import CircularMenu from 'components/nuit-blanche/CircularMenu.jsx'
+
 import mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.js'
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
-
-
-const LIGHT_SETTINGS = {
-  lightsPosition: [-74.05, 40.7, 8000, -73.5, 41, 5000],
-  ambientRatio: 0.05,
-  diffuseRatio: 0.6,
-  specularRatio: 0.8,
-  lightsStrength: [2.0, 0.0, 0.0, 0.0],
-  numberOfLights: 2
-};
 
 const Section = styled.section`
   height: 100%;
@@ -38,6 +30,7 @@ const Wrapper = styled.div`
   width: var(--default-nuit-width);
   border-radius: 10px;
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.24);
+  position: relative;
   /* may cause problem */
   overflow: hidden;
 
@@ -46,6 +39,15 @@ const Wrapper = styled.div`
     width: 100%;
     padding: 0 !important;
     box-shadow: none;
+  }
+
+  > #nuit-blanche-map-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
   }
 `
 
@@ -59,7 +61,7 @@ export default class Nuit extends React.Component {
       maxZoom: 18,
       pitch: 45,
       bearing: 0,
-      container: 'nuit-blanche-wrapper',
+      container: 'nuit-blanche-map-wrapper',
       style: 'mapbox://styles/mapbox/dark-v9'
     }
   }
@@ -116,11 +118,12 @@ export default class Nuit extends React.Component {
       profile: 'walking',
       interactive: true,
       controls: {
-        //inputs: false,
+        inputs: false,
         instructions: true
       }
     });
     map.addControl(directions, 'top-left');
+    document.querySelector('.directions-control-instructions').style.visibility = 'hidden'
   }
   render () {
     return (
@@ -130,7 +133,10 @@ export default class Nuit extends React.Component {
             counter={4}
             title={`Nuit-Blanche #2018`}
           />
-          <Wrapper id="nuit-blanche-wrapper"></Wrapper>
+          <Wrapper className="wrapper">
+            <CircularMenu />
+            <div id="nuit-blanche-map-wrapper" />
+          </Wrapper>
         </Section>    
     )
   }
@@ -138,3 +144,4 @@ export default class Nuit extends React.Component {
 
 // behance source: https://www.behance.net/gallery/62585797/Festival-Papillons-de-Nuit-2017
 // https://gist.github.com/mchew7/55a80623ec22774f0ee1bd6e2b0337e0
+// with stop: https://www.mapbox.com/help/optimization-api/
