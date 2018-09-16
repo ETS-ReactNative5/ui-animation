@@ -4,6 +4,9 @@ import Header from "components/header";
 import "bulma/css/bulma.css"
 
 import mapboxgl from 'mapbox-gl';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.js'
+import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
+
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
 
@@ -52,8 +55,8 @@ export default class Nuit extends React.Component {
       width: 300,
       height: 400,
       center: [121.517315, 25.047908],
-      zoom: 14,
-      maxZoom: 17,
+      zoom: 16,
+      maxZoom: 18,
       pitch: 45,
       bearing: 0,
       container: 'nuit-blanche-wrapper',
@@ -66,6 +69,7 @@ export default class Nuit extends React.Component {
     });
     this.setState({ map })
     this._renderBuilding(map)
+    this._renderDirection(map)
   }
 
   _renderBuilding = (map) => {
@@ -104,6 +108,20 @@ export default class Nuit extends React.Component {
       }, labelLayerId);
     })
   }
+
+  _renderDirection = (map) => {
+    var directions = new MapboxDirections({
+      accessToken: mapboxgl.accessToken,
+      unit: 'metric',
+      profile: 'walking',
+      interactive: true,
+      controls: {
+        //inputs: false,
+        instructions: true
+      }
+    });
+    map.addControl(directions, 'top-left');
+  }
   render () {
     return (
         <Section className="section">
@@ -119,7 +137,4 @@ export default class Nuit extends React.Component {
 }
 
 // behance source: https://www.behance.net/gallery/62585797/Festival-Papillons-de-Nuit-2017
-// mapbox source: https://gist.github.com/mchew7/55a80623ec22774f0ee1bd6e2b0337e0
-// https://www.mapbox.com/mapbox-gl-js/example/3d-buildings/
-// https://www.mapbox.com/mapbox-gl-js/style-spec/#layers-fill-extrusion
 // https://gist.github.com/mchew7/55a80623ec22774f0ee1bd6e2b0337e0
