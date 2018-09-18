@@ -5,8 +5,8 @@ Math.easeInOutQuad = function(t, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-export default function scrollTo(element, to, duration) {
-  var start = element.scrollTop,
+export default function scrollTo(element, to, duration, direction) {
+  var start = element[direction],
     change = to - start,
     currentTime = 0,
     increment = 20;
@@ -14,7 +14,8 @@ export default function scrollTo(element, to, duration) {
   var animateScroll = function() {
     currentTime += increment;
     var val = Math.easeInOutQuad(currentTime, start, change, duration);
-    element.scrollTop = val;
+    element[direction] = val;
+    
     if (currentTime < duration) {
       setTimeout(animateScroll, increment);
     }

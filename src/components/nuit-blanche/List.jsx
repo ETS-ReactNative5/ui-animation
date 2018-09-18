@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ItemsData from 'layouts/nuit-blanche/data.json'
 import { ArrowLeft } from "react-feather";
+import scrollTo from 'utils/scrollTo'
 import _ from 'lodash';
 
 const Wrapper = styled.div`
@@ -50,6 +51,7 @@ const Cell = styled.div`
   flex-shrink: 0;
   font-size: 16px;
   cursor: pointer;
+  background: transparent;
 
   &.active {
     background: #3d3d3d;
@@ -140,7 +142,8 @@ const Media = styled.div`
 `
 export default class Nuit extends React.Component {
   state = {
-    data: null
+    data: null,
+    activeId: null
   };
   componentDidMount() {
     let { data } = this.state
@@ -163,6 +166,13 @@ export default class Nuit extends React.Component {
     }
     return obj;
   }
+  _onSelectNavbar = (id) => {
+    this.setState({ activeId: id })
+    // scroll bar.
+    let e = document.getElementsByClassName('navbar-cell')[id]
+    let parent = document.getElementsByClassName('navbar')[0]
+    scrollTo(parent, e.offsetLeft - 3, 350, `scrollLeft`)
+  }
   render() {
     return (
       <Wrapper>
@@ -170,8 +180,8 @@ export default class Nuit extends React.Component {
           <h2><StyledArrowLeft />白晝之夜景點一欄</h2>
           <Navbar className="navbar">
             {
-              [`捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`].map((d) =>
-                <Cell key={d}>{d}</Cell>
+              [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`].map((d, id) =>
+                <Cell key={d} className={id === this.state.activeId ? `active navbar-cell` : `navbar-cell`} onClick={() => this._onSelectNavbar(id)}>{d}</Cell>
               )
             }
           </Navbar>
