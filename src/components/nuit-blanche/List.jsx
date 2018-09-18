@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import ItemsData from 'layouts/nuit-blanche/data.json'
+import Navbar from 'components/nuit-blanche/Navbar'
 import { ArrowLeft } from "react-feather";
-import scrollTo from 'utils/scrollTo'
 import _ from 'lodash';
 
 const Wrapper = styled.div`
@@ -22,8 +22,6 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     font-size: 20px;
-    font-weight: bold;
-
     line-height: 20px;
   }
 `
@@ -32,35 +30,6 @@ const StyledArrowLeft = styled(ArrowLeft)`
   margin-top: 2px;
 `
 
-const Navbar = styled.div`
-  display: flex;
-  align-items: center;
-  overflow-x: scroll;
-  margin: 0;
-  height: 36px;
-  box-sizing: border-box;
-  &.navbar::-webkit-scrollbar { 
-    display: none; 
-  }
-`
-
-const Cell = styled.div`
-  margin: 0 2.5px;
-  padding: 5px 15px;
-  color: #50514F;
-  flex-shrink: 0;
-  font-size: 16px;
-  cursor: pointer;
-  background: transparent;
-
-  &.active {
-    background: #3d3d3d;
-    border-radius: 20px;
-    color: #fff;
-
-    transition: color 0.25s ease;
-  }
-`
 const Body = styled.div`
   // display: flex;
   // flex-direction: column;
@@ -142,8 +111,7 @@ const Media = styled.div`
 `
 export default class Nuit extends React.Component {
   state = {
-    data: null,
-    activeId: null
+    data: null
   };
   componentDidMount() {
     let { data } = this.state
@@ -166,25 +134,13 @@ export default class Nuit extends React.Component {
     }
     return obj;
   }
-  _onSelectNavbar = (id) => {
-    this.setState({ activeId: id })
-    // scroll bar.
-    let e = document.getElementsByClassName('navbar-cell')[id]
-    let parent = document.getElementsByClassName('navbar')[0]
-    scrollTo(parent, e.offsetLeft - 3, 350, `scrollLeft`)
-  }
+
   render() {
     return (
       <Wrapper>
         <Header>
-          <h2><StyledArrowLeft />白晝之夜景點一欄</h2>
-          <Navbar className="navbar">
-            {
-              [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`].map((d, id) =>
-                <Cell key={d} className={id === this.state.activeId ? `active navbar-cell` : `navbar-cell`} onClick={() => this._onSelectNavbar(id)}>{d}</Cell>
-              )
-            }
-          </Navbar>
+          <h2><StyledArrowLeft />白晝之夜街道地圖</h2>
+          <Navbar />
         </Header>
         <Body>
           {
