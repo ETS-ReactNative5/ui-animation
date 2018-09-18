@@ -197,7 +197,8 @@ export default class ExtendCard extends Component {
       currentState: transition(this.state.currentState, event)
     });
     flipping.read();
-    document.getElementById(`card-${this.props.id}`)
+    document
+      .getElementById(`card-${this.props.id}`)
       .setAttribute("data-state", transition(this.state.currentState, event));
     flipping.flip();
   };
