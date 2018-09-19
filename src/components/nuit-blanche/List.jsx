@@ -1,11 +1,20 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ItemsData from 'layouts/nuit-blanche/data.json'
 import Navbar from 'components/nuit-blanche/Navbar'
 import { ArrowLeft } from "react-feather";
 import _ from 'lodash';
 
-const place = [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`]
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const place = [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`, `捷運雙連站周邊`, `捷運中山站周邊`, `南京林森路口周邊`, `台北當代藝術館周邊`, `台北國際藝術村周邊`]
 const Wrapper = styled.div`
   background: #f8f8f8;
   width: 100%;
@@ -69,6 +78,8 @@ const Item = styled.div`
   border-bottom: 1px solid #ddd;
   display: flex;
   width: 100%;
+
+  animation: ${fadeIn} 1s cubic-bezier(0, 0.5, 0.2, 1) both;
 `
 
 const Info = styled.div`

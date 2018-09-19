@@ -41,6 +41,11 @@ const Navbar = styled.div`
   ${ childHelper`3` }
   ${ childHelper`4` }
   ${ childHelper`5` }
+  ${ childHelper`6` }
+  ${ childHelper`7` }
+  ${ childHelper`8` }
+  ${ childHelper`9` }
+  ${ childHelper`10` }
 `;
 
 const Cell = styled.div`
