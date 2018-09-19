@@ -20,6 +20,8 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+
+  display: ${props => props.active ? `block` : `none`};
 `;
 
 const Header = styled.div`
@@ -124,7 +126,9 @@ const Media = styled.div`
 export default class Nuit extends React.Component {
   state = {
     data: null,
-    filter: `全部`
+    filter: `全部`,
+    step: [],
+    active: true
   };
   componentDidMount() {
     let { data } = this.state
@@ -134,21 +138,10 @@ export default class Nuit extends React.Component {
         category: `${d.typeContent} / ${d.typeContentEn}`
       }
     }).groupBy(`category`).value()
-    /* data = this.rename(_init, '裝置作品', '裝置藝術 / Visual Art Work')
-    data = this.rename(_init, '表演活動', '表演活動 / Performance')
-    data = this.rename(_init, '響應串連', '響應串連 / Off-Program') */
     this.setState({ data })
-  }
-  rename = (obj, key, newKey) => {
-    if(_.keys(obj).find((o) => o === key)) {
-      obj[newKey] = _.clone(obj[key], true);
-      delete obj[key];
-    }
-    return obj;
   }
 
   onChange = (id) => {
-    console.log(place[id], '' + id);
     let { data } = this.state
     if (id !== 0) {
       data = _.chain(ItemsData.alldata)
@@ -170,11 +163,31 @@ export default class Nuit extends React.Component {
     }
     this.setState({ data })
   }
+
+  _onToggle = (id) => {
+    let { step } = this.state
+    if (!step.find((s) => s === id)) {
+      step.push(id)
+    } else {
+      let id = step.findIndex((s) => s === id)
+      step.splice(id, 1)
+    }
+    this.setState({ step })
+    // pass to map
+    let stepsLatLan = _.map(step, (s) => {
+      let item = _.find(ItemsData.alldata, (i) => i.id === s)
+      return {
+        longitude: item.longitude,
+        latitude: item.latitude
+      }
+    })
+    this.props._onToggleStep(stepsLatLan)
+  }
   render() {
     return (
-      <Wrapper>
+      <Wrapper active={this.state.active}>
         <Header>
-          <h2><StyledArrowLeft />白晝之夜街道地圖</h2>
+          <h2><StyledArrowLeft onClick={() => this.setState({ active: !this.state.active })}/>白晝之夜街道地圖</h2>
           <Navbar
             place={place}
             onChange={this.onChange}/>
@@ -186,7 +199,7 @@ export default class Nuit extends React.Component {
                 <Title className={list[0][`typeContentEn`]}>{id}</Title>
                 {
                   _.map(list, (datum, id) => 
-                  <Item key={id}>
+                  <Item key={id} onClick={() => this._onToggle(datum.id)}>
                     <Info>
                       <h3><img src={datum.marker} alt={datum.marker} />{datum.title}</h3>
                       <p className="time">{datum.timeContent}</p>

@@ -45,9 +45,12 @@ const Wrapper = styled.div`
 `
 
 export default class Nuit extends React.Component {
-  state = {}
-  componentDidMount () {}
-
+  state = {
+    steps: []
+  }
+  _onToggleStep = (steps) => {
+    this.setState({ steps })
+  }
   render () {
     return (
         <Section className="section">
@@ -57,8 +60,8 @@ export default class Nuit extends React.Component {
             title={`Nuit-Blanche #2018`}
           />
           <Wrapper className="wrapper">
-            {/* <Map /> */}
-            <List />
+            <Map steps={this.state.steps}/>
+            <List _onToggleStep={this._onToggleStep}/>
           </Wrapper>
         </Section>    
     )
