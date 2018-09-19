@@ -5,6 +5,7 @@ import Navbar from 'components/nuit-blanche/Navbar'
 import { ArrowLeft } from "react-feather";
 import _ from 'lodash';
 
+const place = [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`]
 const Wrapper = styled.div`
   background: #f8f8f8;
   width: 100%;
@@ -42,7 +43,7 @@ const Title = styled.div`
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin: 12px 0;
   padding: 8px 0;
@@ -111,7 +112,8 @@ const Media = styled.div`
 `
 export default class Nuit extends React.Component {
   state = {
-    data: null
+    data: null,
+    filter: `全部`
   };
   componentDidMount() {
     let { data } = this.state
@@ -125,7 +127,6 @@ export default class Nuit extends React.Component {
     data = this.rename(_init, '表演活動', '表演活動 / Performance')
     data = this.rename(_init, '響應串連', '響應串連 / Off-Program') */
     this.setState({ data })
-    
   }
   rename = (obj, key, newKey) => {
     if(_.keys(obj).find((o) => o === key)) {
@@ -135,12 +136,37 @@ export default class Nuit extends React.Component {
     return obj;
   }
 
+  onChange = (id) => {
+    console.log(place[id], '' + id);
+    let { data } = this.state
+    if (id !== 0) {
+      data = _.chain(ItemsData.alldata)
+              .filter((d) => d.areaTag === ('' + id))
+              .map((d) => {
+                return {
+                  ...d,
+                  category: `${d.typeContent} / ${d.typeContentEn}`
+                }
+              }).groupBy(`category`).value()
+    } else {
+      data = _.chain(ItemsData.alldata)
+              .map((d) => {
+                return {
+                  ...d,
+                  category: `${d.typeContent} / ${d.typeContentEn}`
+                }
+              }).groupBy(`category`).value()
+    }
+    this.setState({ data })
+  }
   render() {
     return (
       <Wrapper>
         <Header>
           <h2><StyledArrowLeft />白晝之夜街道地圖</h2>
-          <Navbar />
+          <Navbar
+            place={place}
+            onChange={this.onChange}/>
         </Header>
         <Body>
           {

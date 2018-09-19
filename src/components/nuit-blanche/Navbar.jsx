@@ -3,10 +3,9 @@ import styled from "styled-components";
 import scrollTo from "utils/scrollTo";
 import Flipping from "flipping/dist/flipping.web.js";
 const flipping = new Flipping();
-const place = [`全部`, `捷運圓山站周邊`, `臺北市立美術館周邊`, `花博舞蝶館周邊`, `聖多福教堂周邊`]
 
 const childHelper = (id) => {
-  let _id = parseInt(id[0])
+  let _id = parseInt(id[0], 10)
   return `
     &[data-state="${_id}"] {
       .navbar-cell:nth-child(${_id + 1}) {
@@ -82,15 +81,19 @@ export default class NavbarComponent extends React.Component {
 
   componentDidMount () {
     let { machine } = this.state
-    machine[`states`] = place.map((p, id) => id)
+    machine[`states`] = this.props.place.map((p, id) => id)
     this.setState({ machine })
   }
   _onSelectNavbar = id => {
     this.setState({ activeId: id }, () => {this.send()});
+    
     // scroll bar.
     let e = document.getElementsByClassName("navbar-cell")[id];
     let parent = document.getElementsByClassName("navbar")[0];
     scrollTo(parent, e.offsetLeft - 3, 350, `scrollLeft`);
+
+    // update list content
+    this.props.onChange(id)
   };
 
   send = () => {
@@ -108,7 +111,7 @@ export default class NavbarComponent extends React.Component {
   render() {    
     return (
       <Navbar className="navbar" id="navbar" data-state={`0`}>
-        {place.map((d, id) => (
+        {this.props.place.map((d, id) => (
           <Cell
             key={d}
             id={`cell-${id}`}
