@@ -60,7 +60,7 @@ export default class Nuit extends React.Component {
             title={`Nuit-Blanche #2018`}
           />
           <Wrapper className="wrapper">
-            <Map steps={this.state.steps}/>
+            {/* <Map steps={this.state.steps}/> */}
             <List _onToggleStep={this._onToggleStep}/>
           </Wrapper>
         </Section>    

@@ -87,7 +87,7 @@ const Item = styled.div`
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 70px);
 
   > h3 {
     font-size: 15px;
@@ -115,12 +115,16 @@ const Info = styled.div`
 `
 
 const Media = styled.div`
-  width: 30%;
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
   position: relative;
   margin: 0 0 0 4px;
+  overflow: hidden;
   > img {
-    width: 100%;
-    height: auto;
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
   }
 `
 export default class Nuit extends React.Component {
