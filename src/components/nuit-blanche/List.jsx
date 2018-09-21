@@ -75,19 +75,20 @@ const Title = styled.div`
 `
 
 const Item = styled.div`
-  padding: 0 0 10px 0;
+  padding: 5px 7.5px;
   margin: 0 0 20px 0;
-  border-bottom: 1px solid #ddd;
+  border-radius: 5px;
   display: flex;
   width: 100%;
-
-  animation: ${fadeIn} 1s cubic-bezier(0, 0.5, 0.2, 1) both;
+  background: white;
+  // animation: ${fadeIn} 1s cubic-bezier(0, 0.5, 0.2, 1) both;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
 `
 
 const Info = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100% - 70px);
+  width: calc(100% - 80px);
 
   > h3 {
     font-size: 15px;
@@ -111,6 +112,10 @@ const Info = styled.div`
     &.time {
       font-weight: bold;
     }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 `
 
@@ -119,7 +124,7 @@ const Media = styled.div`
   height: 70px;
   border-radius: 5px;
   position: relative;
-  margin: 0 0 0 4px;
+  margin: 0 8px 0 0;
   overflow: hidden;
   > img {
     width: 70px;
@@ -204,14 +209,14 @@ export default class Nuit extends React.Component {
                 {
                   _.map(list, (datum, id) => 
                   <Item key={id} onClick={() => this._onToggle(datum.id)}>
+                    <Media>
+                      <img src={datum.infoWindowImage} alt={datum.infoWindowImage} />
+                    </Media>
                     <Info>
                       <h3><img src={datum.marker} alt={datum.marker} />{datum.title}</h3>
                       <p className="time">{datum.timeContent}</p>
                       <p>{datum.locationContent}</p>
                     </Info>
-                    <Media>
-                      <img src={datum.infoWindowImage} alt={datum.infoWindowImage} />
-                    </Media>
                   </Item>
                   )
                 }
