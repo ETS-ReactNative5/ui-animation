@@ -20,7 +20,6 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-
   display: ${props => props.active ? `block` : `none`};
 `;
 
@@ -43,10 +42,8 @@ const StyledArrowLeft = styled(ArrowLeft)`
 `
 
 const Body = styled.div`
-  // display: flex;
-  // flex-direction: column;
   height: calc(100% - 100px);
-  padding: 0 15px 15px 15px;
+  padding: 0 0px 15px 0px;
   overflow: scroll;
 `
 
@@ -57,10 +54,9 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin: 12px 0;
-  padding: 8px 0;
+  padding: 8px 15px;
   background: #f8f8f8;
   z-index: 9;
-
   &.Visual {
     color: #5f0f86;
   }
@@ -79,8 +75,9 @@ const Item = styled.div`
   margin: 0 0 20px 0;
   border-radius: 5px;
   display: flex;
-  width: 100%;
   background: white;
+  width: calc(100% - 30px);
+  margin-left: 15px;
   // animation: ${fadeIn} 1s cubic-bezier(0, 0.5, 0.2, 1) both;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
 `
