@@ -148,9 +148,10 @@ export default class Nuit extends React.Component {
               {_.map(list, (datum, id) => (
                 <ExtendItem
                   key={id}
+                  group={lid}
                   id={`${lid}-${id}`}
                   datum={datum}
-                  onClick={() => this._onToggle(datum.id)}
+                  onToggle={() => this._onToggle(datum.id)}
                 />
               ))}
             </React.Fragment>

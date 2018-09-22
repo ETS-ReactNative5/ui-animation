@@ -1,6 +1,5 @@
 import React from "react";
-import styled, { keyframes } from "styled-components";
-import _ from "lodash";
+import styled from "styled-components";
 import Flipping from "flipping/dist/flipping.web.js";
 const flipping = new Flipping();
 
@@ -18,23 +17,12 @@ const machine = {
 
 const transition = (state, event) => {
   return machine.states[state].on[event] || state;
-};
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  30% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-`;
-
+}
+const ColorMapping = {
+  '裝置作品 / Visual Art Work': `#5f0f86`,
+  '表演活動 / Performance': `#eb5400`,
+  '響應串連 / Off-Program': `#e60072`
+}
 const Wrapper = styled.div`
   width: 100%;
   height: ${props => props.state === `normal` ? `auto` : `100%`};
@@ -72,7 +60,7 @@ const Wrapper = styled.div`
 `;
 
 const NormalItem = styled.div`
-  padding: 5px 7.5px;
+  padding: 7.5px 7.5px;
   margin: 0 0 15px 0;
   border-radius: 5px;
   display: flex;
@@ -81,7 +69,7 @@ const NormalItem = styled.div`
   margin-left: 15px;
 
   .bg {
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
   }
@@ -114,9 +102,12 @@ const Info = styled.div`
   > h3 {
     font-size: 15px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     display: flex;
     align-items: center;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     img {
       width: 20px;
@@ -128,7 +119,7 @@ const Info = styled.div`
   > p {
     color: #50514F;
     font-size: 13px;
-    margin-bottom: 5px;
+    margin-bottom: 2.5px;
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -144,23 +135,49 @@ const Info = styled.div`
 `
 
 const Media = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 75px;
+  height: calc(75px * 12 / 9);
   border-radius: 5px;
   position: relative;
   margin: 0 8px 0 0;
   overflow: hidden;
   > img {
-    width: 70px;
-    height: 70px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 `
+const BtnGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 12.5px;
+  > div {
+    font-size: 12px;
+    padding: 1px 5px;
+    font-weight: lighter;
+    color: grey;
 
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-right: 5px;
+    
+    cursor: pointer;
+    transition: all 0.25s ease;
+    
+    &.active {
+      color: ${props => props.activeColor};
+      border-color: ${props => props.activeColor};
+    }
+    > a {
+      color: grey;
+    }
+  }
+`
 export default class ExtendItem extends React.Component {
   state = {
     currentState: machine.initial,
-    dataState: `normal`
+    dataState: `normal`,
+    isSelect: false
   };
   send = event => {
     this.setState({
@@ -172,9 +189,15 @@ export default class ExtendItem extends React.Component {
       .setAttribute("data-state", transition(this.state.currentState, event));
     flipping.flip();
   };
+
+  onToggle = (id) => {
+    this.setState({ isSelect: !this.state.isSelect })
+    this.props.onToggle(id)
+  }
   componentDidMount() {}
   render() {
-    let { datum } = this.props
+    let { datum, group } = this.props
+    let { isSelect } = this.state
     return (
       <Wrapper
         id={`item-${this.props.id}`}
@@ -191,6 +214,11 @@ export default class ExtendItem extends React.Component {
             <h3><img src={datum.marker} alt={datum.marker} />{datum.title}</h3>
             <p className="time">{datum.timeContent}</p>
             <p>{datum.locationContent}</p>
+
+            <BtnGroup activeColor={ColorMapping[group]}>
+              <div className={isSelect ? `active` : null} onClick={() => this.onToggle(datum.id)}>{isSelect ? `取消選取` : `選取景點`}</div>
+              <div><a target="_blank" href={`http://nuitblanchetaipei.info/work?id=${datum.id}`}>前往官網介紹</a></div>
+            </BtnGroup>
           </Info>
         </NormalItem>
 
