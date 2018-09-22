@@ -191,13 +191,12 @@ export default class ExtendItem extends React.Component {
   };
 
   onToggle = (id) => {
-    this.setState({ isSelect: !this.state.isSelect })
     this.props.onToggle(id)
   }
   componentDidMount() {}
   render() {
-    let { datum, group } = this.props
-    let { isSelect } = this.state
+    let { datum, group, isToggle } = this.props
+    
     return (
       <Wrapper
         id={`item-${this.props.id}`}
@@ -216,7 +215,7 @@ export default class ExtendItem extends React.Component {
             <p>{datum.locationContent}</p>
 
             <BtnGroup activeColor={ColorMapping[group]}>
-              <div className={isSelect ? `active` : null} onClick={() => this.onToggle(datum.id)}>{isSelect ? `取消選取` : `選取景點`}</div>
+              <div className={isToggle ? `active` : null} onClick={() => this.onToggle(datum.id)}>{isToggle ? `取消選取` : `選取景點`}</div>
               <div><a target="_blank" href={`http://nuitblanchetaipei.info/work?id=${datum.id}`}>前往官網介紹</a></div>
             </BtnGroup>
           </Info>

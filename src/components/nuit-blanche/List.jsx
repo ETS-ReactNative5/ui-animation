@@ -60,7 +60,8 @@ const Title = styled.div`
   margin: 12px 0;
   padding: 8px 15px;
   background: #f8f8f8;
-  z-index: 9;
+  z-index: 1;
+
   &.Visual {
     color: #5f0f86;
   }
@@ -124,7 +125,8 @@ export default class Nuit extends React.Component {
       let item = _.find(ItemsData.alldata, i => i.id === s);
       return {
         longitude: item.longitude,
-        latitude: item.latitude
+        latitude: item.latitude,
+        data: item
       };
     });
     this.props._onToggleStep(stepsLatLan);
@@ -149,8 +151,9 @@ export default class Nuit extends React.Component {
                 <ExtendItem
                   key={id}
                   group={lid}
-                  id={`${lid}-${id}`}
                   datum={datum}
+                  id={`${lid}-${id}`}
+                  isToggle={_.find(this.props.activeSteps, (s) => s.data.id === datum.id) !== undefined}
                   onToggle={() => this._onToggle(datum.id)}
                 />
               ))}
