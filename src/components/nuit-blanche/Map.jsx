@@ -6,9 +6,24 @@ import * as turf from '@turf/turf'
 import $ from 'jquery';
 import _ from 'lodash'
 
+import Swiper from "react-id-swiper";
+import styled from "styled-components";
+import ExtendItem from "components/nuit-blanche/ExtendItem";
+
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
 
+const StepsWrapper = styled.div`
+  width: 100%;
+  height: 130px;
+  
+  position: absolute;
+  bottom: 0;
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+`
 export default class Map extends React.Component {
   state = {
     viewport: {
@@ -25,16 +40,20 @@ export default class Map extends React.Component {
     defaultPoint: [121.517315, 25.047908],
     endPoint: [121.512, 25.05],
     lastAtRestaurant: 0,
-    pointHopper: {}
+    pointHopper: {},
+    swiper: null
+  }
+  swiperRef = ref => {
+    this.setState({ swiper: ref.swiper });
   }
   componentDidMount () {
-    const map = new mapboxgl.Map({
+    /* const map = new mapboxgl.Map({
       ...this.state.viewport
     });
     this.setState({ map }, () => {
       this._renderBuilding(map)
       // this._renderDirection(map)
-    })
+    }) */
   }
 
   _renderBuilding = (map) => {
@@ -152,7 +171,7 @@ export default class Map extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    this._renderPoint(nextProps.steps)
+    // this._renderPoint(nextProps.steps)
   }
 
   _renderPoint = (steps) => {
@@ -230,9 +249,36 @@ export default class Map extends React.Component {
     });
     return routeGeoJSON;
   }
-
   render () {
-    return <div id="nuit-blanche-map-wrapper" />
+    const params = {
+      spaceBetween: 0,
+      on: {
+        slideChange: () => console.log(this.state.swiper)
+      },
+      onInit: swiper => {
+        this.swiper = swiper;
+      }
+    };
+    return (
+      <React.Fragment>
+        <div id="nuit-blanche-map-wrapper" />
+        <StepsWrapper onClick={this.props._onToggleList}>
+          <Swiper {...params} ref={this.swiperRef}>
+            {
+              _.map(this.props.activeSteps, (s, id) => 
+                <ExtendItem
+                  id={id}
+                  key={id}
+                  group={id}
+                  datum={s.data}
+                  isToggle={true}
+                />
+              )
+            }
+          </Swiper>
+        </StepsWrapper>
+      </React.Fragment>
+    ) 
   }
 }
 

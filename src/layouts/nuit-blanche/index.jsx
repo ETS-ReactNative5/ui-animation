@@ -46,7 +46,11 @@ const Wrapper = styled.div`
 
 export default class Nuit extends React.Component {
   state = {
-    steps: []
+    steps: [],
+    isToggleList: false
+  }
+  _onToggleList = () => {
+    this.setState({ isToggleList: !this.state.isToggleList })
   }
   _onToggleStep = (steps) => {
     this.setState({ steps })
@@ -60,8 +64,18 @@ export default class Nuit extends React.Component {
             title={`Nuit-Blanche #2018`}
           />
           <Wrapper className="wrapper">
-            {/* <Map steps={this.state.steps}/> */}
-            <List activeSteps={this.state.steps} _onToggleStep={this._onToggleStep}/>
+            <Map
+              isToggleList={this.state.isToggleList}
+              steps={this.state.steps}
+              activeSteps={this.state.steps}
+              _onToggleList={this._onToggleList}
+            />
+            <List
+              isToggleList={this.state.isToggleList}
+              activeSteps={this.state.steps}
+              _onToggleList={this._onToggleList}
+              _onToggleStep={this._onToggleStep}
+            />
           </Wrapper>
         </Section>    
     )

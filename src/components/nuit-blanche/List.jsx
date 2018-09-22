@@ -57,8 +57,8 @@ const Title = styled.div`
   top: 0;
   font-size: 20px;
   font-weight: bold;
-  margin: 12px 0;
-  padding: 8px 15px;
+  margin: 0 0 12px 0;
+  padding: 8px 15px 8px;
   background: #f8f8f8;
   z-index: 1;
 
@@ -133,11 +133,11 @@ export default class Nuit extends React.Component {
   };
   render() {
     return (
-      <Wrapper active={this.state.active}>
+      <Wrapper active={this.props.isToggleList}>
         <Header>
           <h2>
             <StyledArrowLeft
-              onClick={() => this.setState({ active: !this.state.active })}
+              onClick={this.props._onToggleList}
             />
             白晝之夜街道地圖
           </h2>
