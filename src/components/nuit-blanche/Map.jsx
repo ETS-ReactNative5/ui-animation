@@ -285,14 +285,26 @@ export default class Map extends React.Component {
     });
     return routeGeoJSON;
   }
+  _onfly = (id) => {
+    if (this.props.activeSteps) {
+      let source = this.props.activeSteps[id].data
+      this.state.map.flyTo({
+        bearing: 10 + id / 100,
+        center: [source.longitude, source.latitude],
+        zoom: 18,
+        pitch: 40 + id / 100,
+      });  
+    }
+  }
   render () {
     const params = {
       onInit: swiper => {
         this.swiper = swiper;
       },
       on: {
-        slideChange: () =>
-          console.log(this.state.swiper.activeIndex),
+        slideChange: () => {
+          this._onfly(this.state.swiper.activeIndex)
+        },
         transitionEnd: () =>
           console.log(this.state.swiper.activeIndex, this.state.swiper.realIndex)
       },
