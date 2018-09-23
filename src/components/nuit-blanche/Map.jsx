@@ -9,6 +9,7 @@ import _ from 'lodash'
 import Swiper from "react-id-swiper";
 import styled from "styled-components";
 import ExtendItem from "components/nuit-blanche/ExtendItem";
+import { ArrowRight } from "react-feather";
 
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
@@ -19,9 +20,44 @@ const StepsWrapper = styled.div`
   
   position: absolute;
   bottom: 0;
+  z-index: 0;
+
   .swiper-container {
     width: 100%;
     height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+`
+
+const ItemWrapper = styled.div`
+  width: ${props => props.width};
+  box-sizing: border-box;
+`
+
+const Instruction = styled.div`
+  padding: 7.5px 7.5px;
+  margin: 15px;
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > div {
+    margin-left: 4px;
+    width: 24px;
+    height: 24px;
+    background: #50514F;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
 export default class Map extends React.Component {
@@ -47,13 +83,13 @@ export default class Map extends React.Component {
     this.setState({ swiper: ref.swiper });
   }
   componentDidMount () {
-    /* const map = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       ...this.state.viewport
     });
     this.setState({ map }, () => {
       this._renderBuilding(map)
       // this._renderDirection(map)
-    }) */
+    })
   }
 
   _renderBuilding = (map) => {
@@ -120,10 +156,10 @@ export default class Map extends React.Component {
           'line-cap': 'round'
         },
         paint: {
-          'line-color': '#3887be',
+          'line-color': '#FFD45E',
           'line-width': {
-            base: 1,
-            stops: [[12, 3], [22, 12]]
+            base: 0.25,
+            stops: [[17, 3], [22, 17]]
           }
         }
       }, 'waterway-label');
@@ -146,9 +182,9 @@ export default class Map extends React.Component {
           'text-keep-upright': false
         },
         paint: {
-          'text-color': '#3887be',
+          'text-color': '#F4AC45',
           'text-halo-color': 'hsl(55, 11%, 96%)',
-          'text-halo-width': 3
+          'text-halo-width': 2
         }
       }, 'waterway-label');
     })
@@ -171,7 +207,7 @@ export default class Map extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    // this._renderPoint(nextProps.steps)
+    this._renderPoint(nextProps.steps)
   }
 
   _renderPoint = (steps) => {
@@ -251,28 +287,43 @@ export default class Map extends React.Component {
   }
   render () {
     const params = {
-      spaceBetween: 0,
-      on: {
-        slideChange: () => console.log(this.state.swiper)
-      },
       onInit: swiper => {
         this.swiper = swiper;
-      }
+      },
+      on: {
+        slideChange: () =>
+          console.log(this.state.swiper.activeIndex),
+        transitionEnd: () =>
+          console.log(this.state.swiper.activeIndex, this.state.swiper.realIndex)
+      },
+      shouldSwiperUpdate: true,
+      slidesPerView: 'auto'
     };
     return (
       <React.Fragment>
         <div id="nuit-blanche-map-wrapper" />
-        <StepsWrapper onClick={this.props._onToggleList}>
+        <StepsWrapper>
           <Swiper {...params} ref={this.swiperRef}>
             {
-              _.map(this.props.activeSteps, (s, id) => 
-                <ExtendItem
-                  id={id}
-                  key={id}
-                  group={id}
-                  datum={s.data}
-                  isToggle={true}
-                />
+              _.isEmpty(this.props.activeSteps) ? (
+                <ItemWrapper width={`100%`} onClick={this.props._onToggleList}>
+                  <Instruction>
+                    <h3>還沒決定好去哪嗎, 開始探索吧!</h3>
+                    <div><ArrowRight onClick={this.props._onToggleList} color={`white`} size={16}/></div>
+                  </Instruction>
+                </ItemWrapper>
+              ) : (
+                _.map(this.props.activeSteps, (s, id) => 
+                  <ItemWrapper key={id} width={`90%`}>
+                    <ExtendItem
+                      id={id}
+                      key={id}
+                      group={id}
+                      datum={s.data}
+                      isToggle={true}
+                    />
+                  </ItemWrapper>
+                )
               )
             }
           </Swiper>

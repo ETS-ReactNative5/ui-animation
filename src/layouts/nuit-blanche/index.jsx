@@ -56,6 +56,8 @@ export default class Nuit extends React.Component {
     this.setState({ steps })
   }
   render () {
+    console.log(this.state.steps);
+    
     return (
         <Section className="section">
           <Header
