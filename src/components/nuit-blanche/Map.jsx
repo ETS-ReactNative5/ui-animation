@@ -89,7 +89,8 @@ export default class Map extends React.Component {
       pitch: 45,
       bearing: 0,
       container: 'nuit-blanche-map-wrapper',
-      style: 'mapbox://styles/mapbox/dark-v9'
+      //style: 'mapbox://styles/mapbox/dark-v9'
+      style: 'mapbox://styles/lichin/cjmf2b5m6l3rz2spazn55o1nn'
     },
     defaultPoint: [121.517315, 25.047908],
     endPoint: [121.512, 25.05],
@@ -106,7 +107,6 @@ export default class Map extends React.Component {
     });
     this.setState({ map }, () => {
       this._renderBuilding(map)
-      // this._renderDirection(map)
     })
   }
 
@@ -122,28 +122,28 @@ export default class Map extends React.Component {
         }
       }
   
-      // map.addLayer({
-      //   'id': '3d-buildings',
-      //   'source': 'composite',
-      //   'source-layer': 'building',
-      //   'filter': ['==', 'extrude', 'true'],
-      //   'type': 'fill-extrusion',
-      //   'minzoom': 14,
-      //   'paint': {
-      //     'fill-extrusion-color': '#aaa',
-      //     'fill-extrusion-height': [
-      //       "interpolate", ["linear"], ["zoom"],
-      //       15, 0,
-      //       15.05, ["get", "height"]
-      //     ],
-      //     'fill-extrusion-base': [
-      //       "interpolate", ["linear"], ["zoom"],
-      //       15, 0,
-      //       15.05, ["get", "min_height"]
-      //     ],
-      //     'fill-extrusion-opacity': .6
-      //   }
-      // }, labelLayerId);
+      map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 14,
+        'paint': {
+          'fill-extrusion-color': '#222',
+          'fill-extrusion-height': [
+            "interpolate", ["linear"], ["zoom"],
+            15, 0,
+            15.05, ["get", "height"]
+          ],
+          'fill-extrusion-base': [
+            "interpolate", ["linear"], ["zoom"],
+            15, 0,
+            15.05, ["get", "min_height"]
+          ],
+          'fill-extrusion-opacity': .75
+        }
+      }, labelLayerId);
 
       map.addLayer({
         id: 'dropoffs-symbol',
@@ -180,7 +180,7 @@ export default class Map extends React.Component {
             stops: [[17, 3], [22, 17]]
           }
         }
-      }, 'waterway-label');
+      });
 
       map.addLayer({
         id: 'routearrows',
@@ -204,7 +204,7 @@ export default class Map extends React.Component {
           'text-halo-color': 'hsl(55, 11%, 96%)',
           'text-halo-width': 2
         }
-      }, 'waterway-label');
+      });
     })
   }
 
