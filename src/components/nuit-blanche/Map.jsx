@@ -1,32 +1,46 @@
 import React from 'react'
 import mapboxgl from 'mapbox-gl';
-import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.js'
-import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css'
 import * as turf from '@turf/turf'
 import $ from 'jquery';
 import _ from 'lodash'
 
 import Swiper from "react-id-swiper";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ExtendItem from "components/nuit-blanche/ExtendItem";
 import { ArrowRight } from "react-feather";
 
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`;
+
 const StepsWrapper = styled.div`
   width: 100%;
   height: 130px;
-  
   position: absolute;
   bottom: 0;
   z-index: 0;
+  animation: ${fadeIn} 0.5s cubic-bezier(0, 0.5, 0.2, 1) both;
 
   .swiper-container {
     width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    padding-right: 15px;
   }
 `
 
@@ -37,8 +51,8 @@ const ItemWrapper = styled.div`
 
 const Instruction = styled.div`
   padding: 7.5px 7.5px;
-  margin: 15px;
-  width: calc(100% - 30px);
+  margin: 15px 0 15px 15px;
+  width: calc(100% - 15px);
   height: calc(100% - 30px);
 
   border-radius: 5px;
@@ -48,6 +62,10 @@ const Instruction = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  h3 {
+    font-size: 18px;
+  }
 
   > div {
     margin-left: 4px;
@@ -104,28 +122,28 @@ export default class Map extends React.Component {
         }
       }
   
-      map.addLayer({
-        'id': '3d-buildings',
-        'source': 'composite',
-        'source-layer': 'building',
-        'filter': ['==', 'extrude', 'true'],
-        'type': 'fill-extrusion',
-        'minzoom': 14,
-        'paint': {
-          'fill-extrusion-color': '#aaa',
-          'fill-extrusion-height': [
-            "interpolate", ["linear"], ["zoom"],
-            15, 0,
-            15.05, ["get", "height"]
-          ],
-          'fill-extrusion-base': [
-            "interpolate", ["linear"], ["zoom"],
-            15, 0,
-            15.05, ["get", "min_height"]
-          ],
-          'fill-extrusion-opacity': .6
-        }
-      }, labelLayerId);
+      // map.addLayer({
+      //   'id': '3d-buildings',
+      //   'source': 'composite',
+      //   'source-layer': 'building',
+      //   'filter': ['==', 'extrude', 'true'],
+      //   'type': 'fill-extrusion',
+      //   'minzoom': 14,
+      //   'paint': {
+      //     'fill-extrusion-color': '#aaa',
+      //     'fill-extrusion-height': [
+      //       "interpolate", ["linear"], ["zoom"],
+      //       15, 0,
+      //       15.05, ["get", "height"]
+      //     ],
+      //     'fill-extrusion-base': [
+      //       "interpolate", ["linear"], ["zoom"],
+      //       15, 0,
+      //       15.05, ["get", "min_height"]
+      //     ],
+      //     'fill-extrusion-opacity': .6
+      //   }
+      // }, labelLayerId);
 
       map.addLayer({
         id: 'dropoffs-symbol',
@@ -190,44 +208,28 @@ export default class Map extends React.Component {
     })
   }
 
-  _renderDirection = (map) => {
-    var directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken,
-      unit: 'metric',
-      profile: 'walking',
-      interactive: true,
-      controls: {
-        inputs: false,
-        instructions: true
-      }
-    });
-    map.addControl(directions, 'top-left');
-    this.setState({ directions })
-    document.querySelector('.directions-control-instructions').style.visibility = 'hidden'
-  }
-
   componentWillReceiveProps = nextProps => {
     this._renderPoint(nextProps.steps)
   }
 
   _renderPoint = (steps) => {
-    this.setState({ pointHopper: {} })
-
     // update points
     let _steps = turf.featureCollection([]);
+    let pointHopper = {}
     _.map(steps, (s) => {
       let pt = turf.point([s.longitude, s.latitude], { orderTime: Date.now(), key: Math.random() } );
       _steps.features.push(pt);
-      this.state.pointHopper[pt.properties.key] = pt;
+      pointHopper[pt.properties.key] = pt;
     })
+    this.setState({ pointHopper })
     // render route
-    this.drawRoute()
+    this.drawRoute(pointHopper)
     // render dot.
     this.state.map.getSource('dropoffs-symbol').setData(_steps);
 
   }
-  drawRoute = () => {
-    $.get(this.generateRouteAPI()).done((data) => {
+  drawRoute = (pointHopper) => {
+    $.get(this.generateRouteAPI(pointHopper)).done((data) => {
       let routeGeoJSON = turf.featureCollection([turf.feature(data.trips[0].geometry)]);
       if (!data.trips[0]) {
         let routing = turf.featureCollection([])
@@ -235,45 +237,27 @@ export default class Map extends React.Component {
       } else {
         this.state.map.getSource('route')
           .setData(routeGeoJSON);
+        this._onfly(0)
       }
       if (data.waypoints.length === 12) {
         window.alert('Maximum number of points reached. Read more at mapbox.com/api-documentation/#optimization.');
       }
     })
   }
-  generateRouteAPI = () => {
-    let { defaultPoint, endPoint, lastAtRestaurant, pointHopper } = this.state
-    let coordinates = [defaultPoint];
+  generateRouteAPI = (pointHopper = {}) => {
+    let coordinates = [];
     let distributions = [];
-    let keepTrack = [defaultPoint];
     let restJobs = this.objectToArray(pointHopper);
-    let restaurantIndex
 
-    if (restJobs.length > 0) {
-      // Check to see if the request was made after visiting the restaurant
-      let needToPickUp = restJobs.filter((d, i) => {
-        return d.properties.orderTime > lastAtRestaurant;
-      }).length > 0;
-
-      if (needToPickUp) {
-        restaurantIndex = coordinates.length;
-        // Add the restaurant as a coordinate
-        coordinates.push(endPoint);
-        // push the restaurant itself into the array
-        keepTrack.push(pointHopper.warehouse);
-      }
-
+    if (restJobs.length > 1) {
       restJobs.forEach((d, i) => {
-        // Add dropoff to list
-        keepTrack.push(d);
         coordinates.push(d.geometry.coordinates);
-        // if order not yet picked up, add a reroute
-        if (needToPickUp && d.properties.orderTime > lastAtRestaurant) {
-          distributions.push(restaurantIndex + ',' + (coordinates.length - 1));
+        // make sure dis = corr - 1
+        if (distributions.length < restJobs.length - 1) {
+          distributions.push(0 + ',' + coordinates.length);
         }
-      });
+      }); 
     }
-    // Set the profile to `driving`
     // Coordinates will include the current location of the truck,
     return 'https://api.mapbox.com/optimized-trips/v1/mapbox/walking/' + coordinates.join(';') + '?distributions=' + distributions.join(';') + '&overview=full&steps=true&geometries=geojson&source=first&access_token=' + mapboxgl.accessToken;
   }
@@ -285,6 +269,7 @@ export default class Map extends React.Component {
     });
     return routeGeoJSON;
   }
+
   _onfly = (id) => {
     if (this.props.activeSteps) {
       let source = this.props.activeSteps[id].data
@@ -302,11 +287,10 @@ export default class Map extends React.Component {
         this.swiper = swiper;
       },
       on: {
-        slideChange: () => {
-          this._onfly(this.state.swiper.activeIndex)
-        },
-        transitionEnd: () =>
-          console.log(this.state.swiper.activeIndex, this.state.swiper.realIndex)
+        transitionEnd: () => {
+          let activeIndex = this.state.swiper.isEnd ? (this.state.swiper.slides.length - 1) : this.state.swiper.activeIndex
+          this._onfly(activeIndex)
+        }
       },
       shouldSwiperUpdate: true,
       slidesPerView: 'auto'
@@ -328,6 +312,7 @@ export default class Map extends React.Component {
                 _.map(this.props.activeSteps, (s, id) => 
                   <ItemWrapper key={id} width={`90%`}>
                     <ExtendItem
+                      inMap={true}
                       id={id}
                       key={id}
                       group={id}

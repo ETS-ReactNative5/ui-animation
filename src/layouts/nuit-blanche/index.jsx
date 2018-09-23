@@ -15,6 +15,7 @@ const Section = styled.section`
   @media screen and (max-width: 768px) {
     height: calc(100vh);
     padding: 0 !important;
+    align-items: flex-start;
   }
 `;
 
@@ -28,7 +29,8 @@ const Wrapper = styled.div`
   overflow: hidden;
 
   @media screen and (max-width: 768px) {
-    height: calc(100vh - 50px);
+    border-radius: 0px;
+    height: calc(100vh - 25px);
     width: 100%;
     padding: 0 !important;
     box-shadow: none;

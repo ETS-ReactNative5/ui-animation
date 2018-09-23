@@ -65,7 +65,7 @@ const NormalItem = styled.div`
   border-radius: 5px;
   display: flex;
   background: transparent;
-  width: calc(100% - 30px);
+  width: ${props => props.inMap ? `calc(100% - 15px)` : `calc(100% - 30px)`};
   margin-left: 15px;
 
   .bg {
@@ -195,8 +195,7 @@ export default class ExtendItem extends React.Component {
   }
   componentDidMount() {}
   render() {
-    let { datum, group, isToggle } = this.props
-    
+    let { datum, group, isToggle, inMap } = this.props
     return (
       <Wrapper
         id={`item-${this.props.id}`}
@@ -204,7 +203,7 @@ export default class ExtendItem extends React.Component {
         data-state={this.state.dataState}
         className={`item-wrapper`}
       >
-        <NormalItem className="item-normal">
+        <NormalItem inMap={inMap} className="item-normal">
           <div className="bg" data-flip-key={`bg-${this.props.id}`} />
           <Media className="media" data-flip-key={`media-${this.props.id}`} >
             <img src={datum.infoWindowImage} alt={datum.infoWindowImage} />

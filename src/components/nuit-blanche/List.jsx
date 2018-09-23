@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ItemsData from "layouts/nuit-blanche/data.json";
 import Navbar from "components/nuit-blanche/Navbar";
 import ExtendItem from "components/nuit-blanche/ExtendItem";
@@ -18,12 +18,29 @@ const place = [
   `台北當代藝術館周邊`,
   `台北國際藝術村周邊`
 ];
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`;
+
 const Wrapper = styled.div`
   background: #f8f8f8;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   display: ${props => (props.active ? `block` : `none`)};
+  animation: ${fadeIn} 0.5s cubic-bezier(0, 0.5, 0.2, 1) both;
 `;
 
 const Header = styled.div`
