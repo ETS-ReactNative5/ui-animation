@@ -64,6 +64,7 @@ const Body = styled.div`
   height: calc(100% - 100px);
   padding: 0 0px 15px 0px;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   position: initial;
 `;
 

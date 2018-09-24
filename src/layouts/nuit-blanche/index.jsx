@@ -4,6 +4,7 @@ import Header from "components/header";
 import "bulma/css/bulma.css"
 import Map from 'components/nuit-blanche/Map.jsx'
 import List from 'components/nuit-blanche/List.jsx'
+import Toolbox from 'components/nuit-blanche/Toolbox.jsx'
 import ItemsData from "layouts/nuit-blanche/data.json";
 import _ from "lodash";
 
@@ -87,6 +88,9 @@ export default class Nuit extends React.Component {
             title={`Nuit-Blanche #2018`}
           />
           <Wrapper className="wrapper">
+            <Toolbox 
+              isToggleList={this.state.isToggleList}
+              _onToggleList={this._onToggleList} />
             <Map
               isToggleList={this.state.isToggleList}
               places={this.state.ItemsData}
