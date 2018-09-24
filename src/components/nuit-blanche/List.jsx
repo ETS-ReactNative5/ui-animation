@@ -117,7 +117,7 @@ export default class Nuit extends React.Component {
       .map(d => {
         return {
           ...d,
-          category: `${d.typeContent} / ${d.typeContentEn}`
+          category: `${d.typeContentEn}`
         };
       })
       .groupBy(`category`)
@@ -127,31 +127,10 @@ export default class Nuit extends React.Component {
   }
 
   _onToggle = id => {
-    console.log(id);
     this.props._onToggleItem(id)
-    // let { step } = this.state;
-    // if (step.find(s => s === id)) {
-    //   let id = step.findIndex(s => s === id);
-    //   step.splice(id, 1);
-    // } else {
-    //   step.push(id);
-    // }
-    // this.setState({ step });
-    // // pass to map
-    // let stepsLatLan = _.map(step, s => {
-    //   let item = _.find(this.state.places.alldata, i => i.id === s);
-    //   return {
-    //     longitude: item.longitude,
-    //     latitude: item.latitude,
-    //     data: item
-    //   };
-    // });
-    // this.props._onToggleStep(stepsLatLan);
   };
 
   render() {
-    console.log(this.state, this.props);
-    
     return (
       <Wrapper active={this.props.isToggleList}>
         <Header>

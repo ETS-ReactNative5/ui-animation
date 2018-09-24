@@ -92,7 +92,8 @@ export default class Map extends React.Component {
       style: 'mapbox://styles/lichin/cjmf2b5m6l3rz2spazn55o1nn'
     },
     pointHopper: {},
-    swiper: null
+    swiper: null,
+    steps: []
   }
   swiperRef = ref => {
     this.setState({ swiper: ref.swiper });
@@ -215,25 +216,39 @@ export default class Map extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    // this._renderRoute(nextProps.steps)
+    if (nextProps.places) {
+      let steps = _.chain(nextProps.places.alldata)
+        .filter((datum) => datum.active)
+        .map((datum) => {
+        return {
+          longitude: datum.longitude,
+          latitude: datum.latitude,
+          data: datum
+        };
+      }).value();
+      this.setState({ steps }, () => {
+        // this._renderRoute(steps)
+      })
+    }
   }
 
   _renderRoute = (steps) => {
-    // update points
-    let _steps = turf.featureCollection([]);
-    let pointHopper = {}
-    _.map(steps, (s) => {
-      let pt = turf.point([s.longitude, s.latitude], { orderTime: Date.now(), key: Math.random() } );
-      _steps.features.push(pt);
-      pointHopper[pt.properties.key] = pt;
-    })
-    this.setState({ pointHopper })
-    // render route
-    this.drawRoute(pointHopper)
-    // render dot.
-    this.state.map.getSource('dropoffs-symbol').setData(_steps);
-
+    if (!_.isEmpty(steps)) {
+      let _steps = turf.featureCollection([]);
+      let pointHopper = {}
+      _.map(steps, (s) => {
+        let pt = turf.point([s.longitude, s.latitude], { orderTime: Date.now(), key: Math.random() } );
+        _steps.features.push(pt);
+        pointHopper[pt.properties.key] = pt;
+      })
+      this.setState({ pointHopper })
+      // render route
+      this.drawRoute(pointHopper)
+      // render dot.
+      this.state.map.getSource('dropoffs-symbol').setData(_steps);
+    }
   }
+
   drawRoute = (pointHopper) => {
     $.get(this.generateRouteAPI(pointHopper)).done((data) => {
       let routeGeoJSON = turf.featureCollection([turf.feature(data.trips[0].geometry)]);
@@ -279,8 +294,8 @@ export default class Map extends React.Component {
   }
 
   _onfly = (id) => {
-    if (this.props.steps) {
-      let source = this.props.steps[id].data
+    if (this.state.steps && this.state.steps[id]) {
+      let source = this.state.steps[id].data
       this.state.map.flyTo({
         bearing: 10 + id / 100,
         center: [source.longitude, source.latitude],
@@ -289,6 +304,10 @@ export default class Map extends React.Component {
       });  
     }
   }
+  _onToggle = id => {
+    console.log(id);
+    this.props._onToggleItem(id)
+  };
   render () {
     const params = {
       onInit: swiper => {
@@ -309,7 +328,7 @@ export default class Map extends React.Component {
         <StepsWrapper>
           <Swiper {...params} ref={this.swiperRef}>
             {
-              _.isEmpty(this.props.steps) ? (
+              _.isEmpty(this.state.steps) ? (
                 <ItemWrapper width={`100%`} onClick={this.props._onToggleList}>
                   <Instruction>
                     <h3>還沒決定好去哪嗎, 開始探索吧!</h3>
@@ -317,15 +336,16 @@ export default class Map extends React.Component {
                   </Instruction>
                 </ItemWrapper>
               ) : (
-                _.map(this.props.steps, (s, id) => 
+                _.map(this.state.steps, (s, id) => 
                   <ItemWrapper key={id} width={`90%`}>
                     <ExtendItem
                       inMap={true}
                       id={id}
                       key={id}
-                      group={id}
+                      group={s.data.typeContentEn}
                       datum={s.data}
                       isToggle={true}
+                      onToggle={() => this._onToggle(s.data.id)}
                     />
                   </ItemWrapper>
                 )

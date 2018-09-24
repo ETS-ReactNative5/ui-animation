@@ -63,20 +63,21 @@ export default class Nuit extends React.Component {
   _onToggleList = () => {
     this.setState({ isToggleList: !this.state.isToggleList })
   }
-  _onToggleStep = (steps) => {
-    this.setState({ steps })
-  }
   _onToggleItem = (id) => {
     let { ItemsData } = this.state
     let _id = ItemsData.alldata.findIndex(datum => datum.id === id);
     
-    if (_id !== undefined) {
+    if (_id !== undefined && _id !== -1) {
       let target = ItemsData.alldata[_id]
       target[`active`] = !target[`active`]
       ItemsData.alldata[_id] = target
       this.setState({ ItemsData })
     }
   }
+  _onToggleStep = (steps) => {
+    this.setState({ steps })
+  }
+
   render () {
     return (
         <Section className="section">
@@ -89,18 +90,14 @@ export default class Nuit extends React.Component {
             <Map
               isToggleList={this.state.isToggleList}
               places={this.state.ItemsData}
-              steps={this.state.steps}
-              activeSteps={this.state.steps}
               _onToggleList={this._onToggleList}
               _onToggleItem={this._onToggleItem}
             />
             <List
               isToggleList={this.state.isToggleList}
               places={this.state.ItemsData}
-              activeSteps={this.state.steps}
               _onToggleItem={this._onToggleItem}
               _onToggleList={this._onToggleList}
-              _onToggleStep={this._onToggleStep}
             />
           </Wrapper>
         </Section>    

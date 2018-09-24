@@ -19,9 +19,9 @@ const transition = (state, event) => {
   return machine.states[state].on[event] || state;
 }
 const ColorMapping = {
-  '裝置作品 / Visual Art Work': `#5f0f86`,
-  '表演活動 / Performance': `#eb5400`,
-  '響應串連 / Off-Program': `#e60072`
+  'Visual Art Work': `#5f0f86`,
+  'Performance': `#eb5400`,
+  'Off-Program': `#e60072`
 }
 const Wrapper = styled.div`
   width: 100%;
@@ -163,14 +163,15 @@ const BtnGroup = styled.div`
     
     cursor: pointer;
     transition: all 0.25s ease;
-    
-    &.active {
-      color: ${props => props.activeColor};
-      border-color: ${props => props.activeColor};
-    }
     > a {
       color: grey;
     }
+  }
+`
+const SelectBtn = styled.div`    
+  &.active {
+    color: ${props => props.activeColor} !important;
+    border-color: ${props => props.activeColor} !important;
   }
 `
 export default class ExtendItem extends React.Component {
@@ -214,7 +215,7 @@ export default class ExtendItem extends React.Component {
             <p>{datum.locationContent}</p>
 
             <BtnGroup activeColor={ColorMapping[group]}>
-              <div className={isToggle ? `active` : null} onClick={() => this.onToggle(datum.id)}>{isToggle ? `取消選取` : `選取景點`}</div>
+              <SelectBtn activeColor={ColorMapping[group]} className={isToggle ? `active` : null} onClick={() => this.onToggle(datum.id)}>{isToggle ? `取消選取` : `選取景點`}</SelectBtn>
               <div><a target="_blank" href={`http://nuitblanchetaipei.info/work?id=${datum.id}`}>前往官網介紹</a></div>
             </BtnGroup>
           </Info>
