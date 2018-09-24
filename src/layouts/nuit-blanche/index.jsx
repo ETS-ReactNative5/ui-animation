@@ -4,6 +4,8 @@ import Header from "components/header";
 import "bulma/css/bulma.css"
 import Map from 'components/nuit-blanche/Map.jsx'
 import List from 'components/nuit-blanche/List.jsx'
+import ItemsData from "layouts/nuit-blanche/data.json";
+import _ from "lodash";
 
 const Section = styled.section`
   height: 100%;
@@ -49,7 +51,14 @@ const Wrapper = styled.div`
 export default class Nuit extends React.Component {
   state = {
     steps: [],
+    ItemsData: ItemsData,
     isToggleList: false
+  }
+  componentDidMount () {
+    let { ItemsData } = this.state
+    let alldata = _.map(ItemsData.alldata, (item) => { return { ...item, active: false } })
+    ItemsData.alldata = alldata
+    this.setState({ ItemsData })
   }
   _onToggleList = () => {
     this.setState({ isToggleList: !this.state.isToggleList })
@@ -57,9 +66,18 @@ export default class Nuit extends React.Component {
   _onToggleStep = (steps) => {
     this.setState({ steps })
   }
-  render () {
-    console.log(this.state.steps);
+  _onToggleItem = (id) => {
+    let { ItemsData } = this.state
+    let _id = ItemsData.alldata.findIndex(datum => datum.id === id);
     
+    if (_id !== undefined) {
+      let target = ItemsData.alldata[_id]
+      target[`active`] = !target[`active`]
+      ItemsData.alldata[_id] = target
+      this.setState({ ItemsData })
+    }
+  }
+  render () {
     return (
         <Section className="section">
           <Header
@@ -70,13 +88,17 @@ export default class Nuit extends React.Component {
           <Wrapper className="wrapper">
             <Map
               isToggleList={this.state.isToggleList}
+              places={this.state.ItemsData}
               steps={this.state.steps}
               activeSteps={this.state.steps}
               _onToggleList={this._onToggleList}
+              _onToggleItem={this._onToggleItem}
             />
             <List
               isToggleList={this.state.isToggleList}
+              places={this.state.ItemsData}
               activeSteps={this.state.steps}
+              _onToggleItem={this._onToggleItem}
               _onToggleList={this._onToggleList}
               _onToggleStep={this._onToggleStep}
             />

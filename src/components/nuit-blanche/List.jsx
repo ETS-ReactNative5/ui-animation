@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import ItemsData from "layouts/nuit-blanche/data.json";
 import Navbar from "components/nuit-blanche/Navbar";
 import ExtendItem from "components/nuit-blanche/ExtendItem";
 import { ArrowLeft } from "react-feather";
@@ -94,28 +93,26 @@ const Title = styled.div`
 
 export default class Nuit extends React.Component {
   state = {
-    data: null,
-    filter: `全部`,
+    places: null,
+    id: 0,
     step: [],
-    active: true
   };
-  componentDidMount() {
-    let { data } = this.state;
-    data = _.chain(ItemsData.alldata)
-      .map(d => {
-        return {
-          ...d,
-          category: `${d.typeContent} / ${d.typeContentEn}`
-        };
-      })
-      .groupBy(`category`)
-      .value();
-    this.setState({ data });
+
+  componentWillReceiveProps = nextProps => {
+    let { places } = nextProps;
+    this.arrangeData(places)
   }
 
   onChange = id => {
-    let { data } = this.state;
-    data = _.chain(ItemsData.alldata)
+    this.setState({ id }, () => 
+      this.arrangeData(this.props.places)
+    )
+  };
+
+  arrangeData = (places) => {
+    let { id } = this.state;
+    if (places) {
+      places = _.chain(places.alldata)
       .filter(d => (id !== 0 ? d.areaTag === "" + id : true))
       .map(d => {
         return {
@@ -125,30 +122,36 @@ export default class Nuit extends React.Component {
       })
       .groupBy(`category`)
       .value();
-    this.setState({ data });
-  };
+      this.setState({ places });
+    }
+  }
 
   _onToggle = id => {
-    let { step } = this.state;
-    if (!step.find(s => s === id)) {
-      step.push(id);
-    } else {
-      let id = step.findIndex(s => s === id);
-      step.splice(id, 1);
-    }
-    this.setState({ step });
-    // pass to map
-    let stepsLatLan = _.map(step, s => {
-      let item = _.find(ItemsData.alldata, i => i.id === s);
-      return {
-        longitude: item.longitude,
-        latitude: item.latitude,
-        data: item
-      };
-    });
-    this.props._onToggleStep(stepsLatLan);
+    console.log(id);
+    this.props._onToggleItem(id)
+    // let { step } = this.state;
+    // if (step.find(s => s === id)) {
+    //   let id = step.findIndex(s => s === id);
+    //   step.splice(id, 1);
+    // } else {
+    //   step.push(id);
+    // }
+    // this.setState({ step });
+    // // pass to map
+    // let stepsLatLan = _.map(step, s => {
+    //   let item = _.find(this.state.places.alldata, i => i.id === s);
+    //   return {
+    //     longitude: item.longitude,
+    //     latitude: item.latitude,
+    //     data: item
+    //   };
+    // });
+    // this.props._onToggleStep(stepsLatLan);
   };
+
   render() {
+    console.log(this.state, this.props);
+    
     return (
       <Wrapper active={this.props.isToggleList}>
         <Header>
@@ -161,7 +164,7 @@ export default class Nuit extends React.Component {
           <Navbar place={place} onChange={this.onChange} />
         </Header>
         <Body>
-          {_.map(this.state.data, (list, lid) => (
+          {_.map(this.state.places, (list, lid) => (
             <React.Fragment key={lid}>
               <Title className={list[0][`typeContentEn`]}>{lid}</Title>
               {_.map(list, (datum, id) => (
@@ -170,7 +173,7 @@ export default class Nuit extends React.Component {
                   group={lid}
                   datum={datum}
                   id={`${lid}-${id}`}
-                  isToggle={_.find(this.props.activeSteps, (s) => s.data.id === datum.id) !== undefined}
+                  isToggle={datum.active}
                   onToggle={() => this._onToggle(datum.id)}
                 />
               ))}

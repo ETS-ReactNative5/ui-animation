@@ -89,12 +89,8 @@ export default class Map extends React.Component {
       pitch: 45,
       bearing: 0,
       container: 'nuit-blanche-map-wrapper',
-      //style: 'mapbox://styles/mapbox/dark-v9'
       style: 'mapbox://styles/lichin/cjmf2b5m6l3rz2spazn55o1nn'
     },
-    defaultPoint: [121.517315, 25.047908],
-    endPoint: [121.512, 25.05],
-    lastAtRestaurant: 0,
     pointHopper: {},
     swiper: null
   }
@@ -162,9 +158,9 @@ export default class Map extends React.Component {
       let routing = turf.featureCollection([])
       map.addSource('route', {
         type: 'geojson',
+        lineMetrics: true,
         data: routing
       })
-
       map.addLayer({
         id: 'routeline-active',
         type: 'line',
@@ -174,7 +170,17 @@ export default class Map extends React.Component {
           'line-cap': 'round'
         },
         paint: {
-          'line-color': '#FFD45E',
+          //'line-color': '#FFD45E',
+          'line-gradient': [
+            'interpolate',
+            ['linear'],
+            ['line-progress'],
+            0, "#FFD77E",
+            0.25, "#FFD169",
+            0.5, "#FFCA54",
+            0.75, "#FFC43E",
+            1, "#FFBD29"
+          ],
           'line-width': {
             base: 0.25,
             stops: [[17, 3], [22, 17]]
@@ -209,10 +215,10 @@ export default class Map extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    this._renderPoint(nextProps.steps)
+    // this._renderRoute(nextProps.steps)
   }
 
-  _renderPoint = (steps) => {
+  _renderRoute = (steps) => {
     // update points
     let _steps = turf.featureCollection([]);
     let pointHopper = {}
@@ -237,6 +243,8 @@ export default class Map extends React.Component {
       } else {
         this.state.map.getSource('route')
           .setData(routeGeoJSON);
+        // this.state.map.getSource('line')
+          // .setData(routeGeoJSON);
         this._onfly(0)
       }
       if (data.waypoints.length === 12) {
@@ -271,8 +279,8 @@ export default class Map extends React.Component {
   }
 
   _onfly = (id) => {
-    if (this.props.activeSteps) {
-      let source = this.props.activeSteps[id].data
+    if (this.props.steps) {
+      let source = this.props.steps[id].data
       this.state.map.flyTo({
         bearing: 10 + id / 100,
         center: [source.longitude, source.latitude],
@@ -301,7 +309,7 @@ export default class Map extends React.Component {
         <StepsWrapper>
           <Swiper {...params} ref={this.swiperRef}>
             {
-              _.isEmpty(this.props.activeSteps) ? (
+              _.isEmpty(this.props.steps) ? (
                 <ItemWrapper width={`100%`} onClick={this.props._onToggleList}>
                   <Instruction>
                     <h3>還沒決定好去哪嗎, 開始探索吧!</h3>
@@ -309,7 +317,7 @@ export default class Map extends React.Component {
                   </Instruction>
                 </ItemWrapper>
               ) : (
-                _.map(this.props.activeSteps, (s, id) => 
+                _.map(this.props.steps, (s, id) => 
                   <ItemWrapper key={id} width={`90%`}>
                     <ExtendItem
                       inMap={true}
