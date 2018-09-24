@@ -62,14 +62,17 @@ const Instruction = styled.div`
   }
 
   > div {
-    margin-left: 4px;
-    width: 24px;
-    height: 24px;
+    margin-left: 12px;
+    width: 100px;
+    height: 30px;
     background: #50514F;
-    border-radius: 50%;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    color: white;
+    cursor: pointer;
   }
 `
 export default class MapSteps extends React.Component {
@@ -111,8 +114,8 @@ export default class MapSteps extends React.Component {
             _.isEmpty(this.state.steps) ? (
               <ItemWrapper width={`100%`} onClick={this.props._onToggleList}>
                 <Instruction>
-                  <h3>還沒決定好去哪嗎, 開始探索吧!</h3>
-                  <div><ArrowRight onClick={this.props._onToggleList} color={`white`} size={16} /></div>
+                  <h3>還沒決定好去哪嗎?</h3>
+                  <div>開始探索<ArrowRight onClick={this.props._onToggleList} color={`white`} size={16} /></div>
                 </Instruction>
               </ItemWrapper>
             ) : (

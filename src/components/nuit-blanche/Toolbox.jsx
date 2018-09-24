@@ -1,6 +1,10 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { List, Send } from "react-feather";
+import { List, Clipboard } from "react-feather";
+
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-74093364-19')
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 const fadeIn = keyframes`
   0% {
@@ -38,7 +42,8 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  margin: ${props => props.margin ? props.margin : `0`};
+  width: ${props => props.width ? props.width : `40px`};
   height: 30px;
   background: white;
   border-radius: 5px;
@@ -47,15 +52,21 @@ const IconWrapper = styled.div`
 export default class Toolbox extends React.Component {
   state = {
   };
-
+  _onCopy = () => {
+    let link = window.location.href
+    ReactGA.event({
+      category: '4',
+      action: `copy link: #${link}`
+    });
+  }
   render() {
     return (
       <Wrapper active={!this.props.isToggleList}>
         <IconWrapper onClick={this.props._onToggleList}>
           <List size={18}/>
         </IconWrapper>
-        <IconWrapper onClick={() => {}}>
-          <Send size={18}/>
+        <IconWrapper width={`110px`} margin={`0 0 0 10px`} onClick={this._onCopy}>
+          複製連結<Clipboard size={18}/>
         </IconWrapper>
       </Wrapper>
     );

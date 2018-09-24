@@ -8,6 +8,10 @@ import Toolbox from 'components/nuit-blanche/Toolbox.jsx'
 import ItemsData from "layouts/nuit-blanche/data.json";
 import _ from "lodash";
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-74093364-19')
+ReactGA.pageview(window.location.pathname + window.location.search)
+
 const Section = styled.section`
   height: 100%;
   width: 100%;
@@ -70,6 +74,14 @@ export default class Nuit extends React.Component {
     
     if (_id !== undefined && _id !== -1) {
       let target = ItemsData.alldata[_id]
+      ReactGA.event({
+        category: '4',
+        action: `${target[`active`] ? `select` : `cancel`} item: #${id}`
+      });
+      let ids = [1, 2, 3]
+      let url = window.location.origin + `/4?place=[${ids.join(',')}]`
+      console.log(url);
+
       target[`active`] = !target[`active`]
       ItemsData.alldata[_id] = target
       this.setState({ ItemsData })

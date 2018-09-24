@@ -169,7 +169,7 @@ export default class Map extends React.Component {
       })
       this.setState({ pointHopper })
       // render route
-      this.drawRoute(pointHopper)
+      // this.drawRoute(pointHopper)
       // render dot.
       this.state.map.getSource('dropoffs-symbol').setData(_steps);
     }
@@ -234,7 +234,7 @@ export default class Map extends React.Component {
     return (
       <React.Fragment>
         <div id="nuit-blanche-map-wrapper" />
-        <MapSteps 
+        <MapSteps
           _onfly={this._onfly}
           _onToggleItem={this.props._onToggleItem}
           _onToggleList={this.props._onToggleList}

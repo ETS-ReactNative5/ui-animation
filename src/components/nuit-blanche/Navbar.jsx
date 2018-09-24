@@ -91,7 +91,6 @@ export default class NavbarComponent extends React.Component {
   }
   _onSelectNavbar = id => {
     this.setState({ activeId: id }, () => {this.send()});
-    
     // scroll bar.
     let e = document.getElementsByClassName("navbar-cell")[id];
     let parent = document.getElementsByClassName("navbar")[0];

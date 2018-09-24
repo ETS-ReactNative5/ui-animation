@@ -5,6 +5,11 @@ import ExtendItem from "components/nuit-blanche/ExtendItem";
 import { ArrowLeft } from "react-feather";
 import _ from "lodash";
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-74093364-19')
+ReactGA.pageview(window.location.pathname + window.location.search)
+
+
 const place = [
   `全部`,
   `捷運圓山站周邊`,
@@ -108,6 +113,10 @@ export default class Nuit extends React.Component {
     this.setState({ id }, () => 
       this.arrangeData(this.props.places)
     )
+    ReactGA.event({
+      category: '4',
+      action: `toggle navbar cell: #${place[id]}`
+    });
   };
 
   arrangeData = (places) => {
