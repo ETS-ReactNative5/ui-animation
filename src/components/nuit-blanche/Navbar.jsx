@@ -63,6 +63,15 @@ const Cell = styled.div`
     opacity: 1;
     color: #fff;
     transition: all 0.25s ease;
+    &.safariMode {
+      .bg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        background-color: #3d3d3d;
+      }
+    }
   }
 
   .bg {
@@ -90,7 +99,13 @@ export default class NavbarComponent extends React.Component {
     this.setState({ machine })
   }
   _onSelectNavbar = id => {
-    this.setState({ activeId: id }, () => {this.send()});
+    let browser = this.getBrowserId()
+    if (browser === `Safari`) {
+      document.getElementsByClassName("navbar-cell")[0].children[0].setAttribute(`style`, `display:${id !== 0 ? `none` : `block`};`)
+      this.setState({ activeId: id });
+    } else {
+      this.setState({ activeId: id }, () => {this.send()});
+    }
     // scroll bar.
     let e = document.getElementsByClassName("navbar-cell")[id];
     let parent = document.getElementsByClassName("navbar")[0];
@@ -111,7 +126,12 @@ export default class NavbarComponent extends React.Component {
   transition = (state) => {
     return this.state.machine.states[state] || state;
   };
-
+  getBrowserId = () => {
+    let aKeys = ["MSIE", "Firefox", "Safari", "Chrome", "Opera"],
+    sUsrAg = navigator.userAgent, nIdx = aKeys.length - 1;
+    for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--);
+    return aKeys[nIdx]
+  }
   render() {    
     return (
       <Navbar className="navbar" id="navbar" data-state={`0`}>
@@ -119,7 +139,7 @@ export default class NavbarComponent extends React.Component {
           <Cell
             key={d}
             id={`cell-${id}`}
-            className={id === this.state.activeId ? `active navbar-cell` : `navbar-cell`}
+            className={id === this.state.activeId ? `active ${this.getBrowserId() === `Safari` ? `safariMode`: null} navbar-cell` : `navbar-cell`}
             onClick={() => this._onSelectNavbar(id)}>
             {d}
             <div className="bg" data-flip-key={`bg`} />

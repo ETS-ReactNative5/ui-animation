@@ -66,7 +66,7 @@ export default class Toolbox extends React.Component {
           <List size={18}/>
         </IconWrapper>
         <IconWrapper width={`110px`} margin={`0 0 0 10px`} onClick={this._onCopy}>
-          複製連結<Clipboard size={18}/>
+          分享行程<Clipboard size={18}/>
         </IconWrapper>
       </Wrapper>
     );

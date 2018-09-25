@@ -80,7 +80,6 @@ export default class Nuit extends React.Component {
       });
       let ids = [1, 2, 3]
       let url = window.location.origin + `/4?place=[${ids.join(',')}]`
-      console.log(url);
 
       target[`active`] = !target[`active`]
       ItemsData.alldata[_id] = target

@@ -229,12 +229,15 @@ export default class Map extends React.Component {
       });  
     }
   }
-
+  building = () => {
+    let query = this.state.map.queryRenderedFeatures({ layers: [`3d-buildings`] });
+  }
   render () {
     return (
       <React.Fragment>
         <div id="nuit-blanche-map-wrapper" />
         <MapSteps
+          // onClick={this.building}
           _onfly={this._onfly}
           _onToggleItem={this.props._onToggleItem}
           _onToggleList={this.props._onToggleList}
