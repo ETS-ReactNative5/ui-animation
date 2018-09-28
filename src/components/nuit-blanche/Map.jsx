@@ -8,6 +8,35 @@ import MapSteps from 'components/nuit-blanche/MapSteps.jsx'
 const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ.CgaIVuDlJLRDbti7yiL4yw"
 mapboxgl.accessToken = TOKEN
 
+const rainbow = [
+  '#ff8c00',
+  '#ff9d1f',
+  '#ffac3e',
+  '#ffbc5a',
+  '#ffca76',
+  '#ffd890',
+  '#ffe6ac',
+  '#fff3c6',
+  '#ffffe0',
+];
+
+function makeGradient(i) {
+  const len = rainbow.length;
+  const sides = rainbow.reduce((a, b, j) => {
+    const pos = (j / len + i) % 1 || 1;
+    a[a.length - 1].push(pos);
+    a[a.length - 1].push(b);
+    if (pos + 1 / len > 1) {
+      a.push([]);
+      a[a.length - 1].push(pos - 1);
+      a[a.length - 1].push(b);      
+    }
+    return a;
+  }, [[]]);
+  
+  return ['interpolate', ['linear'], ['line-progress']].concat(
+    sides.reduce((a, b) => { return b.concat(a); }, []));
+}
 export default class Map extends React.Component {
   state = {
     viewport: {
@@ -97,17 +126,17 @@ export default class Map extends React.Component {
           'line-cap': 'round'
         },
         paint: {
-          //'line-color': '#FFD45E',
-          'line-gradient': [
-            'interpolate',
-            ['linear'],
-            ['line-progress'],
-            0, "#FFD77E",
-            0.25, "#FFD169",
-            0.5, "#FFCA54",
-            0.75, "#FFC43E",
-            1, "#FFBD29"
-          ],
+          // 'line-gradient': [
+          //   'interpolate',
+          //   ['linear'],
+          //   ['line-progress'],
+          //   0, "#FFD77E",
+          //   0.25, "#FFD169",
+          //   0.5, "#FFCA54",
+          //   0.75, "#FFC43E",
+          //   1, "#FFBD29"
+          // ],
+          'line-gradient': makeGradient(0),
           'line-width': {
             base: 0.25,
             stops: [[17, 3], [22, 17]]
@@ -138,6 +167,15 @@ export default class Map extends React.Component {
           'text-halo-width': 2
         }
       });
+
+      setTimeout(() => {
+        let i = 0;
+        setInterval(() => {
+          i += 0.001;
+          map.setPaintProperty('routeline-active', 'line-gradient', makeGradient(i));
+        }, 1);
+      }, 1000);     
+
     })
   }
 
@@ -169,7 +207,7 @@ export default class Map extends React.Component {
       })
       this.setState({ pointHopper })
       // render route
-      // this.drawRoute(pointHopper)
+      this.drawRoute(pointHopper)
       // render dot.
       this.state.map.getSource('dropoffs-symbol').setData(_steps);
     }
@@ -251,3 +289,5 @@ export default class Map extends React.Component {
 // behance source: https://www.behance.net/gallery/62585797/Festival-Papillons-de-Nuit-2017
 // https://gist.github.com/mchew7/55a80623ec22774f0ee1bd6e2b0337e0
 // with stop: https://www.mapbox.com/help/optimization-api/
+
+// route animation: https://blog.mapbox.com/map-pride-2018-with-our-new-design-tools-32b886f7db1b

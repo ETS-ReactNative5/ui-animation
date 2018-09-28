@@ -65,9 +65,9 @@ export default class Toolbox extends React.Component {
         <IconWrapper onClick={this.props._onToggleList}>
           <List size={18}/>
         </IconWrapper>
-        <IconWrapper width={`110px`} margin={`0 0 0 10px`} onClick={this._onCopy}>
+        {/* <IconWrapper width={`110px`} margin={`0 0 0 10px`} onClick={this._onCopy}>
           分享行程<Clipboard size={18}/>
-        </IconWrapper>
+        </IconWrapper> */}
       </Wrapper>
     );
   }
