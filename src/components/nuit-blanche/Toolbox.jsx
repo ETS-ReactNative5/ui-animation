@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { List, Clipboard } from "react-feather";
+import { List } from "react-feather";
 
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-74093364-19')

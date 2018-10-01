@@ -9,15 +9,13 @@ const TOKEN = "pk.eyJ1IjoibGljaGluIiwiYSI6ImNqOHF6NHVoMzB6aTkyeG50am1xcjh3aW4ifQ
 mapboxgl.accessToken = TOKEN
 
 const rainbow = [
-  '#ff8c00',
-  '#ff9d1f',
-  '#ffac3e',
-  '#ffbc5a',
-  '#ffca76',
-  '#ffd890',
-  '#ffe6ac',
-  '#fff3c6',
-  '#ffffe0',
+  '#F7F1A5',
+  '#F7F1A5',
+  '#CD1A2C',
+  '#A70052',
+  '#CD1A2C',
+  '#F7F1A5',
+  '#F7F1A5',
 ];
 
 function makeGradient(i) {
@@ -43,10 +41,10 @@ export default class Map extends React.Component {
       width: 300,
       height: 400,
       center: [121.517315, 25.047908],
-      zoom: 16,
-      maxZoom: 18,
-      pitch: 45,
-      bearing: 0,
+      zoom: 14,
+      maxZoom: 18.5,
+      pitch: 150,
+      bearing: 20,
       container: 'nuit-blanche-map-wrapper',
       style: 'mapbox://styles/lichin/cjmf2b5m6l3rz2spazn55o1nn'
     },
@@ -61,7 +59,17 @@ export default class Map extends React.Component {
       this._renderBuilding(map)
     })
   }
-
+  initialFlyon = () => {
+    setTimeout(() => {
+      this.state.map.flyTo({
+        bearing: 20,
+        center: [121.517315, 25.047908],
+        zoom: 16,
+        pitch: 150,
+        speed: 0.5
+      }); 
+    }, 2000); 
+  }
   _renderBuilding = (map) => {
     map.on('load', () => {
       // Insert the layer beneath any symbol layer.
@@ -174,8 +182,9 @@ export default class Map extends React.Component {
           i += 0.001;
           map.setPaintProperty('routeline-active', 'line-gradient', makeGradient(i));
         }, 1);
-      }, 1000);     
+      }, 1000);
 
+      this.initialFlyon()
     })
   }
 
@@ -260,15 +269,16 @@ export default class Map extends React.Component {
     if (this.state.steps && this.state.steps[id]) {
       let source = this.state.steps[id].data
       this.state.map.flyTo({
-        bearing: 10 + id / 100,
+        bearing: 20 + id / 100,
         center: [source.longitude, source.latitude],
         zoom: 18,
-        pitch: 40 + id / 100,
+        pitch: 160 + id / 100,
       });  
     }
   }
   building = () => {
     let query = this.state.map.queryRenderedFeatures({ layers: [`3d-buildings`] });
+    console.log(query);
   }
   render () {
     return (

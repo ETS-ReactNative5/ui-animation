@@ -78,8 +78,6 @@ export default class Nuit extends React.Component {
         category: '4',
         action: `${target[`active`] ? `select` : `cancel`} item: #${id}`
       });
-      let ids = [1, 2, 3]
-      let url = window.location.origin + `/4?place=[${ids.join(',')}]`
 
       target[`active`] = !target[`active`]
       ItemsData.alldata[_id] = target
