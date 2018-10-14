@@ -85,7 +85,7 @@ export default class MapSteps extends React.Component {
   }
   componentDidMount() { }
 
-  componentWillReceiveProps = nextProps => {
+  componentWillReceiveProps = nextProps => {    
     this.setState({ steps: nextProps.steps })
   }
 
@@ -111,7 +111,7 @@ export default class MapSteps extends React.Component {
       <StepsWrapper>
         <Swiper {...params} ref={this.swiperRef}>
           {
-            _.isEmpty(this.state.steps) ? (
+            _.isEmpty(this.props.order) ? (
               <ItemWrapper width={`100%`} onClick={this.props._onToggleList}>
                 <Instruction>
                   <h3>還沒決定好去哪嗎?</h3>

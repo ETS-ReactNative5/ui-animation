@@ -56,6 +56,7 @@ const Wrapper = styled.div`
 export default class Nuit extends React.Component {
   state = {
     steps: [],
+    order: [],
     ItemsData: ItemsData,
     isToggleList: false
   }
@@ -69,7 +70,7 @@ export default class Nuit extends React.Component {
     this.setState({ isToggleList: !this.state.isToggleList })
   }
   _onToggleItem = (id) => {
-    let { ItemsData } = this.state
+    let { ItemsData, order } = this.state
     let _id = ItemsData.alldata.findIndex(datum => datum.id === id);
     
     if (_id !== undefined && _id !== -1) {
@@ -81,8 +82,16 @@ export default class Nuit extends React.Component {
 
       target[`active`] = !target[`active`]
       ItemsData.alldata[_id] = target
-      this.setState({ ItemsData })
+      
+      if (order.includes(id)) {
+        let _id = order.findIndex(o => o === id);
+        order.splice(_id, 1)
+      } else {
+        order.push(id)
+      }
+      this.setState({ ItemsData, order })
     }
+    
   }
   _onToggleStep = (steps) => {
     this.setState({ steps })
@@ -103,6 +112,7 @@ export default class Nuit extends React.Component {
             <Map
               isToggleList={this.state.isToggleList}
               places={this.state.ItemsData}
+              order={this.state.order}
               _onToggleList={this._onToggleList}
               _onToggleItem={this._onToggleItem}
             />

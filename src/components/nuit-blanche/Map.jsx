@@ -199,8 +199,12 @@ export default class Map extends React.Component {
           data: datum
         };
       }).value();
-      this.setState({ steps }, () => {
-        this._renderRoute(steps)
+      let orderStep = _.map(this.props.order, (o, id) => {
+        return _.find(steps, (s) => s.data.id === o)
+      })
+      
+      this.setState({ steps: orderStep }, () => {
+        this._renderRoute(orderStep)
       })
     }
   }
@@ -290,6 +294,7 @@ export default class Map extends React.Component {
           _onToggleItem={this.props._onToggleItem}
           _onToggleList={this.props._onToggleList}
           steps={this.state.steps}
+          order={this.props.order}
         />
       </React.Fragment>
     ) 
