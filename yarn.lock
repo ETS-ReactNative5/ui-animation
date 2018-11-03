@@ -3095,6 +3095,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+curtainsjs@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/curtainsjs/-/curtainsjs-1.5.2.tgz#5285ef19de77dfed7ba0449636d88a5d01917cb0"
+
 d3-array@1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
