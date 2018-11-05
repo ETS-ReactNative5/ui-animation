@@ -17,9 +17,9 @@
   --default-nuit-width: 375px;
   --default-nuit-height: 667px;
 
-  --Peter-Huang-Photo-width: calc(var(--Peter-Huang-Photo-height) * 12 / 16);
-  --Peter-Huang-Photo-height: 864px;
-  --Peter-Huang-Photo-bg-color: rgb(237, 237, 237);
+  --Peter-Huang-Photo-width: calc(80vw);
+  --Peter-Huang-Photo-height: calc(var(--Peter-Huang-Photo-width) * 12 / 16);
+  --Peter-Huang-Photo-bg-color: white;
   --Peter-Huang-Photo-secondary-color: rgb(43, 43, 43);
 }
 

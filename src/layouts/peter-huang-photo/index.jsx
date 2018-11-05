@@ -18,10 +18,26 @@ const Section = styled.section`
 `;
 
 const Wrapper = styled.div`
+	overflow: scroll;
+	overflow-y: hidden !important;
+	white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
   height: var(--Peter-Huang-Photo-height);
   width: var(--Peter-Huang-Photo-width);
-  border-radius: 1px;
-  background: var(--Peter-Huang-Photo-bg-color);
+`
+
+const FrameWrapper = styled.div`
+  display: inline-block;
+  height: var(--Peter-Huang-Photo-height);
+  width: var(--Peter-Huang-Photo-width);
+`
+const Frame = styled.div`
+  height: 100%;
+  width: 100%;
+  /* border-radius: 1px; */
+  /* border: 1px solid black; */
+  background: transparent;
 
   display: grid;
   grid-template-columns: repeat(24, 1fr [col-start]);
@@ -34,12 +50,12 @@ const Wrapper = styled.div`
   }
 
   .title-item {
-    grid-column: col-start 3 / col-start 16;
+    grid-column: col-start 3 / col-start 12;
     grid-row: row-start 4 / row-start 6;
   }
   .photo-item {
-    grid-column: col-start 5 / col-start 22;
-    grid-row: row-start 12 / row-start 20;
+    grid-column: col-start 8 / col-start 22;
+    grid-row: row-start 12 / row-start 22;
     /* background-image: ${props => props.url ? props.url : `url(${require('assets/peter-huang-photo/cell.jpg')})` }; */
     background-position: center;
     background-size: cover;
@@ -76,21 +92,23 @@ const Wrapper = styled.div`
   .bg-item {
     background: linear-gradient(90deg, var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, linear-gradient(var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, var(--Peter-Huang-Photo-secondary-color);
     background-size: 18px 18px;
-    grid-column: col-start 3 / col-start 21;
-    grid-row: row-start 11 / row-start 19;
+    grid-column: col-start 7 / col-start 21;
+    grid-row: row-start 11 / row-start 21;
   }
 
 `
-
 export default class Photo extends React.Component {
   componentDidMount () {
-    document.body.height = window.innerHeight;
-    // set up our WebGL context and append the canvas to our wrapper
-    var webGLCurtain = new Curtains("canvas");
-    // get our plane element
-    var planeElement = document.getElementsByClassName("plane")[0];
-    // set our initial parameters (basic uniforms)
-    var params = {
+    // this.setShader()
+    // this.setHorizontal()
+  }
+  setHorizontal = () => {
+  }
+  setShader = () => {
+    const webGLCurtain = new Curtains("canvas")
+    const planeElement = document.getElementsByClassName("plane")[0]
+
+    const params = {
         vertexShaderID: "plane-vs", // our vertex shader ID
         fragmentShaderID: "plane-fs", // our framgent shader ID
         uniforms: {
@@ -101,12 +119,8 @@ export default class Photo extends React.Component {
             },
         }
     }
-    // create our plane mesh
-    var plane = webGLCurtain.addPlane(planeElement, params);
-    // use the onRender method of our plane fired at each requestAnimationFrame call
-    plane.onRender(function() {
-        plane.uniforms.time.value++; // update our time uniform value
-    });
+    const plane = webGLCurtain.addPlane(planeElement, params)
+    plane.onRender(() => plane.uniforms.time.value++)
   }
   render () {
     return (
@@ -117,15 +131,33 @@ export default class Photo extends React.Component {
             title={`Peter-Huang-photo`}
           />
           <Wrapper className="wrapper">
-            <div className="item title-item"></div>
-            <div className="item bg-item"></div>
-            <div className="item photo-item">
-              <div id="canvas"></div>
-              <div className="plane">
-                  <img src={require('assets/peter-huang-photo/cell.jpg')} />
-              </div>
-              <div className="label"></div>
-            </div>
+            <FrameWrapper className="block">
+              <Frame>
+                <div className="item title-item"></div>
+                <div className="item bg-item"></div>
+                <div className="item photo-item">
+                  <div id="canvas"></div>
+                  <div className="plane">
+                      <img src={require('assets/peter-huang-photo/cell.jpg')} />
+                  </div>
+                  <div className="label"></div>
+                </div>
+              </Frame>
+            </FrameWrapper>
+
+            <FrameWrapper className="block">
+              <Frame>
+                <div className="item title-item"></div>
+                <div className="item bg-item"></div>
+                <div className="item photo-item">
+                  <div id="canvas"></div>
+                  <div className="plane">
+                      <img src={require('assets/peter-huang-photo/cell.jpg')} />
+                  </div>
+                  <div className="label"></div>
+                </div>
+              </Frame>
+            </FrameWrapper>
           </Wrapper>
         </Section>    
     )
