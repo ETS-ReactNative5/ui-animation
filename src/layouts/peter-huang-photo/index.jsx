@@ -69,9 +69,9 @@ export default class Photo extends React.Component {
           title={`Peter-Huang-photo`}
         />
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
-          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')}/>
-          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')}/>
-          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')}/>
+          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14}/>
+          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={10} rowLen={10} colStart={6} colLen={14}/>
+          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9}/>
         </Wrapper>
       </Section>
     )

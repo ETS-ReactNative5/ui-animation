@@ -23,12 +23,12 @@ const Frame = styled.div`
   }
 
   .title-item {
-    grid-column: col-start 3 / col-start 12;
-    grid-row: row-start 4 / row-start 6;
+    grid-column: ${prop => prop.rowStart === 8 ? `col-start 12 / col-start 20` : `col-start 3 / col-start 12`};
+    grid-row: ${prop => prop.rowStart === 8 ? `row-start 3 / row-start 5` : `row-start 4 / row-start 6`};
   }
-  .photo-item {
-    grid-column: col-start 8 / col-start 22;
-    grid-row: row-start 12 / row-start 22;
+  .photo-item {  
+    grid-column: ${prop => prop.colStart && prop.colLen ? `col-start ${prop.colStart} / col-start ${prop.colStart + prop.colLen}` : `col-start 8 / col-start 22`};
+    grid-row: ${prop => prop.rowStart && prop.rowLen ? `row-start ${prop.rowStart} / row-start ${prop.rowStart + prop.rowLen}` : `row-start 12 / row-start 22`};
     /* background-image: ${props => props.url ? props.url : `url(${require('assets/peter-huang-photo/cell.jpg')})`}; */
     background-position: center;
     background-size: cover;
@@ -46,8 +46,8 @@ const Frame = styled.div`
   .bg-item {
     background: linear-gradient(90deg, var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, linear-gradient(var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, var(--Peter-Huang-Photo-secondary-color);
     background-size: 18px 18px;
-    grid-column: col-start 7 / col-start 21;
-    grid-row: row-start 11 / row-start 21;
+    grid-column: ${prop => prop.colStart && prop.colLen ? `col-start ${prop.colStart - 1} / col-start ${prop.colStart + prop.colLen - 1}` : `col-start 7 / col-start 21`};
+    grid-row: ${prop => prop.rowStart && prop.rowLen ? `row-start ${prop.rowStart - 1} / row-start ${prop.rowStart + prop.rowLen - 1}` : `row-start 11 / row-start 21`};
   }
 
 `
@@ -93,10 +93,10 @@ export default class FrameComponent extends React.Component {
     plane.onRender(() => plane.uniforms.time.value++)
   }
   render() {
-    const { idx, src } = this.props
+    const { idx, src, rowStart, rowLen, colStart, colLen } = this.props
     return (
       <FrameWrapper className="block">
-        <Frame>
+        <Frame rowStart={rowStart} rowLen={rowLen} colStart={colStart} colLen={colLen}>
           <div className="item title-item"></div>
           <div className="item bg-item"></div>
           <div className="item photo-item">
