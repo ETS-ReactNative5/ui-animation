@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   -webkit-overflow-scrolling: touch;
 
   height: var(--Peter-Huang-Photo-height);
-  width: var(--Peter-Huang-Photo-width);
+  width: auto;
 
   transition: transform 0.5s;
   will-change: transform;
@@ -52,7 +52,7 @@ export default class Photo extends React.Component {
     if (node) {
       const newPixel = node.scrollLeft
       const diff = newPixel - currentPixel
-      const speed = diff * 1
+      const speed = diff * 1 > 30 ? 30 : diff * 1
       node.style.transform = `skew(${speed}deg)`
 
       currentPixel = newPixel
@@ -63,15 +63,15 @@ export default class Photo extends React.Component {
   render() {
     return (
       <Section className="section">
-        <Header
+        {/* <Header
           color={`#50514F`}
           counter={5}
           title={`Peter-Huang-photo`}
-        />
+        /> */}
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
-          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14}/>
-          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={10} rowLen={10} colStart={6} colLen={14}/>
-          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9}/>
+          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`}/>
+          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={10} rowLen={10} colStart={6} colLen={14} title={`Sunrise`}/>
+          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9} title={`Copenhagen`}/>
         </Wrapper>
       </Section>
     )

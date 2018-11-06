@@ -44,6 +44,7 @@ body {
 }
 @import url("https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.6/css/swiper.min.css");
 @import url("https://fonts.googleapis.com/css?family=Lato|Montserrat:400,700|Raleway");
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,700i');
 
 .marker {
   width: 15px;
