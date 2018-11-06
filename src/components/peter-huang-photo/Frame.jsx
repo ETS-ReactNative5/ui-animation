@@ -5,8 +5,8 @@ import { Curtains } from 'curtainsjs';
 const FrameWrapper = styled.div`
   display: inline-block;
   height: var(--Peter-Huang-Photo-height);
-  width: var(--Peter-Huang-Photo-width);
-  padding: 0 0.5vw;
+  min-width: var(--Peter-Huang-Photo-width);
+  padding: 0 15%;
 `
 const Frame = styled.div`
   height: 100%;
@@ -17,6 +17,7 @@ const Frame = styled.div`
   grid-template-columns: repeat(24, 1fr [col-start]);
   grid-template-rows: repeat(24, 1fr [row-start]);
 
+
   @media screen and (max-width: 768px) {}
 
   .item {
@@ -24,17 +25,17 @@ const Frame = styled.div`
   }
 
   .title-item {
-    grid-column: ${prop => prop.rowStart === 8 ? `col-start 12 / col-start 20` : `col-start 3 / col-start 12`};
-    grid-row: ${prop => prop.rowStart === 8 ? `row-start 3 / row-start 5` : `row-start 4 / row-start 6`};
+    grid-column: ${prop => prop.titleColSrart && prop.titleColLen ? `col-start ${prop.titleColSrart} / col-start ${prop.titleColSrart + prop.titleColLen}` : `col-start 3 / col-start 12`};
+    grid-row: ${prop => prop.titleRowSrart && prop.titleRowLen ? `row-start ${prop.titleRowSrart} / row-start ${prop.titleRowSrart + prop.titleRowLen}` : `row-start 4 / row-start 6`};
     background: transparent;
 
     position: -webkit-sticky;
     position: sticky;
-    left: 0px;
-
+    left: 100px;
+    
     h1 {
       margin: 0;
-      font-size: 7.5vw;
+      font-size: 7vw;
       font-weight: 700;
       font-style: italic;
       font-family: 'Rubik', sans-serif;
@@ -113,10 +114,10 @@ export default class FrameComponent extends React.Component {
     plane.onRender(() => plane.uniforms.time.value++)
   }
   render() {
-    const { idx, src, rowStart, rowLen, colStart, colLen, title } = this.props
+    const { idx, src, rowStart, rowLen, colStart, colLen, titleColSrart, titleColLen, titleRowSrart, titleRowLen, title } = this.props
     return (
       <FrameWrapper className="block">
-        <Frame rowStart={rowStart} rowLen={rowLen} colStart={colStart} colLen={colLen}>
+        <Frame rowStart={rowStart} rowLen={rowLen} colStart={colStart} colLen={colLen} titleColSrart={titleColSrart} titleColLen={titleColLen} titleRowSrart={titleRowSrart} titleRowLen={titleRowLen}>
           <div className="item title-item">
             <h1>{title}</h1>
           </div>

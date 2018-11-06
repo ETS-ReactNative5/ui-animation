@@ -12,6 +12,7 @@ const Section = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 
   @media screen and (max-width: 768px) {
     height: calc(100vh);
@@ -28,7 +29,7 @@ const Wrapper = styled.div`
   height: var(--Peter-Huang-Photo-height);
   width: auto;
 
-  transition: transform 0.5s;
+  transition: transform 0.25s;
   will-change: transform;
 
   &::-webkit-scrollbar { 
@@ -52,7 +53,8 @@ export default class Photo extends React.Component {
     if (node) {
       const newPixel = node.scrollLeft
       const diff = newPixel - currentPixel
-      const speed = diff * 1 > 30 ? 30 : diff * 1
+      const _speed = diff * 0.5
+      const speed = _speed > 10 ? 10 : (_speed < -10 ? -10 : _speed)
       node.style.transform = `skew(${speed}deg)`
 
       currentPixel = newPixel
@@ -63,15 +65,15 @@ export default class Photo extends React.Component {
   render() {
     return (
       <Section className="section">
-        {/* <Header
+        <Header
           color={`#50514F`}
           counter={5}
           title={`Peter-Huang-photo`}
-        /> */}
+        />
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
-          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`}/>
-          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={10} rowLen={10} colStart={6} colLen={14} title={`Sunrise`}/>
-          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9} title={`Copenhagen`}/>
+          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
+          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={8} rowLen={10} colStart={7} colLen={14} title={`Sunrise`} titleColSrart={4} titleColLen={2} titleRowSrart={19} titleRowLen={2}/>
+          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9} title={`Copenhagen`} titleColSrart={4} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
         </Wrapper>
       </Section>
     )
