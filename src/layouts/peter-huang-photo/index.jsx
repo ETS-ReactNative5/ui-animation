@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "components/header";
 import Frame from 'components/peter-huang-photo/Frame.jsx'
 import "bulma/css/bulma.css"
+import _ from 'lodash'
 
 let currentPixel = 0 // window.pageXOffset
 
@@ -39,12 +40,16 @@ const Wrapper = styled.div`
 `
 
 export default class Photo extends React.Component {
+  state = {
+    photos: []
+  }
   constructor(props) {
     super(props);
     this.wrapperRef = React.createRef()
   }
   componentDidMount() {
     this.looper()
+    this.fetchPhoto()
   }
 
   looper = () => {
@@ -62,7 +67,28 @@ export default class Photo extends React.Component {
       requestAnimationFrame(this.looper)
     }
   }
+
+  fetchPhoto = () => {
+    const access_token = '5559280059.1677ed0.962c5607674440cd80f1f363a31cfd48'
+    const count = 10
+    fetch(`https://api.instagram.com/v1/users/self/media/recent?access_token=${access_token}`, {
+      data: {
+        access_token,
+        count
+      }
+    })
+      .then(res=> res.json())
+      .then(res => {
+        this.setState({ photos: res.data.slice(0, 10) })
+        let p = res.data.slice(0, 10)
+        let c = p.map((photo) => photo.filter)
+        console.log(c);
+        
+      })
+      .catch((err) => console.log(err))
+  }
   render() {
+    const { photos } = this.state
     return (
       <Section className="section">
         <Header
@@ -71,9 +97,14 @@ export default class Photo extends React.Component {
           title={`Peter-Huang-photo`}
         />
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
-          <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
-          <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={8} rowLen={10} colStart={7} colLen={14} title={`Sunrise`} titleColSrart={4} titleColLen={2} titleRowSrart={19} titleRowLen={2}/>
-          <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9} title={`Copenhagen`} titleColSrart={4} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
+          {
+            _.map(photos, (photo) => <Frame id={photo.id} idx={photo.id} src={photo.images.standard_resolution.url} rowStart={12} rowLen={10} colStart={8} colLen={14} title={photo.tags[0]} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>)
+          }
+          {/*
+            <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
+            <Frame idx={1} src={require('assets/peter-huang-photo/mountain.jpg')} rowStart={8} rowLen={10} colStart={7} colLen={14} title={`Sunrise`} titleColSrart={4} titleColLen={2} titleRowSrart={19} titleRowLen={2}/>
+            <Frame idx={2} src={require('assets/peter-huang-photo/church.jpg')} rowStart={8} rowLen={15} colStart={8} colLen={9} title={`Copenhagen`} titleColSrart={4} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
+          */}
         </Wrapper>
       </Section>
     )

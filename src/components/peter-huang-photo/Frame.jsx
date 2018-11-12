@@ -29,9 +29,9 @@ const Frame = styled.div`
     grid-row: ${prop => prop.titleRowSrart && prop.titleRowLen ? `row-start ${prop.titleRowSrart} / row-start ${prop.titleRowSrart + prop.titleRowLen}` : `row-start 4 / row-start 6`};
     background: transparent;
 
-    position: -webkit-sticky;
+    /* position: -webkit-sticky;
     position: sticky;
-    left: 100px;
+    left: 100px; */
     
     h1 {
       margin: 0;
