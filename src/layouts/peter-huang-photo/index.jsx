@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
-import Header from "components/header";
+import Header from "components/header/peter.jsx";
 import Frame from 'components/peter-huang-photo/Frame.jsx'
 import "bulma/css/bulma.css"
 import _ from 'lodash'
@@ -11,7 +11,7 @@ const Section = styled.section`
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   padding: 0;
 
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 	white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 
-  height: var(--Peter-Huang-Photo-height);
+  height: calc(100vh - 50px); // var(--Peter-Huang-Photo-height);
   width: auto;
 
   transition: transform 0.25s;
@@ -80,10 +80,6 @@ export default class Photo extends React.Component {
       .then(res=> res.json())
       .then(res => {
         this.setState({ photos: res.data.slice(0, 10) })
-        let p = res.data.slice(0, 10)
-        let c = p.map((photo) => photo.filter)
-        console.log(c);
-        
       })
       .catch((err) => console.log(err))
   }
@@ -94,11 +90,11 @@ export default class Photo extends React.Component {
         <Header
           color={`#50514F`}
           counter={5}
-          title={`Peter-Huang-photo`}
+          title={`Simple-Aesthetic/Taipei-Based `}
         />
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
           {
-            _.map(photos, (photo) => <Frame id={photo.id} idx={photo.id} src={photo.images.standard_resolution.url} rowStart={12} rowLen={10} colStart={8} colLen={14} title={photo.tags[0]} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>)
+            _.map(photos, (photo) => <Frame id={photo.id} idx={photo.id} src={photo.images.standard_resolution.url} rowStart={11} rowLen={10} colStart={8} colLen={14} title={photo.tags[0]} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>)
           }
           {/*
             <Frame idx={0} src={require('assets/peter-huang-photo/cell.jpg')} rowStart={12} rowLen={10} colStart={8} colLen={14} title={`Cell Building`} titleColSrart={1} titleColLen={2} titleRowSrart={3} titleRowLen={2}/>
