@@ -19,7 +19,7 @@ const Section = styled.section`
     height: calc(100vh);
     padding: 0 !important;
   }
-`;
+`
 
 const Wrapper = styled.div`
 	overflow: scroll;
@@ -69,9 +69,11 @@ export default class Photo extends React.Component {
   }
 
   fetchPhoto = () => {
-    const access_token = '5559280059.1677ed0.962c5607674440cd80f1f363a31cfd48'
+    const access_token = '1427534595.b30d0ec.2807947daaa743658b210cb5478aa57c'
+    const user_id = 1427534595
     const count = 10
-    fetch(`https://api.instagram.com/v1/users/self/media/recent?access_token=${access_token}`, {
+    
+    fetch(`https://api.instagram.com/v1/users/${user_id}/media/recent?access_token=${access_token}`, {
       data: {
         access_token,
         count
@@ -90,7 +92,7 @@ export default class Photo extends React.Component {
         <Header
           color={`#50514F`}
           counter={5}
-          title={`Simple-Aesthetic/Taipei-Based `}
+          title={`Simple-Aesthetic/Taipei-Based`}
         />
         <Wrapper className="wrapper" innerRef={this.wrapperRef}>
           {

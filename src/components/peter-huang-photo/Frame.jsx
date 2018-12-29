@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from "styled-components";
 import { Curtains } from 'curtainsjs';
-
+import Frag from './glsl/frag.js';
+import Vert from './glsl/vert.js';
 const FrameWrapper = styled.div`
   display: inline-block;
   height: var(--Peter-Huang-Photo-height);
@@ -100,8 +101,8 @@ export default class FrameComponent extends React.Component {
     const planeElement = document.getElementsByClassName(`plane-${idx}`)[0]
     
     const params = {
-      vertexShaderID: "plane-vs",
-      fragmentShaderID: "plane-fs",
+      fragmentShader: Frag,
+      vertexShader: Vert,
       uniforms: {
         time: {
           name: "uTime", // uniform name that will be passed to our shaders
@@ -110,6 +111,7 @@ export default class FrameComponent extends React.Component {
         },
       }
     }
+    
     const plane = webGLCurtain.addPlane(planeElement, params)
     plane.onRender(() => plane.uniforms.time.value++)
   }

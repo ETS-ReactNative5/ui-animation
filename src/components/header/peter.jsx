@@ -90,7 +90,7 @@ export default class HeaderComponent extends React.Component {
         </Logo>
 
         <Brief color={this.props.color}>
-          <a href="https://www.instagram.com/peterhuang_tw/" target="_blank">@peterhuang_tw</a>
+          <a href="https://www.instagram.com/peterhuang_tw/" target="_blank" rel="noopener noreferrer">@peterhuang_tw</a>
         </Brief>
 
         <Title color={this.props.color}>{this.props.title}</Title>
