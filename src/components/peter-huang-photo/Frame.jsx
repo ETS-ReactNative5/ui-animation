@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
-import { Curtains } from 'curtainsjs';
-import Frag from './glsl/frag.js';
-import Vert from './glsl/vert.js';
+import { Curtains } from "curtainsjs";
+import Frag from "./glsl/frag.js";
+import Vert from "./glsl/vert.js";
 const FrameWrapper = styled.div`
   display: inline-block;
   height: var(--Peter-Huang-Photo-height);
   min-width: var(--Peter-Huang-Photo-width);
   padding: 0 15%;
-`
+`;
 const Frame = styled.div`
   height: 100%;
   width: 100%;
@@ -26,8 +26,16 @@ const Frame = styled.div`
   }
 
   .title-item {
-    grid-column: ${prop => prop.titleColSrart && prop.titleColLen ? `col-start ${prop.titleColSrart} / col-start ${prop.titleColSrart + prop.titleColLen}` : `col-start 3 / col-start 12`};
-    grid-row: ${prop => prop.titleRowSrart && prop.titleRowLen ? `row-start ${prop.titleRowSrart} / row-start ${prop.titleRowSrart + prop.titleRowLen}` : `row-start 4 / row-start 6`};
+    grid-column: ${prop =>
+      prop.titleColSrart && prop.titleColLen
+        ? `col-start ${prop.titleColSrart} / col-start ${prop.titleColSrart +
+            prop.titleColLen}`
+        : `col-start 3 / col-start 12`};
+    grid-row: ${prop =>
+      prop.titleRowSrart && prop.titleRowLen
+        ? `row-start ${prop.titleRowSrart} / row-start ${prop.titleRowSrart +
+            prop.titleRowLen}`
+        : `row-start 4 / row-start 6`};
     background: transparent;
 
     /* position: -webkit-sticky;
@@ -49,9 +57,20 @@ const Frame = styled.div`
     }
   }
   .photo-item {  
-    grid-column: ${prop => prop.colStart && prop.colLen ? `col-start ${prop.colStart} / col-start ${prop.colStart + prop.colLen}` : `col-start 8 / col-start 22`};
-    grid-row: ${prop => prop.rowStart && prop.rowLen ? `row-start ${prop.rowStart} / row-start ${prop.rowStart + prop.rowLen}` : `row-start 12 / row-start 22`};
-    /* background-image: ${props => props.url ? props.url : `url(${require('assets/peter-huang-photo/cell.jpg')})`}; */
+    grid-column: ${prop =>
+      prop.colStart && prop.colLen
+        ? `col-start ${prop.colStart} / col-start ${prop.colStart +
+            prop.colLen}`
+        : `col-start 8 / col-start 22`};
+    grid-row: ${prop =>
+      prop.rowStart && prop.rowLen
+        ? `row-start ${prop.rowStart} / row-start ${prop.rowStart +
+            prop.rowLen}`
+        : `row-start 12 / row-start 22`};
+    /* background-image: ${props =>
+      props.url
+        ? props.url
+        : `url(${require("assets/peter-huang-photo/cell.jpg")})`}; */
     background-position: center;
     background-size: cover;
     position: relative;
@@ -68,11 +87,21 @@ const Frame = styled.div`
   .bg-item {
     background: linear-gradient(90deg, var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, linear-gradient(var(--Peter-Huang-Photo-bg-color) 16px, transparent 1%) center, var(--Peter-Huang-Photo-secondary-color);
     background-size: 18px 18px;
-    grid-column: ${prop => prop.colStart && prop.colLen ? `col-start ${prop.colStart - 1} / col-start ${prop.colStart + prop.colLen - 1}` : `col-start 7 / col-start 21`};
-    grid-row: ${prop => prop.rowStart && prop.rowLen ? `row-start ${prop.rowStart - 1} / row-start ${prop.rowStart + prop.rowLen - 1}` : `row-start 11 / row-start 21`};
+    grid-column: ${prop =>
+      prop.colStart && prop.colLen
+        ? `col-start ${prop.colStart - 1} / col-start ${prop.colStart +
+            prop.colLen -
+            1}`
+        : `col-start 7 / col-start 21`};
+    grid-row: ${prop =>
+      prop.rowStart && prop.rowLen
+        ? `row-start ${prop.rowStart - 1} / row-start ${prop.rowStart +
+            prop.rowLen -
+            1}`
+        : `row-start 11 / row-start 21`};
   }
 
-`
+`;
 
 const Canvas = styled.div`
   /* make the canvas wrapper fits the document */
@@ -81,7 +110,7 @@ const Canvas = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-`
+`;
 const Plane = styled.div`
   width: 100%;
   height: 100%;
@@ -91,15 +120,15 @@ const Plane = styled.div`
     height: auto;
     display: none;
   }
-`
+`;
 export default class FrameComponent extends React.Component {
   componentDidMount() {
-    this.setShader(this.props.idx)
+    this.setShader(this.props.idx);
   }
-  setShader = (idx) => {
-    const webGLCurtain = new Curtains(`canvas-${idx}`)
-    const planeElement = document.getElementsByClassName(`plane-${idx}`)[0]
-    
+  setShader = idx => {
+    const webGLCurtain = new Curtains(`canvas-${idx}`);
+    const planeElement = document.getElementsByClassName(`plane-${idx}`)[0];
+
     const params = {
       fragmentShader: Frag,
       vertexShader: Vert,
@@ -107,25 +136,46 @@ export default class FrameComponent extends React.Component {
         time: {
           name: "uTime", // uniform name that will be passed to our shaders
           type: "1f", // this means our uniform is a float
-          value: 0,
-        },
+          value: 0
+        }
       }
-    }
-    
-    const plane = webGLCurtain.addPlane(planeElement, params)
-    plane.onRender(() => plane.uniforms.time.value++)
-  }
+    };
+
+    const plane = webGLCurtain.addPlane(planeElement, params);
+    plane.onRender(() => plane.uniforms.time.value++);
+  };
   render() {
-    const { idx, src, rowStart, rowLen, colStart, colLen, titleColSrart, titleColLen, titleRowSrart, titleRowLen, title } = this.props
+    const {
+      idx,
+      src,
+      rowStart,
+      rowLen,
+      colStart,
+      colLen,
+      titleColSrart,
+      titleColLen,
+      titleRowSrart,
+      titleRowLen,
+      title
+    } = this.props;
     return (
       <FrameWrapper className="block">
-        <Frame rowStart={rowStart} rowLen={rowLen} colStart={colStart} colLen={colLen} titleColSrart={titleColSrart} titleColLen={titleColLen} titleRowSrart={titleRowSrart} titleRowLen={titleRowLen}>
+        <Frame
+          rowStart={rowStart}
+          rowLen={rowLen}
+          colStart={colStart}
+          colLen={colLen}
+          titleColSrart={titleColSrart}
+          titleColLen={titleColLen}
+          titleRowSrart={titleRowSrart}
+          titleRowLen={titleRowLen}
+        >
           <div className="item title-item">
             <h1>{title}</h1>
           </div>
-          <div className="item bg-item"></div>
+          <div className="item bg-item" />
           <div className="item photo-item">
-            <Canvas id={`canvas-${idx}`}/>
+            <Canvas id={`canvas-${idx}`} />
             <Plane className={`plane-${idx}`}>
               <img alt={src} src={src} />
             </Plane>
@@ -133,6 +183,6 @@ export default class FrameComponent extends React.Component {
           </div>
         </Frame>
       </FrameWrapper>
-    )
+    );
   }
 }
