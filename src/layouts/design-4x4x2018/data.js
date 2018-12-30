@@ -4,16 +4,19 @@ export const data = [
     rol: 0,
     collen: 1,
     rollen: 1,
-    source: ``,
-    intro: ``
+    source: `http://ivang-design.com/alke/img/blog/4.jpg`,
+    intro: ``,
+    title: `正職工作`,
   },
   {
     col: 1,
     rol: 0,
     collen: 1,
     rollen: 1,
-    source: ``,
-    intro: ``
+    source: require(`assets/Taiwan-Golden-Melody-Awards-29/best-arrangement/1.jpg`),
+    intro: ``,
+    title: `#1 沖繩`,
+    isFull: true
   },
   {
     col: 2,
@@ -21,7 +24,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `分享: 街口支付`,
   },
   {
     col: 3,
@@ -29,7 +33,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `Qraft 匠說`,
   },
   {
     col: 0,
@@ -37,7 +42,9 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `#2 金曲獎`,
+    isFull: true
   },
   {
     col: 1,
@@ -45,7 +52,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `分享: Monospace`,
   },
   {
     col: 2,
@@ -53,7 +61,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `服役`,
   },
   {
     col: 3,
@@ -61,7 +70,9 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
+    isEmpty: true,
   },
   {
     col: 0,
@@ -69,7 +80,9 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
+    isEmpty: true,
   },
   {
     col: 1,
@@ -77,7 +90,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
   },
   {
     col: 2,
@@ -85,7 +99,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
   },
   {
     col: 3,
@@ -93,7 +108,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
   },
   {
     col: 0,
@@ -101,7 +117,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: ``,
   },
   {
     col: 1,
@@ -109,7 +126,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `分享: 女人迷`,
   },
   {
     col: 2,
@@ -117,7 +135,9 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `#3 Gogoro 目錄`,
+    isFull: true
   },
   {
     col: 3,
@@ -125,6 +145,8 @@ export const data = [
     collen: 1,
     rollen: 1,
     source: ``,
-    intro: ``
+    intro: ``,
+    title: `#4 白晝之夜`,
+    isFull: true
   },
 ];
