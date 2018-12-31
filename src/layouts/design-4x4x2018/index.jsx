@@ -60,8 +60,8 @@ const Cursor = styled.div`
       border-color: rgba(255, 255, 255, 0);
       background-color: rgba(255, 255, 255, 0.1);
 
-      border-color: rgba(255, 255, 255, 0);
-      border-width: 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      border-width: 1px;
       background-color: transparent;
       background-position: center center;
       background-repeat: no-repeat;
@@ -75,7 +75,8 @@ const Cursor = styled.div`
     transition: width 0.2s, height 0.2s;
 
     &.active {
-      --size: 0;
+      opacity: 0.5;
+      /* --size: 0; */
     }
   }
 `;
@@ -110,6 +111,7 @@ export default class Design4x4x2018 extends React.Component {
               isEmpty={datum.isEmpty ? datum.isEmpty : false}
               title={datum.title}
               source={datum.source}
+              intro={datum.intro ? datum.intro : null}
             />
           ))}
         </Wrapper>

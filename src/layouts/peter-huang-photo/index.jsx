@@ -70,7 +70,7 @@ export default class Photo extends React.Component {
 
   fetchPhoto = () => {
     const access_token = '1427534595.b30d0ec.2807947daaa743658b210cb5478aa57c'
-    const user_id = 1427534595
+    const user_id = 5559280059
     const count = 10
     
     fetch(`https://api.instagram.com/v1/users/${user_id}/media/recent?access_token=${access_token}`, {

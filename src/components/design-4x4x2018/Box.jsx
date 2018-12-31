@@ -9,18 +9,22 @@ function generateFontSize(source) {
   let size = 100 / source.match(/[\u00ff-\uffff]|\S+/g).length;
   return size < 24 ? 24 : size;
 }
-const Wrapper = styled.div`
-  border: 2px solid ${prop => prop.isEmpty ? `transparent` : Design4x4};
+const Wrapper = styled.a`
+  border: 2px solid ${prop => (prop.isEmpty ? `transparent` : Design4x4)};
   position: relative;
   transition: all 0.25s;
   background: ${prop => (prop.isFull ? Design4x4 : `transparent`)};
   color: ${prop => (prop.isFull ? `#fff` : Design4x4)};
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   font-size: ${prop =>
     prop.title ? `${generateFontSize(prop.title)}px` : `24px`};
+  p {
+    font-size: 24px;
+  }
   &:after {
     position: absolute;
     top: 5px;
@@ -38,6 +42,9 @@ const Wrapper = styled.div`
     -webkit-text-stroke-color: ${prop => (prop.isFull ? `#fff` : Design4x4)};
     color: #fff;
   }
+  &:hover {
+    color: ${prop => (prop.isFull ? `#fff` : Design4x4)};
+  }
 `;
 
 export default class Box extends React.Component {
@@ -51,14 +58,14 @@ export default class Box extends React.Component {
   hoverChecker = () => {
     const node = this.boxRef.current;
     const cursorList = document.getElementsByClassName("cursor");
-    const { source } = this.props
+    const { source } = this.props;
     if (node) {
       const mouseOver$ = Rx.Observable.fromEvent(node, "mouseenter");
       mouseOver$.subscribe(e => {
         _.map(cursorList, cursor => {
           cursor.classList.add(`active`);
         });
-        cursorList[0].style = `background-image: url('${source}');`;
+        cursorList[0].style = `background-image: url(${source});`;
       });
 
       const mouseLeave$ = Rx.Observable.fromEvent(node, "mouseleave");
@@ -72,7 +79,7 @@ export default class Box extends React.Component {
   };
 
   render() {
-    const { number, isFull, title, isEmpty } = this.props;
+    const { number, isFull, title, isEmpty, intro } = this.props;
     return (
       <Wrapper
         number={number}
@@ -80,9 +87,10 @@ export default class Box extends React.Component {
         isFull={isFull}
         isEmpty={isEmpty}
         title={title}
-      >
-        {title}
-      </Wrapper>
+        dangerouslySetInnerHTML={{ __html: title }}
+        href={intro}
+        target="_blank"
+      />
     );
   }
 }
