@@ -35,6 +35,10 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(4, 1fr [col-start]);
   grid-template-rows: repeat(4, 1fr [row-start]);
   grid-gap: 5px;
+  @media screen and (max-width: 1920px) {
+    max-width: 640px;
+    max-height: 640px;  
+  }
 `;
 
 const Cursor = styled.div`

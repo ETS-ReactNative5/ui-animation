@@ -25,6 +25,13 @@ const Wrapper = styled.a`
   p {
     font-size: 24px;
   }
+  @media screen and (max-width: 1920px) {
+    font-size: ${prop =>
+    prop.title ? `calc(${generateFontSize(prop.title)}px * 0.75)` : `18px`}; 
+    p {
+      font-size: 18px;
+    }
+  }
   &:after {
     position: absolute;
     top: 5px;
