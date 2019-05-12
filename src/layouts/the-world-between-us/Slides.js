@@ -13,12 +13,16 @@ class Slides {
       const slide = createEleWithClass("div", "slide");
       const title = createEleWithClass("h1", "slide-title");
       const meta = createEleWithClass("p", "slide-meta");
+      const mention = createEleWithClass("p", "slide-mention");
 
       slide.classList.add(index !== 0 ? "next" : "show-meta");
+      
       meta.innerHTML = entry.meta;
       title.innerHTML = entry.title;
+      mention.innerHTML = entry.mention;
       slide.appendChild(meta);
       slide.appendChild(title);
+      slide.appendChild(mention);
       this.container.appendChild(slide);
       return slide;
     });
@@ -32,13 +36,16 @@ class Slides {
       if (activeIndex === i) {
         this.slides[i].classList.remove("next");
         this.slides[i].classList.remove("prev");
+        this.slides[i].classList.add("show-mention");
       } else {
         if (activeIndex > i) {
           this.slides[i].classList.remove("next");
           this.slides[i].classList.add("prev");
+          this.slides[i].classList.remove("show-mention");
         } else {
           this.slides[i].classList.add("next");
           this.slides[i].classList.remove("prev");
+          this.slides[i].classList.remove("show-mention");
         }
       }
     }
@@ -50,10 +57,12 @@ class Slides {
   appear() {
     this.container.classList.add("scrolling");
     this.slides[this.currentIdx].classList.remove("show-meta");
+    this.slides[this.currentIdx].classList.add("show-mention");
   }
   disperse(activeIndex) {
     //this.currentIdx = activeIndex;
     this.slides[this.currentIdx].classList.add("show-meta");
+    this.slides[this.currentIdx].classList.remove("show-mention");
     this.container.classList.remove("scrolling");
     for (let index = 0; index < this.data.length; index++) {
       if (index > activeIndex) {

@@ -25,6 +25,7 @@
     "react-router-dom": "^4.2.2",
     "react-scroll-horizontal": "^1.5.1",
     "react-three-fiber": "^2.1.1",
+    "react-youtube": "^7.9.0",
     "rxcss": "^0.10.0",
     "rxjs": "5.0.1",
     "styled-components": "^2.4.1",

@@ -1,8 +1,5 @@
 import * as THREE from "three";
-import {
-  fragment,
-  vertex
-} from "./shaders";
+import { fragment, vertex } from "./shaders";
 
 function GLManager(data) {
   this.totalEntries = data.length;
@@ -39,7 +36,7 @@ function GLManager(data) {
   this.loopRaf = null;
   this.loop = this.loop.bind(this);
 }
-GLManager.prototype.getViewSize = function () {
+GLManager.prototype.getViewSize = function() {
   const fovInRadians = (this.camera.fov * Math.PI) / 300;
   const viewSize = Math.abs(
     this.camera.position.z * Math.tan(fovInRadians / 2) * 2
@@ -48,14 +45,14 @@ GLManager.prototype.getViewSize = function () {
   return viewSize;
 };
 
-GLManager.prototype.getPlaneSize = function () {
+GLManager.prototype.getPlaneSize = function() {
   const viewSize = this.getViewSize();
   return {
     width: viewSize * 1.25,
     height: viewSize
   };
 };
-GLManager.prototype.calculateAspectRatioFactor = function (index, texture) {
+GLManager.prototype.calculateAspectRatioFactor = function(index, texture) {
   const plane = this.getPlaneSize();
   const windowRatio = window.innerWidth / window.innerHeight;
   const rectRatio = (plane.width / plane.height) * windowRatio;
@@ -83,19 +80,16 @@ GLManager.prototype.calculateAspectRatioFactor = function (index, texture) {
   if (this.initialRender) {
     this.loadedEntries++;
     if (this.loadedEntries === this.totalEntries) {
-      document.body.classList.remove('loading');
+      document.body.classList.remove("loading");
     }
     this.render();
   }
 };
 // Plane Stuff
-GLManager.prototype.createPlane = function () {
+GLManager.prototype.createPlane = function() {
   // Calculate bas of Isoceles triangle(camera)
   const viewSize = this.getViewSize();
-  const {
-    width,
-    height
-  } = this.getPlaneSize();
+  const { width, height } = this.getPlaneSize();
 
   const segments = 30;
   const geometry = new THREE.PlaneBufferGeometry(
@@ -171,7 +165,7 @@ GLManager.prototype.createPlane = function () {
   this.scene.add(mesh);
   this.mesh = mesh;
 };
-GLManager.prototype.updateTexture = function (newIndex, progress) {
+GLManager.prototype.updateTexture = function(newIndex, progress) {
   let didChange = false;
   if (newIndex != null && this.newIndex !== this.currentIndex) {
     this.currentIndex = this.nextIndex;
@@ -200,7 +194,7 @@ GLManager.prototype.updateTexture = function (newIndex, progress) {
     this.render();
   }
 };
-GLManager.prototype.updateStickEffect = function ({
+GLManager.prototype.updateStickEffect = function({
   progress,
   direction,
   waveIntensity
@@ -211,10 +205,7 @@ GLManager.prototype.updateStickEffect = function ({
   // this.render();
 };
 
-GLManager.prototype.updateRgbEffect = function ({
-  position,
-  velocity
-}) {
+GLManager.prototype.updateRgbEffect = function({ position, velocity }) {
   this.mesh.material.uniforms.u_rgbPosition.value = new THREE.Vector2(
     position.x,
     position.y
@@ -229,16 +220,16 @@ GLManager.prototype.updateRgbEffect = function ({
   }
 };
 // Other stuff
-GLManager.prototype.render = function () {
+GLManager.prototype.render = function() {
   if (!this.initialRender) {
     this.initialRender = true;
   }
   this.renderer.render(this.scene, this.camera);
 };
-GLManager.prototype.mount = function (container) {
+GLManager.prototype.mount = function(container) {
   container.appendChild(this.renderer.domElement);
 };
-GLManager.prototype.unmount = function () {
+GLManager.prototype.unmount = function() {
   this.mesh.material.dispose();
   this.mesh.geometry.dispose();
   this.mesh = null;
@@ -247,7 +238,7 @@ GLManager.prototype.unmount = function () {
   this.scene = null;
   this.container = null;
 };
-GLManager.prototype.onResize = function () {
+GLManager.prototype.onResize = function() {
   this.renderer.setSize(window.innerWidth, window.innerHeight);
   this.mesh.material.uniforms.u_resolution.value = new THREE.Vector2(
     window.innerWidth,
@@ -263,12 +254,12 @@ GLManager.prototype.onResize = function () {
 
   this.render();
 };
-GLManager.prototype.scheduleLoop = function () {
+GLManager.prototype.scheduleLoop = function() {
   if (this.loopRaf) return;
   this.loop();
 };
 
-GLManager.prototype.loop = function () {
+GLManager.prototype.loop = function() {
   this.render();
   this.time += 0.1;
   this.mesh.material.uniforms.u_time.value = this.time;
@@ -276,11 +267,20 @@ GLManager.prototype.loop = function () {
   this.loopRaf = requestAnimationFrame(this.loop);
 };
 
-GLManager.prototype.cancelLoop = function () {
+GLManager.prototype.cancelLoop = function() {
   cancelAnimationFrame(this.loopRaf);
   this.loopRaf = null;
 };
 
-export {
-  GLManager
-};
+export { GLManager };
+
+// var video = document.createElement("video");
+// video.crossOrigin = "anonymous";
+// video.width = 640;
+// video.height = 360;
+// video.loop = true;
+// video.muted = true;
+// video.setAttribute("webkit-playsinline", "webkit-playsinline");
+// video.src = './1.mp4';
+// video.play();
+// var video = document.getElementById( 'video' );
