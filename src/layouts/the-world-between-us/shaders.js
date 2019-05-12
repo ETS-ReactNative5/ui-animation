@@ -59,7 +59,7 @@ varying vec2 vUv;
 void main(){
     vec3 pos = position.xyz;
     float distance = length(uv.xy - 0.5 );
-    float sizeDist = length(vec2(0.5,0.5));
+    float sizeDist = length(vec2(0.75,0.75));
     float normalizedDistance = distance/sizeDist ;
     float stickOutEffect = normalizedDistance ;
     float stickInEffect = -normalizedDistance ;
@@ -80,7 +80,7 @@ void main(){
     float stickOffset = u_offset;
     pos.z += stickEffect * stickOffset * stickProgress  - u_offset * offsetProgress;
     
-    pos.z += sin(distance * 8. - u_time * 2. )  * u_waveIntensity;
+    pos.z += sin(distance * 8. - u_time * 1. )  * u_waveIntensity;
     gl_Position =   
         projectionMatrix * 
         modelViewMatrix * 

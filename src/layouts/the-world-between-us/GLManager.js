@@ -8,7 +8,7 @@ function GLManager(data) {
   this.totalEntries = data.length;
   this.loadedEntries = 0;
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
-  camera.position.z = 5;
+  camera.position.z = 8;
 
   const scene = new THREE.Scene();
   camera.lookAt = scene.position;
@@ -40,7 +40,7 @@ function GLManager(data) {
   this.loop = this.loop.bind(this);
 }
 GLManager.prototype.getViewSize = function () {
-  const fovInRadians = (this.camera.fov * Math.PI) / 180;
+  const fovInRadians = (this.camera.fov * Math.PI) / 300;
   const viewSize = Math.abs(
     this.camera.position.z * Math.tan(fovInRadians / 2) * 2
   );
@@ -51,7 +51,7 @@ GLManager.prototype.getViewSize = function () {
 GLManager.prototype.getPlaneSize = function () {
   const viewSize = this.getViewSize();
   return {
-    width: viewSize * 1.5,
+    width: viewSize * 1.25,
     height: viewSize
   };
 };
@@ -97,7 +97,7 @@ GLManager.prototype.createPlane = function () {
     height
   } = this.getPlaneSize();
 
-  const segments = 60;
+  const segments = 30;
   const geometry = new THREE.PlaneBufferGeometry(
     width,
     height,

@@ -5,19 +5,50 @@ import "bulma/css/bulma.css";
 import "./slide.css"
 import { Showcase } from "./Showcase";
 import { Slides } from "./Slides";
-import image1 from "../../assets/the-world-between-us/1.jpg";
+import image1 from "../../assets/the-world-between-us/1.jpeg";
 import image2 from "../../assets/the-world-between-us/2.jpg";
+import image3 from "../../assets/the-world-between-us/3.jpg";
+import image4 from "../../assets/the-world-between-us/4.jpg";
+import image5 from "../../assets/the-world-between-us/5.jpg";
+import image6 from "../../assets/the-world-between-us/6.jpg";
+import image7 from "../../assets/the-world-between-us/7.jpg";
+
 
 const slidesData = [
   {
     image: image1,
-    title: "Segovia",
-    meta: "Spain / Castile and León"
+    title: "受害者",
+    meta: "我們與惡的距離/"
+  },
+  {
+    image: image3,
+    title: "母親節",
+    meta: "我們與惡的距離/"
+  },
+  {
+    image: image4,
+    title: "裂痕",
+    meta: "我們與惡的距離/"
+  },
+  {
+    image: image6,
+    title: "病識感",
+    meta: "我們與惡的距離/"
   },
   {
     image: image2,
-    title: "Barcelona",
-    meta: "Spain / Catalonia"
+    title: "罪人",
+    meta: "我們與惡的距離/"
+  },
+  {
+    image: image5,
+    title: "槍響之後",
+    meta: "我們與惡的距離/"
+  },
+  {
+    image: image7,
+    title: "霸凌",
+    meta: "我們與惡的距離/"
   }
 ];
 const slides = new Slides(slidesData);
