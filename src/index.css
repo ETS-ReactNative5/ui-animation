@@ -63,3 +63,20 @@ body {
   height: 15px;
   opacity: 1;
 }
+
+/* Lab7 */
+.main-nav__canvas {
+  display: none;
+}
+
+@media only screen and (min-width: 40.063em) {
+	.main-nav__canvas {
+		display: block;
+		height: 100%;
+		left: 0px;
+		position: fixed;
+		top: 0px;
+		width: 100%;
+		z-index: 100;
+	}
+}

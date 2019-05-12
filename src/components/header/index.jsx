@@ -78,7 +78,7 @@ const Title = styled.p`
 export default class HeaderComponent extends React.Component {
   render () {
     return (
-      <Header id="ui-animation-header">
+      <Header id="ui-animation-header" style={this.props.style}>
         <Logo href="/" color={this.props.color}>
           <h1>
             UI
