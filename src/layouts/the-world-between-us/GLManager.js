@@ -18,12 +18,17 @@ function GLManager(data) {
   renderer.setPixelRatio(window.devicePixelRatio);
 
   this.render = this.render.bind(this);
-  this.textures = data.map((entry, i) =>
-    new THREE.TextureLoader().load(
-      entry.image,
-      this.calculateAspectRatioFactor.bind(this, i)
+
+  this.textures = data.map((entry, i) => {
+    let video = document.getElementById('video');
+    let v = i === 0 ? (new THREE.VideoTexture(video)) : (
+      new THREE.TextureLoader().load(
+        entry.image,
+        this.calculateAspectRatioFactor.bind(this, i)
+      )
     )
-  );
+    return v;
+  });
   this.factors = data.map(d => new THREE.Vector2(1, 1));
   this.currentIndex = 0;
   this.nextIndex = 0;
@@ -273,14 +278,3 @@ GLManager.prototype.cancelLoop = function() {
 };
 
 export { GLManager };
-
-// var video = document.createElement("video");
-// video.crossOrigin = "anonymous";
-// video.width = 640;
-// video.height = 360;
-// video.loop = true;
-// video.muted = true;
-// video.setAttribute("webkit-playsinline", "webkit-playsinline");
-// video.src = './1.mp4';
-// video.play();
-// var video = document.getElementById( 'video' );

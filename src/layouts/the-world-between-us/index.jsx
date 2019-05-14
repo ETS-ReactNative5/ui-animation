@@ -7,6 +7,7 @@ import { Showcase } from "./Showcase";
 import { Slides } from "./Slides";
 import _ from "lodash";
 import Rx from "rxjs/Rx";
+import video1 from "../../assets/the-world-between-us/1.mp4";
 import image1 from "../../assets/the-world-between-us/1.jpg";
 import image2 from "../../assets/the-world-between-us/2.jpg";
 import image3 from "../../assets/the-world-between-us/3.jpg";
@@ -18,10 +19,10 @@ import image8 from "../../assets/the-world-between-us/8.jpg";
 import image9 from "../../assets/the-world-between-us/9.jpg";
 import image10 from "../../assets/the-world-between-us/10.jpg";
 
-const Design4x4 = 'tomato';
+const Design4x4 = "tomato";
 const slidesData = [
   {
-    image: image1,
+    image: video1,
     title: "受害者",
     meta: "我們與惡的距離 ep1"
   },
@@ -165,24 +166,26 @@ const Cursor = styled.div`
 
 export default class TheWorldBetweenUs extends React.Component {
   componentDidMount() {
-    const container = document.getElementById("lab-7");
-    showcase.mount(container);
-    slides.mount(container);
-    showcase.render();
-    this.mouseListener();
+    setTimeout(() => {
+      const container = document.getElementById("lab-7");
+      showcase.mount(container);
+      slides.mount(container);
+      showcase.render();
 
-    window.addEventListener("resize", () => {
-      showcase.onResize();
-    });
+      this.mouseListener();
 
-    window.addEventListener("mousemove", ev => {
-      showcase.onMouseMove(ev);
-    });
+      window.addEventListener("resize", () => {
+        showcase.onResize();
+      });
+
+      window.addEventListener("mousemove", ev => {
+        showcase.onMouseMove(ev);
+      });
+    }, 5000);
   }
   mouseListener = () => {
     const docElm = document.documentElement;
     const cursorList = document.getElementsByClassName("cursor");
-
     const mouseMove$ = Rx.Observable.fromEvent(docElm, "mousemove");
 
     mouseMove$.subscribe(e => {
@@ -203,6 +206,12 @@ export default class TheWorldBetweenUs extends React.Component {
         />
         <Cursor className="cursor cursor-shadow" />
         <Cursor className="cursor cursor-dot" />
+        {/* <video id="video" autoPlay controls>
+          <source
+            src="./../../assets/ths-world-between-us/1.mp4"
+            type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+          />
+        </video> */}
       </Section>
     );
   }
