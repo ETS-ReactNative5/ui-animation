@@ -36,7 +36,12 @@ class Slides {
       if (activeIndex === i) {
         this.slides[i].classList.remove("next");
         this.slides[i].classList.remove("prev");
-        this.slides[i].classList.add("show-mention");
+        this.slides[i].classList.add("show-mention");        
+        let video = document.getElementById(`video-${activeIndex}`);
+        if (video) {
+          video.play();
+        }
+        
       } else {
         if (activeIndex > i) {
           this.slides[i].classList.remove("next");
@@ -46,6 +51,10 @@ class Slides {
           this.slides[i].classList.add("next");
           this.slides[i].classList.remove("prev");
           this.slides[i].classList.remove("show-mention");
+        }
+        let video = document.getElementById(`video-${i}`);
+        if (video) {
+          video.pause();
         }
       }
     }

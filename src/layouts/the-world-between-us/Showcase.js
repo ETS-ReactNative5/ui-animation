@@ -5,20 +5,18 @@ import { reach } from "./reach";
 
 function Showcase(data, options = {}) {
   let div = document.createElement("video");
-  div.id = "video";
+  div.id = "video-0";
   div.style.width = "480px";
   div.style.height = "360px";
   div.style.display= 'none';
   div.loop=true;
+  div.autoplay=true;
   // div.crossOrigin='anonymous'
   let s = document.createElement("source");
-  s.src = "../../assets/the-world-between-us/1.mp4";
+  s.src = "/static/media/1.0c47868b.mp4";
   s.type= "video/mp4"
   div.appendChild(s);
   document.body.appendChild(div);
-
-  let video = document.getElementById('video');
-  video.play();
 
   this.GL = new GLManager(data);
   this.GL.createPlane();

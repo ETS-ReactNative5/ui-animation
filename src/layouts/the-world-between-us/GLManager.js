@@ -20,7 +20,7 @@ function GLManager(data) {
   this.render = this.render.bind(this);
 
   this.textures = data.map((entry, i) => {
-    let video = document.getElementById('video');
+    let video = document.getElementById('video-0');
     let v = i === 0 ? (new THREE.VideoTexture(video)) : (
       new THREE.TextureLoader().load(
         entry.image,

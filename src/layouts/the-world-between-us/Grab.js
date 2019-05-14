@@ -89,7 +89,6 @@ class Grab {
         current: this.scroll.current,
         start: this.scroll.start
       });
-
       this.scroll.start = null;
       this.scroll.current = null;
       this.scroll.delta = null;
