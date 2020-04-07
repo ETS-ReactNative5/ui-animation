@@ -93,7 +93,7 @@ GLManager.prototype.calculateAspectRatioFactor = function(index, texture) {
 // Plane Stuff
 GLManager.prototype.createPlane = function() {
   // Calculate bas of Isoceles triangle(camera)
-  const viewSize = this.getViewSize();
+  // const viewSize = this.getViewSize();
   const { width, height } = this.getPlaneSize();
 
   const segments = 30;

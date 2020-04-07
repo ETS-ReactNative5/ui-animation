@@ -14,13 +14,17 @@ const indexRoutes = [{
     path: "/3", component: Gogoro
   }, {
     path: "/4", component: Nuit
-  }, {
-    path: "/5", component: PeterHuangPhoto
-  }, {
+  },
+  // {
+  //   path: "/5", component: PeterHuangPhoto
+  // },
+  {
     path: "/6", component: Design4x4x2018
-  }, {
-    path: "/7", component: TheWorldBetweenUs
-  }]
+  }, 
+  // {
+  //   path: "/7", component: TheWorldBetweenUs
+  // }
+]
 // const indexRoutes = [{ path: "/", component: HMap }]
 
 export default indexRoutes

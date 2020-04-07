@@ -15,7 +15,7 @@ const reach = function({ from, to, restDelta = 0.01 }) {
       return;
     }
 
-    let cacheKeys = keys.slice();
+    // let cacheKeys = keys.slice();
     for (var i = keys.length, val, key; i >= 0; i--) {
       key = keys[i];
       val = current[key] + (to[key] - current[key]) * 0.1;

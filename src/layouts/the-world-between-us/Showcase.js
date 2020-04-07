@@ -11,7 +11,6 @@ function Showcase(data, options = {}) {
   div.style.display= 'none';
   div.loop=true;
   div.autoplay=true;
-  // div.crossOrigin='anonymous'
   let s = document.createElement("source");
   s.src = "/static/media/1.0c47868b.mp4";
   s.type= "video/mp4"
